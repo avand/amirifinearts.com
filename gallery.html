@@ -1,0 +1,17 @@
+---
+layout: default
+title: Gallery
+description: Selected works by Fahimeh Amiri.
+---
+
+<div class="plates">
+  {% for plate in site.data.gallery %}
+    <figure>
+      <img src="{{ plate.image | relative_url }}"
+           alt="{{ plate.caption | default: 'Artwork by Fahimeh Amiri' }}"
+           {% if plate.width %}width="{{ plate.width }}" height="{{ plate.height }}"{% endif %}
+           loading="lazy" decoding="async" />
+      {% if plate.caption != "" %}<figcaption>{{ plate.caption }}</figcaption>{% endif %}
+    </figure>
+  {% endfor %}
+</div>

@@ -1,0 +1,70 @@
+---
+layout: default
+title: Profile
+description: >-
+  Fahimeh Amiri trained under Persian miniaturist Professor Hossein Behzad,
+  studied at Tufts and the School of the Museum of Fine Arts, and has exhibited
+  at the Springville Museum of Art and the National Arts Club.
+---
+
+<div class="prose">
+  <h1>Profile</h1>
+
+  <p>
+    Born in Tehran, Iran, Fahimeh Amiri became the pupil of the great Persian
+    miniaturist Professor Hossein Behzad when she was only in second grade, and
+    continued as his apprentice for eight years. As a teenager, she attended the
+    Tehran School of Fine Art, becoming the first girl to earn the School's
+    highest honors and receive national awards from Queen Farah and the Ministry
+    of Education.
+  </p>
+
+  <p>
+    After moving to the United States in 1973, Fahimeh graduated from Tufts
+    University and the Boston School of the Museum of Fine Arts with a degree in
+    Graphic Design, later creating a series of posters for national and
+    international markets. Her books for children include <em>Babri</em> (Gibbs
+    Smith, 1994), which received distinction from the Society of Children's Book
+    Writers and Illustrators, <em>The Monkey Bridge</em> (Knopf, 1997), exhibited
+    at the Norman Rockwell Museum, and <em>The Prince Who Ran Away</em> (Knopf,
+    2001).
+  </p>
+
+  <p>
+    Once she came to Utah, she created a line of Persian miniatures depicting
+    Iranian women in Islam, exhibited under the title of <em>Passages &amp;
+    Pathways</em> at the Springville Museum of Art in 2014.
+  </p>
+
+  <p>
+    Examples of her art have been exhibited in International Art Expos and the
+    National Arts Club in New York. She is a member of the National Women's
+    Association of Artists. Every year since 2014, pieces of her work have been
+    selected and exhibited in the two annual juried exhibitions of the
+    Springville Museum of Art in Utah: the Spring Salon and the Spiritual and
+    Religious Art Exhibitions. She has exhibited annually at the Zion's Bank Art
+    Show, receiving Certificates of Recognition, the Utah Governor's Arts Award
+    in 2018, and the Merit Award in 2020.
+  </p>
+
+  <p>
+    In 2021, Fahimeh's work received the distinction of Utah State's Alice
+    Merrill Horne Art Collection acquiring two pieces of her work. Another was
+    purchased by the Springville Museum of Art to add to their permanent
+    collection. This museum also chose three of Fahimeh's paintings for its
+    <em>Depictions of Divinity</em> showing in the museum's 35th Annual Spiritual
+    &amp; Religious Art of Utah juried exhibition.
+  </p>
+</div>
+
+<div class="plates">
+  {% for plate in site.data.profile %}
+    <figure>
+      <img src="{{ plate.image | relative_url }}"
+           alt="{{ plate.caption | default: 'Fahimeh Amiri' }}"
+           {% if plate.width %}width="{{ plate.width }}" height="{{ plate.height }}"{% endif %}
+           loading="lazy" decoding="async" />
+      {% if plate.caption != "" %}<figcaption>{{ plate.caption }}</figcaption>{% endif %}
+    </figure>
+  {% endfor %}
+</div>

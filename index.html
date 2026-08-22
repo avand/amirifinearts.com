@@ -1,0 +1,18 @@
+---
+layout: default
+description: >-
+  Paintings, Persian miniatures, illustrations, and posters by Fahimeh Amiri,
+  whose work is shaped by years of Persian miniature training under Professor
+  Hossein Behzad.
+---
+
+<div class="prose">
+  <p>
+    My work is influenced by years of rigorous Persian Miniature training, which
+    has endowed me with unique aesthetic sensibilities.
+  </p>
+</div>
+
+{% for section in site.sections %}
+  {% include work-grid.html category=section.id name=section.name %}
+{% endfor %}

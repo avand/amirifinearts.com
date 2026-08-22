@@ -1,0 +1,14 @@
+_site/
+.jekyll-cache/
+.jekyll-metadata
+.dev.log
+.sass-cache/
+vendor/
+.bundle/
+.DS_Store
+
+# The scraped originals live in images/ now, under real names. What stays in
+# _archive is the evidence: the HTML as Squarespace served it, its JSON, and
+# the two scripts. Those are small and worth keeping in git.
+_archive/images/
+_archive/*.css

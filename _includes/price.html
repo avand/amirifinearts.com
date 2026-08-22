@@ -1,0 +1,11 @@
+{%- comment -%}
+  Renders a price with a thousands separator: 2500 -> $2,500.
+
+  Jekyll has no number-formatting filter, and GitHub Pages will not run a
+  plugin that adds one, so this does it with integer arithmetic: the thousands
+  above the comma, the remainder padded back to three digits below it. Every
+  price on this site is four or five digits, which is the range this covers.
+{%- endcomment -%}
+{%- assign k = include.amount | divided_by: 1000 -%}
+{%- assign r = include.amount | modulo: 1000 -%}
+{%- if k > 0 -%}${{ k }},{{ r | prepend: '00' | slice: -3, 3 }}{%- else -%}${{ r }}{%- endif -%}

@@ -1,0 +1,241 @@
+/*
+  Amiri Fine Arts.
+
+  The numbers here are not invented. They are the settings the Squarespace
+  template was actually running, read out of the page's own tweak JSON:
+
+      TPerRow      4       four thumbnails per row
+      TGutter      5%      the space between them
+      TMaxWidth    400     a thumbnail never gets wider than this
+      outerPadding 75px    the site's outer margin
+      pagePadding  50px    the gap between header and content
+
+  The palette is #272727, which is what the template painted the page. The
+  image drop shadow is from Fahimeh's own custom CSS -- the only styling she
+  had written herself, so it is the one rule that is definitely intentional:
+
+      .image img { box-shadow: 5px 5px 40px rgba(0,0,0,.3) }
+*/
+
+:root {
+  --bg: #272727;
+  --bg-raised: #2f2f2f;
+  --ink: #f6f6f6;
+  --ink-dim: #a8a8a8;
+  --rule: #3e3e3e;
+
+  --display: "Jost", "Futura", "Century Gothic", sans-serif;
+  --body: "Nunito Sans", "Helvetica Neue", Arial, sans-serif;
+
+  --outer-padding: 75px;
+  --page-padding: 50px;
+  --gutter: 5%;
+  --thumb-max: 400px;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--body);
+  font-weight: 300;
+  font-size: 15px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ---------------------------------------------------------------- header */
+
+.site-header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem 2rem;
+  padding: 2.5rem var(--outer-padding) 0;
+}
+
+.site-title {
+  font-family: var(--display);
+  font-weight: 400;
+  font-size: 1.6rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--ink);
+  text-decoration: none;
+}
+
+.site-nav { display: flex; flex-wrap: wrap; gap: 1.75rem; }
+
+.site-nav a {
+  font-family: var(--display);
+  font-size: 0.95rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-dim);
+  text-decoration: none;
+  padding-bottom: 2px;
+  border-bottom: 1px solid transparent;
+}
+
+.site-nav a:hover { color: var(--ink); }
+.site-nav a[aria-current="page"] { color: var(--ink); border-bottom-color: var(--ink); }
+
+/* ------------------------------------------------------------------ main */
+
+.site-main { padding: var(--page-padding) var(--outer-padding) 4rem; }
+
+.prose { max-width: 42rem; }
+.prose h1 { font-family: var(--display); font-weight: 400; font-size: 2rem; letter-spacing: 0.03em; }
+.prose p { margin: 0 0 1.25rem; }
+.prose a { color: var(--ink); }
+
+/* ------------------------------------------------------------ collection */
+
+.collection { margin-bottom: 4.5rem; }
+
+.collection h2 {
+  font-family: var(--display);
+  font-weight: 400;
+  font-size: 1.5rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin: 0 0 1.75rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid var(--rule);
+}
+
+/*
+  Four across, capped at 400px each -- Squarespace's TPerRow and TMaxWidth.
+  auto-fill rather than auto-fit so a row with two items left in it still lays
+  them out at thumbnail size instead of stretching them across the full width.
+*/
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(var(--thumb-max), 100%), 1fr));
+  gap: var(--gutter);
+  align-items: start;
+}
+
+@media (min-width: 900px) {
+  .grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+}
+
+.work { margin: 0; }
+
+.work img {
+  display: block;
+  width: 100%;
+  height: auto;
+  box-shadow: 5px 5px 40px rgba(0, 0, 0, 0.3);
+}
+
+/* Titles below the image and left-aligned: index-thumb-title-position-below
+   and index-item-layout-left on the old body tag. */
+.work figcaption {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0 0.5rem;
+  margin-top: 0.9rem;
+  font-size: 0.9rem;
+  line-height: 1.4;
+}
+
+.work-title { color: var(--ink); }
+.work-price { color: var(--ink-dim); }
+
+/* --------------------------------------------------------------- gallery */
+
+.plates { display: grid; gap: 2.5rem; margin: 0; padding: 0; }
+
+@media (min-width: 700px) {
+  .plates { grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); }
+}
+
+.plates figure { margin: 0; }
+.plates img { display: block; width: 100%; height: auto; box-shadow: 5px 5px 40px rgba(0, 0, 0, 0.3); }
+.plates figcaption { margin-top: 0.75rem; font-size: 0.9rem; color: var(--ink-dim); }
+
+/* ------------------------------------------------------------------ form */
+
+.contact-form { max-width: 32rem; margin-top: 2rem; }
+
+.contact-form label {
+  display: block;
+  margin-bottom: 1.25rem;
+  font-family: var(--display);
+  font-size: 0.85rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-dim);
+}
+
+.contact-form input,
+.contact-form textarea {
+  display: block;
+  width: 100%;
+  margin-top: 0.5rem;
+  padding: 0.7rem 0.8rem;
+  background: var(--bg-raised);
+  border: 1px solid var(--rule);
+  color: var(--ink);
+  font-family: var(--body);
+  font-size: 1rem;
+}
+
+.contact-form input:focus,
+.contact-form textarea:focus { outline: 2px solid var(--ink-dim); outline-offset: 1px; }
+
+.contact-form textarea { min-height: 9rem; resize: vertical; }
+
+.contact-form button {
+  font-family: var(--display);
+  font-size: 0.9rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 0.75rem 1.75rem;
+  background: var(--ink);
+  color: var(--bg);
+  border: 0;
+  cursor: pointer;
+}
+
+.contact-form button:disabled { opacity: 0.5; cursor: default; }
+
+/*
+  The honeypot. Not display:none -- some bots skip hidden fields, and some
+  password managers refuse to fill them. Off-screen and untabbable catches
+  more, and no human ever sees it.
+*/
+.hp {
+  position: absolute;
+  left: -9999px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+
+.form-status { margin-top: 1rem; min-height: 1.4em; color: var(--ink-dim); }
+.form-status[data-state="error"] { color: #f0523d; }
+
+/* ---------------------------------------------------------------- footer */
+
+.site-footer {
+  padding: 2rem var(--outer-padding) 3rem;
+  border-top: 1px solid var(--rule);
+  color: var(--ink-dim);
+  font-size: 0.85rem;
+}
+
+.site-footer p { margin: 0; }
+
+/* ---------------------------------------------------------------- mobile */
+
+@media (max-width: 700px) {
+  :root { --outer-padding: 24px; --page-padding: 28px; --gutter: 1.5rem; }
+  .site-header { padding-top: 1.75rem; }
+  .site-title { font-size: 1.3rem; }
+  .site-nav { gap: 1.1rem; }
+}

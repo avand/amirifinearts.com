@@ -1,0 +1,65 @@
+title: Amiri Fine Arts
+author: Fahimeh Amiri
+description: >-
+  Paintings, Persian miniatures, illustrations, and posters by Fahimeh Amiri.
+url: https://amirifinearts.com
+markdown: kramdown
+
+# Pretty URLs: /classes/ rather than /classes.html, which is what the
+# Squarespace site served and what any existing link points at.
+permalink: pretty
+
+# ---------------------------------------------------------------------------
+# Prices are stored on every work that has one, in _works/*.md, and this decides
+# whether any of them are ever rendered. Flipping it to true brings all of them
+# back at once; flipping it to false takes them away without losing the data.
+# That separation is deliberate -- pulling prices from a website should not mean
+# retyping nineteen numbers to put them back.
+show_prices: false
+# ---------------------------------------------------------------------------
+
+# The four sections of the Collection page, in the order they appear. `id`
+# matches the `category:` in each work's front matter.
+#
+# Named `sections`, not `categories`: `site.categories` is a reserved Jekyll
+# variable holding the categories of blog posts, and it silently wins over
+# anything set here. The symptom is an empty Collection page and no error.
+sections:
+  - id: paintings
+    name: Paintings
+  - id: miniatures
+    name: Persian Miniatures
+  - id: illustrations
+    name: Illustrations
+  - id: posters
+    name: Posters
+
+# The live site's order: Gallery first, then Collection as the home page.
+nav:
+  - { name: Gallery,    url: /gallery/ }
+  - { name: Collection, url: / }
+  - { name: Classes,    url: /classes/ }
+  - { name: Profile,    url: /profile/ }
+  - { name: Contact,    url: /contact/ }
+
+collections:
+  works:
+    output: false
+
+# Where the contact form posts. See CLAUDE.md -- this is a Google Apps Script
+# web app writing into a Sheet owned by avand@avandamiri.com. Empty until the
+# script is deployed; the form tells you so rather than silently losing mail.
+contact_endpoint: ""
+
+exclude:
+  - README.md
+  # Not part of the site. It runs inside Google, and is kept in the repo only so
+  # it is versioned and findable.
+  - script
+  - CLAUDE.md
+  - Gemfile
+  - Gemfile.lock
+  - mise.toml
+  - bin
+  - _archive
+  - vendor
