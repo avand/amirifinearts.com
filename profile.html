@@ -5,9 +5,13 @@ description: >-
   Fahimeh Amiri trained under Persian miniaturist Professor Hossein Behzad,
   studied at Tufts and the School of the Museum of Fine Arts, and has exhibited
   at the Springville Museum of Art and the National Arts Club.
+carousel: true
 ---
 
-<div class="prose">
+<div class="split split-narrow-first">
+  {% include carousel.html id="profile" images=site.data.profile %}
+
+  <div class="prose">
   <h1>Profile</h1>
 
   <p>
@@ -55,16 +59,5 @@ description: >-
     <em>Depictions of Divinity</em> showing in the museum's 35th Annual Spiritual
     &amp; Religious Art of Utah juried exhibition.
   </p>
-</div>
-
-<div class="plates">
-  {% for plate in site.data.profile %}
-    <figure>
-      <img src="{{ plate.image | relative_url }}"
-           alt="{{ plate.caption | default: 'Fahimeh Amiri' }}"
-           {% if plate.width %}width="{{ plate.width }}" height="{{ plate.height }}"{% endif %}
-           loading="lazy" decoding="async" />
-      {% if plate.caption != "" %}<figcaption>{{ plate.caption }}</figcaption>{% endif %}
-    </figure>
-  {% endfor %}
+  </div>
 </div>

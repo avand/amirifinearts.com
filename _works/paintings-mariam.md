@@ -1,9 +1,10 @@
 ---
 title: "Mariam"
 category: paintings
-order: 25
+order: 26
 image: /images/works/mariam.jpg
 width: 3024
 height: 4032
-# price:  # unknown -- ask Fahimeh
+note: "10 × 14 — Acrylic"
+# price:  # never had one on Squarespace
 ---

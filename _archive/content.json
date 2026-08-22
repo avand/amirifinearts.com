@@ -1,0 +1,719 @@
+{
+  "categories": [
+    {
+      "url": "/paintings/",
+      "title": "Paintings",
+      "description": [
+        "My work is influenced by years of rigorous Persian Miniature training, which has endowed me with unique aesthetic sensibilities. The highly stylized, decorative, yet representational Persian Miniature paintings, evidenced by clear yet simple and fluid strokes, govern my imagery. The figurative images are always embodied with narratives that emotionally and intellectually involve the viewer in each picture."
+      ],
+      "works": [
+        {
+          "title": "Interlude",
+          "price": null,
+          "note": "16 \u00d7 20 \u2014 Acrylic",
+          "url": "https://images.squarespace-cdn.com/content/v1/5a9f6cd2b40b9d0ed4322739/1697592402165-HQCV3EZVWMKPKDKWIXY2/Interlude.jpg",
+          "width": 3182,
+          "height": 2448
+        },
+        {
+          "title": "Blue Hair",
+          "price": 2500,
+          "note": "18 \u00d7 24 \u2014 Acrylic",
+          "url": "https://images.squarespace-cdn.com/content/v1/5a9f6cd2b40b9d0ed4322739/1649440245768-A5GP8F06QWJ0MWH4WD40/Blue+Hair+Label+copy.png",
+          "width": 436,
+          "height": 576
+        },
+        {
+          "title": "Elemental Nature",
+          "price": 1700,
+          "note": "12 \u00d7 26 \u2014 Acrylic",
+          "url": "https://images.squarespace-cdn.com/content/v1/5a9f6cd2b40b9d0ed4322739/1697592572321-TV99N9D7OMJGPHG346IU/IMG_5741.jpg",
+          "width": 4032,
+          "height": 3024
+        },
+        {
+          "title": "Spring Flowers",
+          "price": 4000,
+          "note": "24 x 30 \u2014 Acrylic",
+          "url": "https://images.squarespace-cdn.com/content/v1/5a9f6cd2b40b9d0ed4322739/1649440246973-50CW3G3SL7P3GICBKFNW/Spring+Flowers.jpg",
+          "width": 2000,
+          "height": 2593
+        },
+        {
+          "title": "Abstract Portrait of Dancers",
+          "price": 3000,
+          "note": "24 \u00d7 30 \u2014 Acrylic",
+          "url": "https://images.squarespace-cdn.com/content/v1/5a9f6cd2b40b9d0ed4322739/1697592483163-Y8LXGWERF4E5YI0J69NQ/Abstract+Portrait+Of+Dancers.jpg",
+          "width": 2448,
+          "height": 3264
+        },
+        {
+          "title": "Playing Guitar",
+          "price": 2500,
+          "note": "22 \u00d7 28 \u2014 Acrylic",
+          "url": "https://images.squarespace-cdn.com/content/v1/5a9f6cd2b40b9d0ed4322739/1520400242461-3GGTM0GTNE9PC4Y6CYJ8/Playing+Guitar+Small.jpg",
+          "width": 432,
+          "height": 565
+        },
+        {
+          "title": "Cottage",
+          "price": 1200,
+          "note": "12 \u00d7 16 \u2014 Acrylic",
+          "url": "https://images.squarespace-cdn.com/content/v1/5a9f6cd2b40b9d0ed4322739/1697592692491-JSZE3NPUV63Z4DIIYVD7/Cottage.jpg",
+          "width": 3967,
+          "height": 2947
+        },
+        {
+          "title": "Three Trees",
+          "price": 1200,
+          "note": "12 \u00d7 16 \u2014 Acrylic",
+          "url": "https://images.squarespace-cdn.com/content/v1/5a9f6cd2b40b9d0ed4322739/1697592761523-32FOXFCAK12MLZTIS9GS/Three+Trees.jpg",
+          "width": 3938,
+          "height": 2913
+        },
+        {
+          "title": "Abstract Portrait of Dora Wheeler",
+          "price": null,
+          "note": "30 \u00d7 24 \u2014 Acrylic",
+          "url": "https://images.squarespace-cdn.com/content/v1/5a9f6cd2b40b9d0ed4322739/1520400225153-U7EF5BDCEOQF2DJZ4E7L/Abstract+Portrait+of+Dora+Wheeler+Small.jpg",
+          "width": 892,
+          "height": 649
+        },
+        {
+          "title": "A Sight of Persepolis' Glory",
+          "price": 30000,
+          "note": "36 \u00d7 48 \u2014 Acrylic",
+          "url": "https://images.squarespace-cdn.com/content/v1/5a9f6cd2b40b9d0ed4322739/1520400499466-HWCAZWBHWU4EU3Z88PS9/persepolis.jpeg",
+          "width": 575,
+          "height": 431
+        },
+        {
+          "title": "Red Wall",
+          "price": 2500,
+          "note": "16 \u00d7 12 \u2014 Acrylic",
+          "url": "https://images.squarespace-cdn.com/content/v1/5a9f6cd2b40b9d0ed4322739/1520400256121-HVIGNH2NDGW2AXNXCR85/Red+Wall.jpg",
+          "width": 2448,
+          "height": 3264
+        },
+        {
+          "title": "Imagine",
+          "price": null,
+          "note": "24 \u00d7 30 \u2014 Acrylic",
+          "url": "https://images.squarespace-cdn.com/content/v1/5a9f6cd2b40b9d0ed4322739/1520400239545-BIVZ4MVR90K1MR90JDHN/Imagine+Small.jpg",
+          "width": 1462,
+          "height": 2113
+        },
+        {
+          "title": "Rainy Day",
+          "price": null,
+          "note": "16 \u00d7 20 \u2014 Acrylic",
+          "url": "https://images.squarespace-cdn.com/content/v1/5a9f6cd2b40b9d0ed4322739/1520400245028-UJ3FASHKRYZ1QTCTR720/Rainy+Day+Small.jpg",
+          "width": 486,
+          "height": 648
+        },
+        {
+          "title": "Koala",
+          "price": 1500,
+          "note": "25 \u00d7 17 \u2014 Acrylic",
+          "url": "https://images.squarespace-cdn.com/content/v1/5a9f6cd2b40b9d0ed4322739/1520400249490-YHY5629RVRQXRQQKDWFY/Koala.jpg",
+          "width": 2448,
+          "height": 3264
+        },
+        {
+          "title": "Walking the Dog",
+          "price": null,
+          "note": "16 \u00d7 20 \u2014 Acrylic",
+          "url": "https://images.squarespace-cdn.com/content/v1/5a9f6cd2b40b9d0ed4322739/1520400510436-MAESASQW12Y4K1003KTN/walking+the+dog.png",
+          "width": 481,
+          "height": 600
+        },
+        {
+          "title": "Catharsis",
+          "price": 7000,
+          "note": "24 \u00d7 30 \u2014 Acrylic",
+          "url": "https://images.squarespace-cdn.com/content/v1/5a9f6cd2b40b9d0ed4322739/1520400224820-AXI5EE80S5I2NK9HE27C/Catharsis.jpg",
+          "width": 627,
+          "height": 468
+        },
+        {
+          "title": "Contemplation",
+          "price": 4000,
+          "note": "16 \u00d7 20 \u2014 Acrylic",
+          "url": "https://images.squarespace-cdn.com/content/v1/5a9f6cd2b40b9d0ed4322739/1520400225205-8DEDG44XNZJNBIRI8UZS/Contemplation.jpg",
+          "width": 467,
+          "height": 584
+        },
+        {
+          "title": "Is It a Real Chicken?",
+          "price": 1200,
+          "note": "16 \u00d7 20 \u2014 Acrylic",
+          "url": "https://images.squarespace-cdn.com/content/v1/5a9f6cd2b40b9d0ed4322739/1520400226153-SWKME6OVZGN81VOTZMBM/Is+It+Really+A+Chicken.jpg",
+          "width": 460,
+          "height": 592
+        },
+        {
+          "title": "Glamour",
+          "price": 1200,
+          "note": "16 \u00d7 20 \u2014 Acrylic",
+          "url": "https://images.squarespace-cdn.com/content/v1/5a9f6cd2b40b9d0ed4322739/1520400496374-82QSILGQ190LMOF0AXHA/glamour.jpeg",
+          "width": 450,
+          "height": 600
+        },
+        {
+          "title": "Memories",
+          "price": 3000,
+          "note": "18 \u00d7 24 \u2014 Acrylic",
+          "url": "https://images.squarespace-cdn.com/content/v1/5a9f6cd2b40b9d0ed4322739/1520400240695-SSBVDD6M4M37C89RDEH6/Memories.jpg",
+          "width": 472,
+          "height": 622
+        },
+        {
+          "title": "Reflecting",
+          "price": 1400,
+          "note": "16 \u00d7 20 \u2014 Acrylic",
+          "url": "https://images.squarespace-cdn.com/content/v1/5a9f6cd2b40b9d0ed4322739/1520400250210-9CTDUC83TW2GCKZZ4MWG/Reflecting.JPG",
+          "width": 458,
+          "height": 569
+        },
+        {
+          "title": "My Memory with My Grandmother",
+          "price": 1700,
+          "note": "16 \u00d7 20 \u2014 Acrylic",
+          "url": "https://images.squarespace-cdn.com/content/v1/5a9f6cd2b40b9d0ed4322739/1520400483326-4G0RIRV4V067IFN1QRX5/child+with+grandmother.png",
+          "width": 446,
+          "height": 600
+        },
+        {
+          "title": "Family Portrait",
+          "price": 3000,
+          "note": "16 \u00d7 20 \u2014 Acrylic",
+          "url": "https://images.squarespace-cdn.com/content/v1/5a9f6cd2b40b9d0ed4322739/1520400492077-OMTZ2A58OQOAG2B6VW0G/family+portrait.png",
+          "width": 457,
+          "height": 600
+        },
+        {
+          "title": "Feeding Pigeons",
+          "price": 2000,
+          "note": "16 \u00d7 20 \u2014 Acrylic",
+          "url": "https://images.squarespace-cdn.com/content/v1/5a9f6cd2b40b9d0ed4322739/1520400496055-MGMRF3FL76N94HRL2N26/feeding+pigeons.png",
+          "width": 450,
+          "height": 600
+        },
+        {
+          "title": "Violin",
+          "price": null,
+          "note": "16 \u00d7 20 \u2014 Acrylic",
+          "url": "https://images.squarespace-cdn.com/content/v1/5a9f6cd2b40b9d0ed4322739/1520400507031-4P4HVVKTL3BTF3GH9C6A/violin.jpeg",
+          "width": 468,
+          "height": 599
+        },
+        {
+          "title": "Mariam",
+          "price": null,
+          "note": "10 \u00d7 14 \u2014 Acrylic",
+          "url": "https://images.squarespace-cdn.com/content/v1/5a9f6cd2b40b9d0ed4322739/1697592816227-UKC9CFVKUD0HUQR6DH8Q/Mariam.JPG",
+          "width": 3024,
+          "height": 4032
+        }
+      ]
+    },
+    {
+      "url": "/persian-miniatures/",
+      "title": "Persian Minatures",
+      "description": [
+        "My artistic background evolved through the traditional art form of Persian Miniature painting. At age eight, I was accepted as a pupil of Professor Behzad, who was then considered to be the greatest Persian Miniaturist. Years of master-student relationship grounded tight disciplines of traditional arts in my future work."
+      ],
+      "works": [
+        {
+          "title": "Motherhood",
+          "price": null,
+          "note": "",
+          "url": "https://images.squarespace-cdn.com/content/v1/5a9f6cd2b40b9d0ed4322739/1520399977286-62GQ6DZ3S5HUTOIWB2F9/Motherhood.png",
+          "width": 396,
+          "height": 544
+        },
+        {
+          "title": "Caged",
+          "price": null,
+          "note": "",
+          "url": "https://images.squarespace-cdn.com/content/v1/5a9f6cd2b40b9d0ed4322739/1520399977782-BUN6JLOKBVH8LHFX8U8N/Caged.jpeg",
+          "width": 370,
+          "height": 600
+        },
+        {
+          "title": "Simorgh",
+          "price": null,
+          "note": "",
+          "url": "https://images.squarespace-cdn.com/content/v1/5a9f6cd2b40b9d0ed4322739/1520399980352-JYWCD4JH2HO5YTNAAO5E/Simorgh.png",
+          "width": 461,
+          "height": 600
+        },
+        {
+          "title": "Mouring",
+          "price": null,
+          "note": "",
+          "url": "https://images.squarespace-cdn.com/content/v1/5a9f6cd2b40b9d0ed4322739/1520399977895-N1Y7DBW5MVOKZNQXXH7N/Mourning.png",
+          "width": 354,
+          "height": 489
+        },
+        {
+          "title": "Child's Play",
+          "price": null,
+          "note": "",
+          "url": "https://images.squarespace-cdn.com/content/v1/5a9f6cd2b40b9d0ed4322739/1520399975923-RYFJDJ6KX9T9RDETCBPV/Child%27s+Play.png",
+          "width": 332,
+          "height": 484
+        },
+        {
+          "title": "Beggar Woman",
+          "price": null,
+          "note": "",
+          "url": "https://images.squarespace-cdn.com/content/v1/5a9f6cd2b40b9d0ed4322739/1520399975162-BI3SP5JYCE24R1U3D3RR/Begar+Woman.png",
+          "width": 510,
+          "height": 373
+        },
+        {
+          "title": "Islamic Motif",
+          "price": null,
+          "note": "14 \u00d7 24 \u2014 Acrylic",
+          "url": "https://images.squarespace-cdn.com/content/v1/5a9f6cd2b40b9d0ed4322739/1523941096764-1I2LWG1S0A8WGBP3AM5S/Islamic+Motif+.jpg",
+          "width": 1346,
+          "height": 2666
+        }
+      ]
+    },
+    {
+      "url": "/illustrations/",
+      "title": "Illustrations",
+      "description": [
+        "My love for children resulted in the publication of three children\u2019s books. My illustrated books include \"Babri,\" which received distinction by The Society of Children's Writers and Illustrators. \"The Monkey Bridge,\" was selected as one of the 30 books exhibited at Norman Rockwell Museum. My most recent book, \"The Prince Who Ran Away,\" was published by Knopf, and is taught at some elementary schools."
+      ],
+      "works": [
+        {
+          "title": "Babri (Cover)",
+          "price": null,
+          "note": "",
+          "url": "https://images.squarespace-cdn.com/content/v1/5a9f6cd2b40b9d0ed4322739/1520399346809-2MS16VADT1VYF8DGNSOT/babri.png",
+          "width": 469,
+          "height": 600
+        },
+        {
+          "title": "Babri (Frog)",
+          "price": null,
+          "note": "",
+          "url": "https://images.squarespace-cdn.com/content/v1/5a9f6cd2b40b9d0ed4322739/1520399346704-MCIPEPHO84UTIYQ5NIHW/babri-frog.png",
+          "width": 497,
+          "height": 600
+        },
+        {
+          "title": "Babri (Bird)",
+          "price": null,
+          "note": "",
+          "url": "https://images.squarespace-cdn.com/content/v1/5a9f6cd2b40b9d0ed4322739/1520399429413-QZSQ68GBCL5OMAXL5XIO/babri-bird.png",
+          "width": 498,
+          "height": 600
+        },
+        {
+          "title": "Babri (Alligator)",
+          "price": null,
+          "note": "",
+          "url": "https://images.squarespace-cdn.com/content/v1/5a9f6cd2b40b9d0ed4322739/1520399465997-B1F4PDV0Q3S65BMG32FO/babri-gator.png",
+          "width": 498,
+          "height": 600
+        },
+        {
+          "title": "The Prince Who Ran Away (Cover)",
+          "price": null,
+          "note": "",
+          "url": "https://images.squarespace-cdn.com/content/v1/5a9f6cd2b40b9d0ed4322739/1520399340751-6R9HXE4OSBBJZXSRUBHV/prince+cover.png",
+          "width": 575,
+          "height": 433
+        },
+        {
+          "title": "The Prince Who Ran Away (Snake Canopy)",
+          "price": null,
+          "note": "",
+          "url": "https://images.squarespace-cdn.com/content/v1/5a9f6cd2b40b9d0ed4322739/1520399339984-2DB86O93PLOE2YCWV67U/prince+snake+canopy.png",
+          "width": 575,
+          "height": 454
+        },
+        {
+          "title": "The Prince Who Ran Away (White Elephant)",
+          "price": null,
+          "note": "",
+          "url": "https://images.squarespace-cdn.com/content/v1/5a9f6cd2b40b9d0ed4322739/1520399606595-G60OJI78CJGRN799P3SB/prince+elephant.png",
+          "width": 575,
+          "height": 451
+        },
+        {
+          "title": "",
+          "price": null,
+          "note": "",
+          "url": "https://images.squarespace-cdn.com/content/v1/5a9f6cd2b40b9d0ed4322739/1520399655732-G5LSEEYCAXN5F5R4UK2D/monkey+bridge+cover.png",
+          "width": 456,
+          "height": 600
+        },
+        {
+          "title": "",
+          "price": null,
+          "note": "",
+          "url": "https://images.squarespace-cdn.com/content/v1/5a9f6cd2b40b9d0ed4322739/1520399334504-HO4FHOKVJYM2BOWJF2WW/monkey+bridge.png",
+          "width": 443,
+          "height": 600
+        },
+        {
+          "title": "",
+          "price": null,
+          "note": "",
+          "url": "https://images.squarespace-cdn.com/content/v1/5a9f6cd2b40b9d0ed4322739/1520399336142-IH6IIX141AZWY221EYBN/monkey+bridge+ship.png",
+          "width": 444,
+          "height": 600
+        }
+      ]
+    },
+    {
+      "url": "/posters/",
+      "title": "Posters",
+      "description": [
+        "My work is influenced by years of rigorous Persian Miniature training, which has endowed me with unique aesthetic sensibilities. The highly stylized, decorative, yet representational Persian Miniature paintings, evidenced by clear yet simple and fluid strokes, govern my imagery. The figurative images are always embodied with narratives that emotionally and intellectually involve the viewer in each picture."
+      ],
+      "works": [
+        {
+          "title": "Legal Sea Foods",
+          "price": null,
+          "note": "",
+          "url": "https://images.squarespace-cdn.com/content/v1/5a9f6cd2b40b9d0ed4322739/1521780586874-BGHYLWG5NEKTT7M5TX1F/Legal-Sea-Foods.png",
+          "width": 1440,
+          "height": 900
+        },
+        {
+          "title": "Piano",
+          "price": null,
+          "note": "",
+          "url": "https://images.squarespace-cdn.com/content/v1/5a9f6cd2b40b9d0ed4322739/1520398563513-JN1RWZRTE71GJM6OI4H1/piano.png",
+          "width": 314,
+          "height": 490
+        },
+        {
+          "title": "Violin",
+          "price": null,
+          "note": "",
+          "url": "https://images.squarespace-cdn.com/content/v1/5a9f6cd2b40b9d0ed4322739/1520398564358-9QO0MUTT3JSMPXRBI3UO/violin.png",
+          "width": 384,
+          "height": 600
+        },
+        {
+          "title": "Cat at Window",
+          "price": null,
+          "note": "",
+          "url": "https://images.squarespace-cdn.com/content/v1/5a9f6cd2b40b9d0ed4322739/1520398562799-QFD9830J2IBKPB4XOJCY/cat.png",
+          "width": 365,
+          "height": 600
+        },
+        {
+          "title": "Harvard Book Store Cafe",
+          "price": null,
+          "note": "",
+          "url": "https://images.squarespace-cdn.com/content/v1/5a9f6cd2b40b9d0ed4322739/1520398560768-PQKDDWC03STG9X5UYN1E/books.png",
+          "width": 413,
+          "height": 600
+        },
+        {
+          "title": "Hat and Chairs",
+          "price": null,
+          "note": "",
+          "url": "https://images.squarespace-cdn.com/content/v1/5a9f6cd2b40b9d0ed4322739/1520398559103-QQVWOGIZVECJNRYP2KD7/hat.png",
+          "width": 399,
+          "height": 600
+        },
+        {
+          "title": "Dogwood",
+          "price": null,
+          "note": "",
+          "url": "https://images.squarespace-cdn.com/content/v1/5a9f6cd2b40b9d0ed4322739/1520398557208-QFKL1PKF1X0431RSE8SM/flowrs.png",
+          "width": 444,
+          "height": 600
+        },
+        {
+          "title": "Rabbit",
+          "price": null,
+          "note": "",
+          "url": "https://images.squarespace-cdn.com/content/v1/5a9f6cd2b40b9d0ed4322739/1520398555442-R4G6IZPTQRW93O8K93VW/rabbit.png",
+          "width": 326,
+          "height": 488
+        },
+        {
+          "title": "Teapot",
+          "price": null,
+          "note": "",
+          "url": "https://images.squarespace-cdn.com/content/v1/5a9f6cd2b40b9d0ed4322739/1520398561288-Y04CMRIS2RJINT8HCERW/teapot.png",
+          "width": 363,
+          "height": 484
+        }
+      ]
+    }
+  ],
+  "covers": {
+    "/paintings/": {
+      "image": "https://images.squarespace-cdn.com/content/v1/5a9f6cd2b40b9d0ed4322739/1520401771351-6OODHPQH98EM87USNN3D/image-asset.jpeg",
+      "count": 26,
+      "title": "Paintings"
+    },
+    "/persian-miniatures/": {
+      "image": "https://images.squarespace-cdn.com/content/v1/5a9f6cd2b40b9d0ed4322739/1520400135456-IVL3VNRWE05JK18GN3VI/Simorgh.png",
+      "count": 7,
+      "title": "Persian Minatures"
+    },
+    "/illustrations/": {
+      "image": "https://images.squarespace-cdn.com/content/v1/5a9f6cd2b40b9d0ed4322739/1520399768058-Y03VJCQV6RRXKTPCMVKU/babri-frog.png",
+      "count": 10,
+      "title": "Illustrations"
+    },
+    "/posters/": {
+      "image": "https://images.squarespace-cdn.com/content/v1/5a9f6cd2b40b9d0ed4322739/1521780537048-4RCS12L7TCMNUPIE5IC2/Legal-Sea-Foods.png",
+      "count": 9,
+      "title": "Posters"
+    }
+  },
+  "gallery": [
+    {
+      "url": "https://images.squarespace-cdn.com/content/v1/5a9f6cd2b40b9d0ed4322739/1521781681999-GIK2EDUE73MHJCZTI9Q7/Red+Wall.jpg",
+      "caption": ""
+    },
+    {
+      "url": "https://images.squarespace-cdn.com/content/v1/5a9f6cd2b40b9d0ed4322739/1521781643226-13M5IX9GGTON0HV8TBLB/Abstract+Portrait+of+Dora+Wheeler+Small.jpg",
+      "caption": ""
+    },
+    {
+      "url": "https://images.squarespace-cdn.com/content/v1/5a9f6cd2b40b9d0ed4322739/1521781659678-VXR1QEM4I3RXIFCGW1N3/Imagine+Small.jpg",
+      "caption": ""
+    },
+    {
+      "url": "https://images.squarespace-cdn.com/content/v1/5a9f6cd2b40b9d0ed4322739/1521781663336-I43VB0JJ81DD8AT70LYH/Playing+Guitar+Small.jpg",
+      "caption": ""
+    },
+    {
+      "url": "https://images.squarespace-cdn.com/content/v1/5a9f6cd2b40b9d0ed4322739/1521782411872-KNPI3XN121ZSS7AWE8CY/persepolis.jpeg",
+      "caption": ""
+    },
+    {
+      "url": "https://images.squarespace-cdn.com/content/v1/5a9f6cd2b40b9d0ed4322739/1521781665504-W8UU7GD2X8QYS3JUVKOZ/Rainy+Day+Small.jpg",
+      "caption": ""
+    },
+    {
+      "url": "https://images.squarespace-cdn.com/content/v1/5a9f6cd2b40b9d0ed4322739/1523940147012-SMM2XB42YJTQGKYHNBJ2/Turqoise+Sensuality.jpg",
+      "caption": ""
+    }
+  ],
+  "classes": [
+    {
+      "kind": "slideshow",
+      "images": [
+        {
+          "url": "https://images.squarespace-cdn.com/content/v1/5a9f6cd2b40b9d0ed4322739/1649439648103-XZAKEJQ0OGSP2OLAM6UP/IMG_1861.JPG",
+          "caption": "IMG_1861.JPG"
+        },
+        {
+          "url": "https://images.squarespace-cdn.com/content/v1/5a9f6cd2b40b9d0ed4322739/1649439648186-NU1PUO62F508ZG6T0S1A/IMG_1929.JPG",
+          "caption": "IMG_1929.JPG"
+        },
+        {
+          "url": "https://images.squarespace-cdn.com/content/v1/5a9f6cd2b40b9d0ed4322739/1649439660405-T5UWSG2U7H3KDQ3XAJ7D/IMG_3469.JPG",
+          "caption": "IMG_3469.JPG"
+        },
+        {
+          "url": "https://images.squarespace-cdn.com/content/v1/5a9f6cd2b40b9d0ed4322739/1649439660537-YMV1VGW784LNB8S67KCP/IMG_3695.JPG",
+          "caption": "IMG_3695.JPG"
+        },
+        {
+          "url": "https://images.squarespace-cdn.com/content/v1/5a9f6cd2b40b9d0ed4322739/1649439668410-D30N2S3AIE3OEEH29SLV/IMG_1889.JPG",
+          "caption": "IMG_1889.JPG"
+        },
+        {
+          "url": "https://images.squarespace-cdn.com/content/v1/5a9f6cd2b40b9d0ed4322739/1649439668515-KBC8OHBDB1R29KXFJRIW/IMG_1443.JPG",
+          "caption": "IMG_1443.JPG"
+        },
+        {
+          "url": "https://images.squarespace-cdn.com/content/v1/5a9f6cd2b40b9d0ed4322739/1649439678687-SCVXRCS6DS4DQIY9FFSL/IMG_3849.JPG",
+          "caption": "IMG_3849.JPG"
+        },
+        {
+          "url": "https://images.squarespace-cdn.com/content/v1/5a9f6cd2b40b9d0ed4322739/1649439678679-2CO4LOOFJSUM1VZ9RD14/IMG_1433.JPG",
+          "caption": "IMG_1433.JPG"
+        },
+        {
+          "url": "https://images.squarespace-cdn.com/content/v1/5a9f6cd2b40b9d0ed4322739/1649439682148-JP5UAZK5P2W6ZD55LHZR/IMG_1778.jpg",
+          "caption": "IMG_1778.jpg"
+        },
+        {
+          "url": "https://images.squarespace-cdn.com/content/v1/5a9f6cd2b40b9d0ed4322739/1649439689344-IX7FXWWXL0U6IO5Y7GDK/IMG_3020.JPG",
+          "caption": "IMG_3020.JPG"
+        },
+        {
+          "url": "https://images.squarespace-cdn.com/content/v1/5a9f6cd2b40b9d0ed4322739/1649439689349-SA4L6AZD4DHSMK5RDAJE/IMG_1436.JPG",
+          "caption": "IMG_1436.JPG"
+        },
+        {
+          "url": "https://images.squarespace-cdn.com/content/v1/5a9f6cd2b40b9d0ed4322739/1649439701756-HDQCH2X0K2R0ZKLO4EE5/IMG_3559.JPG",
+          "caption": "IMG_3559.JPG"
+        },
+        {
+          "url": "https://images.squarespace-cdn.com/content/v1/5a9f6cd2b40b9d0ed4322739/1649439700634-KI4KG5OD6GOESUKMI7IS/IMG_3558.JPG",
+          "caption": "IMG_3558.JPG"
+        },
+        {
+          "url": "https://images.squarespace-cdn.com/content/v1/5a9f6cd2b40b9d0ed4322739/1649439708648-738KEGPHHUTN7B7JCEU5/IMG_1458.JPG",
+          "caption": "IMG_1458.JPG"
+        },
+        {
+          "url": "https://images.squarespace-cdn.com/content/v1/5a9f6cd2b40b9d0ed4322739/1649439709671-ZQ421Y3U6L6U1FSE5BRG/IMG_3847.JPG",
+          "caption": "IMG_3847.JPG"
+        },
+        {
+          "url": "https://images.squarespace-cdn.com/content/v1/5a9f6cd2b40b9d0ed4322739/1649439716588-WXXPIBAS2S4USHRQ6P9U/IMG_1661.JPG",
+          "caption": "IMG_1661.JPG"
+        },
+        {
+          "url": "https://images.squarespace-cdn.com/content/v1/5a9f6cd2b40b9d0ed4322739/1649439716671-ZF94V69RDIYLM39F5M5C/IMG_1460.JPG",
+          "caption": "IMG_1460.JPG"
+        }
+      ]
+    },
+    {
+      "kind": "grid",
+      "images": [
+        {
+          "url": "https://images.squarespace-cdn.com/content/v1/5a9f6cd2b40b9d0ed4322739/1520402551652-B4XWIX1ERSZ5VODJ7L03/IMG_6964.JPG",
+          "caption": "IMG_6964.JPG"
+        },
+        {
+          "url": "https://images.squarespace-cdn.com/content/v1/5a9f6cd2b40b9d0ed4322739/1520402556635-F2ARPGRWGGYYE3IBD890/puppy+green.jpg",
+          "caption": "puppy green.jpg"
+        },
+        {
+          "url": "https://images.squarespace-cdn.com/content/v1/5a9f6cd2b40b9d0ed4322739/1520402559110-7LL9T4UZTS23B31PH1M3/Bird.JPG",
+          "caption": "Bird.JPG"
+        },
+        {
+          "url": "https://images.squarespace-cdn.com/content/v1/5a9f6cd2b40b9d0ed4322739/1520402562646-4612VMPW1LQK3D095FLQ/Big+Cat.jpg",
+          "caption": "Big Cat.jpg"
+        },
+        {
+          "url": "https://images.squarespace-cdn.com/content/v1/5a9f6cd2b40b9d0ed4322739/1520403036945-NR2UTMOISM7STPEK2PL5/1.png",
+          "caption": "1.png"
+        },
+        {
+          "url": "https://images.squarespace-cdn.com/content/v1/5a9f6cd2b40b9d0ed4322739/1520403037209-YYWFG0EWR5UCE2EHZR82/4.png",
+          "caption": "4.png"
+        },
+        {
+          "url": "https://images.squarespace-cdn.com/content/v1/5a9f6cd2b40b9d0ed4322739/1520403037302-TYAIW3WAYNYDWJ87YMWJ/5.png",
+          "caption": "5.png"
+        },
+        {
+          "url": "https://images.squarespace-cdn.com/content/v1/5a9f6cd2b40b9d0ed4322739/1520403037368-GFKL16G5YZ2PQJSED639/6.png",
+          "caption": "6.png"
+        },
+        {
+          "url": "https://images.squarespace-cdn.com/content/v1/5a9f6cd2b40b9d0ed4322739/1520403037536-2B3LDKG41U1AJ0KUPZR6/7.png",
+          "caption": "7.png"
+        },
+        {
+          "url": "https://images.squarespace-cdn.com/content/v1/5a9f6cd2b40b9d0ed4322739/1520403037607-DNA84L0CIJ16X93QVMWP/8.png",
+          "caption": "8.png"
+        },
+        {
+          "url": "https://images.squarespace-cdn.com/content/v1/5a9f6cd2b40b9d0ed4322739/1520403037680-9EJMZPB76YPPB1BWYHT5/9.png",
+          "caption": "9.png"
+        },
+        {
+          "url": "https://images.squarespace-cdn.com/content/v1/5a9f6cd2b40b9d0ed4322739/1520403037915-0O32W0T68KTT2TK5P8HA/11.png",
+          "caption": "11.png"
+        },
+        {
+          "url": "https://images.squarespace-cdn.com/content/v1/5a9f6cd2b40b9d0ed4322739/1520403038348-89GK4TXZKQ455AN2TC47/15.png",
+          "caption": "15.png"
+        },
+        {
+          "url": "https://images.squarespace-cdn.com/content/v1/5a9f6cd2b40b9d0ed4322739/1520487343839-JB4K68Z61ZXZDJC4ICRU/IMG_6986.jpg",
+          "caption": "IMG_6986.jpg"
+        },
+        {
+          "url": "https://images.squarespace-cdn.com/content/v1/5a9f6cd2b40b9d0ed4322739/1522213287352-5IMB8P959BA7I0T0N0L6/IMG_8174.JPG",
+          "caption": "IMG_8174.JPG"
+        },
+        {
+          "url": "https://images.squarespace-cdn.com/content/v1/5a9f6cd2b40b9d0ed4322739/1522213287914-S9CFTXKSKMDQ049H1X8Q/IMG_8173.JPG",
+          "caption": "IMG_8173.JPG"
+        },
+        {
+          "url": "https://images.squarespace-cdn.com/content/v1/5a9f6cd2b40b9d0ed4322739/1523940696740-Q0LHRRPV76EWAVK4L4QE/IMG_8232.JPG",
+          "caption": "IMG_8232.JPG"
+        },
+        {
+          "url": "https://images.squarespace-cdn.com/content/v1/5a9f6cd2b40b9d0ed4322739/1523940697083-PIQLSQP3EN45AURF90Z0/IMG_8248.JPG",
+          "caption": "IMG_8248.JPG"
+        },
+        {
+          "url": "https://images.squarespace-cdn.com/content/v1/5a9f6cd2b40b9d0ed4322739/1649439939644-0UZ9VC3D8TA42KBF1LFV/IMG_1951.jpg",
+          "caption": "IMG_1951.jpg"
+        },
+        {
+          "url": "https://images.squarespace-cdn.com/content/v1/5a9f6cd2b40b9d0ed4322739/1649439948682-GD3W4QJ4XVBKD8GXKH4C/IMG_2936.JPG",
+          "caption": "IMG_2936.JPG"
+        },
+        {
+          "url": "https://images.squarespace-cdn.com/content/v1/5a9f6cd2b40b9d0ed4322739/1649439953615-RYF6GIBY22DZC3BRE0AF/IMG_3535.JPG",
+          "caption": "IMG_3535.JPG"
+        }
+      ]
+    }
+  ],
+  "profile": [
+    {
+      "kind": "slideshow",
+      "images": [
+        {
+          "url": "https://images.squarespace-cdn.com/content/v1/5a9f6cd2b40b9d0ed4322739/1528056997046-2FR95NQEYPPI3Y13MRUB/IMG_6978.jpg",
+          "caption": "Governor Herbet awards Fahimeh the Governor\u2019s Mansion Artist medal (2018)"
+        },
+        {
+          "url": "https://images.squarespace-cdn.com/content/v1/5a9f6cd2b40b9d0ed4322739/1528057299762-NKUC9YBGFQ69VG10UGPG/IMG_6893.jpg",
+          "caption": "IMG_6893.jpg"
+        },
+        {
+          "url": "https://images.squarespace-cdn.com/content/v1/5a9f6cd2b40b9d0ed4322739/1528058402783-EKRR48BDVR63G5G9XA25/IMG_6985.JPG",
+          "caption": "IMG_6985.JPG"
+        },
+        {
+          "url": "https://images.squarespace-cdn.com/content/v1/5a9f6cd2b40b9d0ed4322739/1528060492501-35GXYDIG2CJ84I6M70HM/IMG_4473.JPG",
+          "caption": "Fahimeh with her students at the Salt Lake City library, where she exhibits their artwork each year"
+        },
+        {
+          "url": "https://images.squarespace-cdn.com/content/v1/5a9f6cd2b40b9d0ed4322739/1649440842679-L4TUPI6GS8QYQO3D3BZ1/247248351_4519099671488510_8722786323315386294_n.jpg",
+          "caption": "247248351_4519099671488510_8722786323315386294_n.jpg"
+        },
+        {
+          "url": "https://images.squarespace-cdn.com/content/v1/5a9f6cd2b40b9d0ed4322739/1649440843274-0ZNM0PPLR4RAG879OULN/245950376_4519099844821826_3792969670355970300_n.jpg",
+          "caption": "245950376_4519099844821826_3792969670355970300_n.jpg"
+        },
+        {
+          "url": "https://images.squarespace-cdn.com/content/v1/5a9f6cd2b40b9d0ed4322739/1649440847482-NT85JPYL4AVBNM0F5ZWW/IMG_2432.JPG",
+          "caption": "IMG_2432.JPG"
+        },
+        {
+          "url": "https://images.squarespace-cdn.com/content/v1/5a9f6cd2b40b9d0ed4322739/1649440847684-CCFZJ3PQBUKKNPW14CNS/246945568_4519111004820710_7526871388719598546_n.jpg",
+          "caption": "246945568_4519111004820710_7526871388719598546_n.jpg"
+        },
+        {
+          "url": "https://images.squarespace-cdn.com/content/v1/5a9f6cd2b40b9d0ed4322739/1649440848474-796HJKMVUTOZZD9HYJTG/248792223_4519106618154482_3234731467988147275_n.jpg",
+          "caption": "248792223_4519106618154482_3234731467988147275_n.jpg"
+        },
+        {
+          "url": "https://images.squarespace-cdn.com/content/v1/5a9f6cd2b40b9d0ed4322739/1649440854541-NLBE4TNACV0IHNUM30FD/IMG_3450.JPG",
+          "caption": "IMG_3450.JPG"
+        }
+      ]
+    }
+  ]
+}

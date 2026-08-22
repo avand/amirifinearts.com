@@ -1,9 +1,9 @@
 ---
 title: "Violin"
 category: posters
-order: 45
+order: 3
 image: /images/works/violin-2.png
 width: 384
 height: 600
-# price:  # unknown -- ask Fahimeh
+# price:  # never had one on Squarespace
 ---

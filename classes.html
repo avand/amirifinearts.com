@@ -4,46 +4,56 @@ title: Classes
 description: >-
   Fahimeh's Children's Art Classes for young artists ages 6 through 14, whose
   work is exhibited yearly at the Salt Lake City Main Public Library.
+carousel: true
 ---
 
-<div class="prose">
-  <h1>Children's Art Classes</h1>
+{% comment %}
+  Prose on the left, the classroom slideshow on the right -- the old page's
+  6 | 5 column split. The grid of student work runs full width below both.
+{% endcomment %}
 
-  <p>
-    Fahimeh's Children's Art Classes are a place where young artists, ages 6
-    through 14, learn to illustrate stories or create individual paintings. Every
-    piece is designed to capture the very character of its subject. Through the
-    process of creating a harmonious image, Fahimeh's students learn the
-    principles of rhythm, balance, variety and motion. The realistic approach of
-    this work requires the students to pay attention to light and shadow, color
-    and value, texture and proportion, as well as develop a strong aesthetic
-    sense for composition.
-  </p>
+<div class="split">
+  <div class="prose">
+    <h1>Children's Art Classes</h1>
 
-  <p>
-    The children's artwork is shown at the Salt Lake City Library in their yearly
-    exhibition. This exhibition has gained popularity due to the quality of work
-    displayed by the participating children's artwork. Their exciting work has
-    captivated viewers all around the valley. Not only is the exhibition itself
-    visually enchanting for viewers, it's exciting for the children as well; they
-    gain a sense of accomplishment &ndash; these children's art classes are a
-    great way to enhance their creative ability and self-confidence.
-  </p>
+    <p>
+      Fahimeh's Children's Art Classes are a place where young artists, ages 6
+      through 14, learn to illustrate stories or create individual paintings.
+      Every piece is designed to capture the very character of its subject.
+      Through the process of creating a harmonious image, Fahimeh's students
+      learn the principles of rhythm, balance, variety and motion. The realistic
+      approach of this work requires the students to pay attention to light and
+      shadow, color and value, texture and proportion, as well as develop a
+      strong aesthetic sense for composition.
+    </p>
 
-  <p>
-    Given the high caliber of work that Fahimeh's students produce, the Salt Lake
-    City Main Public Library dedicates two months to exhibit their pieces. The
-    exhibit runs for two months to give their talents recognition and exposure.
-    Here's a sample of some of their work.
-  </p>
+    <p>
+      The children's artwork is shown at the Salt Lake City Library in their
+      yearly exhibition. This exhibition has gained popularity due to the quality
+      of work displayed by the participating children's artwork. Their exciting
+      work has captivated viewers all around the valley. Not only is the
+      exhibition itself visually enchanting for viewers, it's exciting for the
+      children as well; they gain a sense of accomplishment &ndash; these
+      children's art classes are a great way to enhance their creative ability
+      and self-confidence.
+    </p>
+
+    <p>
+      Given the high caliber of work that Fahimeh's students produce, the Salt
+      Lake City Main Public Library dedicates two months to exhibit their pieces.
+      The exhibit runs for two months to give their talents recognition and
+      exposure. Here's a sample of some of their work.
+    </p>
+  </div>
+
+  {% include carousel.html id="classroom" images=site.data.classes_slideshow %}
 </div>
 
 <div class="plates">
-  {% for plate in site.data.classes %}
+  {% for plate in site.data.classes_grid %}
     <figure>
       <img src="{{ plate.image | relative_url }}"
            alt="{{ plate.caption | default: 'Artwork by a student of Fahimeh Amiri' }}"
-           {% if plate.width %}width="{{ plate.width }}" height="{{ plate.height }}"{% endif %}
            loading="lazy" decoding="async" />
       {% if plate.caption != "" %}<figcaption>{{ plate.caption }}</figcaption>{% endif %}
     </figure>

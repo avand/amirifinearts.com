@@ -1,9 +1,9 @@
 ---
 title: "Piano"
 category: posters
-order: 44
+order: 2
 image: /images/works/piano.png
 width: 314
 height: 490
-# price:  # unknown -- ask Fahimeh
+# price:  # never had one on Squarespace
 ---

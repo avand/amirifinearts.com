@@ -18,21 +18,14 @@ permalink: pretty
 show_prices: false
 # ---------------------------------------------------------------------------
 
-# The four sections of the Collection page, in the order they appear. `id`
-# matches the `category:` in each work's front matter.
+# The four sections of the Collection live in _data/sections.yml -- name, URL,
+# cover image, and the description Fahimeh wrote for each. They are generated
+# from the archive rather than listed here, because the covers and the prose
+# came with them.
 #
-# Named `sections`, not `categories`: `site.categories` is a reserved Jekyll
-# variable holding the categories of blog posts, and it silently wins over
-# anything set here. The symptom is an empty Collection page and no error.
-sections:
-  - id: paintings
-    name: Paintings
-  - id: miniatures
-    name: Persian Miniatures
-  - id: illustrations
-    name: Illustrations
-  - id: posters
-    name: Posters
+# Note for anyone tempted to move them back into this file: `site.categories`
+# is a reserved Jekyll variable holding the categories of blog posts, and it
+# silently wins over anything set here. The symptom is an empty page, no error.
 
 # The live site's order: Gallery first, then Collection as the home page.
 nav:

@@ -1,9 +1,9 @@
 ---
 title: "Motherhood"
 category: miniatures
-order: 26
+order: 1
 image: /images/works/motherhood.png
 width: 396
 height: 544
-# price:  # unknown -- ask Fahimeh
+# price:  # never had one on Squarespace
 ---

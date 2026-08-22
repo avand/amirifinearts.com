@@ -1,9 +1,10 @@
 ---
 title: "Islamic Motif"
 category: miniatures
-order: 32
+order: 7
 image: /images/works/islamic-motif.jpg
 width: 1346
 height: 2666
-# price:  # unknown -- ask Fahimeh
+note: "14 × 24 — Acrylic"
+# price:  # never had one on Squarespace
 ---

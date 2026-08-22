@@ -41,8 +41,13 @@
       {{ content }}
     </main>
 
-    <footer class="site-footer">
-      <p>&copy; {{ 'now' | date: "%Y" }} {{ site.author }}. All artwork reproduced by permission.</p>
-    </footer>
+    {% comment %}
+      Only the pages that have a carousel load its script. Every slide is
+      already in the markup, so the page is complete before this runs.
+    {% endcomment %}
+    {% if page.carousel %}
+      <script src="{{ '/assets/carousel.js' | relative_url }}" defer></script>
+    {% endif %}
+
   </body>
 </html>

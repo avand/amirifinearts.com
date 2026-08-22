@@ -1,35 +1,50 @@
 /*
   Amiri Fine Arts.
 
-  The numbers here are not invented. They are the settings the Squarespace
-  template was actually running, read out of the page's own tweak JSON:
+  Every value here was measured off the live Squarespace site with a headless
+  browser reading computed styles, not guessed from its CSS bundle. That
+  distinction cost a round: the bundle's most common background colour is
+  #272727, which is nowhere on the rendered page -- the body is #616161, a mid
+  grey, and building against the stylesheet produced a site that was far too
+  dark and looked nothing like the original.
 
-      TPerRow      4       four thumbnails per row
-      TGutter      5%      the space between them
-      TMaxWidth    400     a thumbnail never gets wider than this
-      outerPadding 75px    the site's outer margin
-      pagePadding  50px    the gap between header and content
+      body            #616161
+      site title      futura-pt 700, 42px, uppercase, 1px tracking,  #222
+      nav             futura-pt 400, 13px, uppercase, 1px tracking,  #999
+      nav (current)                                                  #111
+      section label   futura-pt 300, 14px, uppercase, 0.84px,        #bfbfbf
+      body text       #fff
+      content column  960px, centred
+      covers          4 across, 204px each, 48px apart  (4x204 + 3x48 = 960)
 
-  The palette is #272727, which is what the template painted the page. The
-  image drop shadow is from Fahimeh's own custom CSS -- the only styling she
-  had written herself, so it is the one rule that is definitely intentional:
+  The image drop shadow is from Fahimeh's own custom CSS -- the only styling
+  she had written herself, so it is the one rule that is certainly deliberate:
 
-      .image img { box-shadow: 5px 5px 40px rgba(0,0,0,.3) }
+      .image img, .project-image { box-shadow: 5px 5px 40px rgba(0,0,0,.3) }
 */
 
 :root {
-  --bg: #272727;
-  --bg-raised: #2f2f2f;
-  --ink: #f6f6f6;
-  --ink-dim: #a8a8a8;
-  --rule: #3e3e3e;
+  --bg: #616161;
+  --bg-raised: #565656;
+  --ink: #fff;
+  --ink-dim: #bfbfbf;
+  --ink-dark: #222;
+  --ink-darker: #111;
+  --nav: #999;
+  --rule: rgba(255, 255, 255, 0.18);
 
+  /*
+    futura-pt and proxima-nova were licensed through Squarespace and cannot
+    come with the content. Jost is the closest free geometric sans to
+    futura-pt; Nunito Sans stands in for proxima-nova.
+  */
   --display: "Jost", "Futura", "Century Gothic", sans-serif;
   --body: "Nunito Sans", "Helvetica Neue", Arial, sans-serif;
 
-  --outer-padding: 75px;
+  --content: 960px;
+  --outer-padding: 24px;
   --page-padding: 50px;
-  --gutter: 5%;
+  --gutter: 48px;
   --thumb-max: 400px;
 }
 
@@ -48,64 +63,122 @@ body {
 
 /* ---------------------------------------------------------------- header */
 
+/*
+  The header and every page share one 960px column, centred. The old site put
+  the title hard left and the nav hard right on that same column.
+*/
+.site-header,
+.site-main {
+  max-width: var(--content);
+  margin: 0 auto;
+  padding-left: var(--outer-padding);
+  padding-right: var(--outer-padding);
+  box-sizing: content-box;
+}
+
 .site-header {
   display: flex;
   flex-wrap: wrap;
-  align-items: baseline;
+  align-items: center;
   justify-content: space-between;
   gap: 1rem 2rem;
-  padding: 2.5rem var(--outer-padding) 0;
+  padding-top: 3.5rem;
 }
 
+/* Dark on the grey ground, not light -- this is the one piece of the page
+   that is nearly black, and it carries the whole masthead. */
 .site-title {
   font-family: var(--display);
-  font-weight: 400;
-  font-size: 1.6rem;
-  letter-spacing: 0.06em;
+  font-weight: 700;
+  font-size: 42px;
+  line-height: 1;
+  letter-spacing: 1px;
   text-transform: uppercase;
-  color: var(--ink);
+  color: var(--ink-dark);
   text-decoration: none;
 }
 
-.site-nav { display: flex; flex-wrap: wrap; gap: 1.75rem; }
+.site-nav { display: flex; flex-wrap: wrap; gap: 1.9rem; }
 
 .site-nav a {
   font-family: var(--display);
-  font-size: 0.95rem;
-  letter-spacing: 0.08em;
+  font-weight: 400;
+  font-size: 13px;
+  letter-spacing: 1px;
   text-transform: uppercase;
-  color: var(--ink-dim);
+  color: var(--nav);
   text-decoration: none;
-  padding-bottom: 2px;
-  border-bottom: 1px solid transparent;
 }
 
-.site-nav a:hover { color: var(--ink); }
-.site-nav a[aria-current="page"] { color: var(--ink); border-bottom-color: var(--ink); }
+.site-nav a:hover { color: var(--ink-darker); }
+.site-nav a[aria-current="page"] { color: var(--ink-darker); }
 
 /* ------------------------------------------------------------------ main */
 
-.site-main { padding: var(--page-padding) var(--outer-padding) 4rem; }
+.site-main { padding-top: var(--page-padding); padding-bottom: 4rem; }
 
 .prose { max-width: 42rem; }
 .prose h1 { font-family: var(--display); font-weight: 400; font-size: 2rem; letter-spacing: 0.03em; }
 .prose p { margin: 0 0 1.25rem; }
 .prose a { color: var(--ink); }
 
+/* ------------------------------------------------- collection index (home) */
+
+/*
+  Four covers, one per section. Squarespace cropped these to squares and gave
+  them the same drop shadow as everything else; the source images are already
+  square (432x432, 461x461, ...), so object-fit only guards against a future
+  cover that is not.
+*/
+.index {
+  list-style: none;
+  margin: 1.5rem 0 0;
+  padding: 0;
+  display: grid;
+  gap: var(--gutter);
+  grid-template-columns: repeat(auto-fill, minmax(min(204px, 100%), 1fr));
+}
+
+@media (min-width: 760px) {
+  .index { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+}
+
+.index a {
+  display: block;
+  text-align: center;
+  text-decoration: none;
+  color: var(--ink-dim);
+}
+
+.index-cover { display: block; }
+
+.index-cover img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+  border-radius: 4%;
+  box-shadow: 5px 5px 40px rgba(0, 0, 0, 0.3);
+  transition: transform 150ms ease;
+}
+
+.index a:hover .index-cover img { transform: translateY(-2px); }
+
+.index-title {
+  display: block;
+  margin-top: 1rem;
+  font-family: var(--display);
+  font-weight: 300;
+  font-size: 14px;
+  letter-spacing: 0.84px;
+  text-transform: uppercase;
+}
+
+.index a:hover .index-title { color: var(--ink); }
+
 /* ------------------------------------------------------------ collection */
 
-.collection { margin-bottom: 4.5rem; }
-
-.collection h2 {
-  font-family: var(--display);
-  font-weight: 400;
-  font-size: 1.5rem;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  margin: 0 0 1.75rem;
-  padding-bottom: 0.75rem;
-  border-bottom: 1px solid var(--rule);
-}
+.prose + .grid { margin-top: 2.5rem; }
 
 /*
   Four across, capped at 400px each -- Squarespace's TPerRow and TMaxWidth.
@@ -145,6 +218,148 @@ body {
 
 .work-title { color: var(--ink); }
 .work-price { color: var(--ink-dim); }
+
+/* Size and medium -- "16 × 20 — Acrylic". Its own line, under the title. */
+.work-note {
+  flex-basis: 100%;
+  color: var(--ink-dim);
+  font-size: 0.85rem;
+}
+
+/* ---------------------------------------------------------------- split */
+
+/*
+  Prose beside a carousel: the Classes page's 6 | 5 column split and Profile's
+  5 | 7. One column on a narrow screen, and the carousel goes first there on
+  Profile because a portrait photograph reads better above a bio than below it.
+*/
+.split { display: grid; gap: 2.5rem; align-items: start; }
+
+@media (min-width: 950px) {
+  .split { grid-template-columns: 6fr 5fr; gap: 4rem; }
+  .split-narrow-first { grid-template-columns: 5fr 7fr; }
+}
+
+.split .prose { max-width: none; }
+.split + .plates { margin-top: 4rem; }
+
+/* -------------------------------------------------------------- carousel */
+
+.carousel-stage {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.carousel-slides {
+  position: relative;
+  flex: 1;
+  min-width: 0;
+}
+
+/*
+  Every slide is in the DOM. The non-current ones are taken out of the layout
+  with position:absolute rather than display:none, so the stage keeps the
+  height of whichever slide is showing and the page does not jump on advance.
+  visibility (not just opacity) so a hidden slide is skipped by screen readers
+  and cannot be tabbed into.
+*/
+.carousel-slide {
+  position: absolute;
+  inset: 0;
+  margin: 0;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 220ms ease;
+}
+
+.carousel-slide.is-current {
+  position: relative;
+  opacity: 1;
+  visibility: visible;
+}
+
+.carousel-slide img {
+  display: block;
+  width: 100%;
+  height: auto;
+  box-shadow: 5px 5px 40px rgba(0, 0, 0, 0.3);
+}
+
+.carousel-slide figcaption {
+  margin-top: 0.85rem;
+  font-size: 0.9rem;
+  color: var(--ink-dim);
+}
+
+/*
+  The arrows sit over the image, as they did on the old site. They are real
+  buttons, so they are reachable by keyboard; the arrow keys work too, once the
+  carousel has focus.
+*/
+.carousel-arrow {
+  position: absolute;
+  z-index: 1;
+  top: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  padding: 0 0.85rem;
+  background: none;
+  border: 0;
+  cursor: pointer;
+  color: #fff;
+  font-size: 2rem;
+  line-height: 1;
+  text-shadow: 0 1px 6px rgba(0, 0, 0, 0.6);
+  opacity: 0.75;
+  transition: opacity 150ms ease;
+}
+
+.carousel-arrow:hover { opacity: 1; }
+.carousel-arrow:focus-visible { outline: 2px solid #fff; outline-offset: -4px; }
+
+[data-carousel-prev] { left: 0; }
+[data-carousel-next] { right: 0; }
+
+/* One image is not a slideshow; carousel.js says so and the controls go. */
+.carousel.is-single .carousel-arrow,
+.carousel.is-single .carousel-thumbs { display: none; }
+
+.carousel-thumbs {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.4rem;
+  margin-top: 1.1rem;
+}
+
+.carousel-thumb {
+  width: 42px;
+  height: 42px;
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: pointer;
+  opacity: 0.45;
+  transition: opacity 150ms ease;
+}
+
+.carousel-thumb img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.carousel-thumb:hover { opacity: 0.8; }
+.carousel-thumb.is-current { opacity: 1; outline: 1px solid var(--ink); outline-offset: 1px; }
+.carousel-thumb:focus-visible { outline: 2px solid var(--ink); outline-offset: 1px; }
+
+@media (prefers-reduced-motion: reduce) {
+  .carousel-slide { transition: none; }
+  .index-cover img { transition: none; }
+}
 
 /* --------------------------------------------------------------- gallery */
 
@@ -220,22 +435,11 @@ body {
 .form-status { margin-top: 1rem; min-height: 1.4em; color: var(--ink-dim); }
 .form-status[data-state="error"] { color: #f0523d; }
 
-/* ---------------------------------------------------------------- footer */
-
-.site-footer {
-  padding: 2rem var(--outer-padding) 3rem;
-  border-top: 1px solid var(--rule);
-  color: var(--ink-dim);
-  font-size: 0.85rem;
-}
-
-.site-footer p { margin: 0; }
-
 /* ---------------------------------------------------------------- mobile */
 
 @media (max-width: 700px) {
-  :root { --outer-padding: 24px; --page-padding: 28px; --gutter: 1.5rem; }
+  :root { --page-padding: 28px; --gutter: 24px; }
   .site-header { padding-top: 1.75rem; }
-  .site-title { font-size: 1.3rem; }
-  .site-nav { gap: 1.1rem; }
+  .site-title { font-size: 26px; }
+  .site-nav { gap: 1rem; }
 }

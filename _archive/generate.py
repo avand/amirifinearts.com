@@ -1,146 +1,165 @@
-"""Turn the Squarespace archive into the Jekyll site's content.
+"""Turn content.json into the Jekyll site's content.
 
-Reads _archive/inventory.json plus the section headings in the archived home
-page, writes one _works/<slug>.md per piece, and moves each image out of the
-archive into images/ under a name derived from its title. The archive keeps the
-HTML, the JSON, and these scripts; it does not keep a second copy of 112MB of
-photographs.
+Writes _works/*.md (one per artwork), _data/*.yml (the index covers and the
+three image galleries), and moves every image out of the archive into images/
+under a name derived from what it is.
 
-Rerunnable: it overwrites _works and skips images already moved.
+Rerunnable, and destructive on rerun: it clears _works/ and rewrites _data/.
+Hand-edit a work and rerun this, and the edit is gone.
 """
-import re, html, json, os, shutil, unicodedata
+import json, os, re, shutil, unicodedata
 
 BASE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-ARC  = os.path.join(BASE, '_archive')
+ARC = os.path.join(BASE, '_archive')
 
-# The live site spells two things wrong. Faithful is about the design, not
-# about carrying typos across a migration.
+# The live site spells two things wrong, in both the category heading and the
+# work's own title. Faithful is about the design, not about carrying typos.
 FIX = {'Persian Minatures': 'Persian Miniatures', 'Mouring': 'Mourning'}
 
-# Six pieces went up on Squarespace with no alt text, so the only "title" they
-# have is the filename it was uploaded under. These are inferred from the
-# filename and the section they sit in -- good enough to publish, not good
-# enough to trust. They carry needs_review until Fahimeh confirms them.
+# Three illustrations were published with no title at all -- Squarespace shows
+# an empty caption for them, and the only name they have is the file they were
+# uploaded as. Keyed by that filename, inferred from it and from the book they
+# belong to, and flagged so nobody mistakes them for confirmed titles.
 UNTITLED = {
-    'monkey bridge.png':        'The Monkey Bridge',
-    'monkey bridge cover.png':  'The Monkey Bridge (Cover)',
-    'monkey bridge ship.png':   'The Monkey Bridge (Ship)',
-    'babri-frog.png':           'Babri (Frog II)',
-    'Legal-Sea-Foods.png':      'Legal Sea Foods (II)',
-    'Simorgh.png':              'Simorgh (II)',
+    'monkey+bridge.png': 'The Monkey Bridge',
+    'monkey+bridge+cover.png': 'The Monkey Bridge (Cover)',
+    'monkey+bridge+ship.png': 'The Monkey Bridge (Ship)',
 }
 
-CATEGORIES = {
-    'Paintings': 'paintings',
-    'Persian Miniatures': 'miniatures',
-    'Illustrations': 'illustrations',
-    'Posters': 'posters',
+SECTIONS = {
+    '/paintings/': 'paintings',
+    '/persian-miniatures/': 'miniatures',
+    '/illustrations/': 'illustrations',
+    '/posters/': 'posters',
 }
+
 
 def slug(s):
     s = unicodedata.normalize('NFKD', s).encode('ascii', 'ignore').decode()
     return re.sub(r'-+', '-', re.sub(r'[^a-z0-9]+', '-', s.lower())).strip('-')
 
-# Walk the home page in document order so each image inherits the heading above it.
-h = open(os.path.join(ARC, 'pages/home.html')).read()
-section, order = None, {}
-for m in re.finditer(r'<h[1-3][^>]*>(.*?)</h[1-3]>|data-src="(https://images\.squarespace-cdn\.com[^"?]*)"', h, re.S):
-    if m.group(1):
-        t = re.sub(r'<[^>]+>', '', html.unescape(m.group(1))).strip()
-        t = FIX.get(t, t)
-        if t in CATEGORIES:
-            section = CATEGORIES[t]
-    elif m.group(2) and section:
-        order.setdefault(m.group(2), (section, len(order)))
 
-inv = json.load(open(os.path.join(ARC, 'inventory.json')))
+def yaml(value):
+    return json.dumps(value, ensure_ascii=False)
+
+
+content = json.load(open(os.path.join(ARC, 'content.json')))
+
+
+def archived(url):
+    import urllib.parse
+    name = urllib.parse.unquote(url.rsplit('/', 1)[-1]).replace('+', ' ')
+    return os.path.join(ARC, 'images', f"{url.rsplit('/', 2)[-2]}-{name}".replace(' ', '-'))
+
+
+used = set()
+
+
+def place(url, folder, name):
+    """Move an archived image to images/<folder>/<name>.<ext>, uniquely."""
+    ext = os.path.splitext(archived(url))[1].lower()
+    n, base = 2, name
+    while (folder, name) in used:
+        name, n = f'{base}-{n}', n + 1
+    used.add((folder, name))
+    rel = f'/images/{folder}/{name}{ext}'
+    dest = os.path.join(BASE, rel.lstrip('/'))
+    os.makedirs(os.path.dirname(dest), exist_ok=True)
+    src = archived(url)
+    if os.path.exists(src) and not os.path.exists(dest):
+        shutil.move(src, dest)
+    return rel
+
+
 works_dir = os.path.join(BASE, '_works')
+data_dir = os.path.join(BASE, '_data')
 os.makedirs(works_dir, exist_ok=True)
+os.makedirs(data_dir, exist_ok=True)
 for f in os.listdir(works_dir):
     os.remove(os.path.join(works_dir, f))
 
-DEST = {'home': 'works', 'gallery': 'gallery', 'classes': 'classes', 'profile': 'profile'}
-seen, made = set(), 0
+# ------------------------------------------------------------ the sections
 
-for r in inv:
-    src = os.path.join(ARC, 'images', r['file'])
-    ext = os.path.splitext(r['file'])[1].lower()
-    review = r['title'] in UNTITLED
-    title = UNTITLED.get(r['title']) or FIX.get(r['title'], r['title'])
-    sub = DEST[r['page']]
+sections = []
+for cat in content['categories']:
+    sid = SECTIONS[cat['url']]
+    cover = content['covers'][cat['url']]
+    name = FIX.get(cat['title'], cat['title'])
+    sections.append({
+        'id': sid,
+        'name': name,
+        'url': cat['url'],
+        'cover': place(cover['image'], 'covers', sid),
+        'count': cover['count'],
+        'description': [FIX.get(p, p) for p in cat['description']],
+    })
 
-    name = slug(title) or slug(os.path.splitext(r['file'])[0])
-    n, base = 2, name
-    while (sub, name) in seen:
-        name, n = f'{base}-{n}', n + 1
-    seen.add((sub, name))
+    for order, w in enumerate(cat['works'], 1):
+        # An untitled work is looked up by the file it was uploaded as. Falling
+        # back to the bare filename keeps a new one from silently colliding
+        # with another untitled piece and overwriting it.
+        upload = w['url'].rsplit('/', 1)[-1]
+        review = not w['title']
+        title = (w['title'] and FIX.get(w['title'], w['title'])) \
+            or UNTITLED.get(upload) or os.path.splitext(upload)[0].replace('+', ' ')
+        image = place(w['url'], 'works', slug(title))
 
-    rel = f'/images/{sub}/{name}{ext}'
-    dest = os.path.join(BASE, rel.lstrip('/'))
-    os.makedirs(os.path.dirname(dest), exist_ok=True)
-    if os.path.exists(src) and not os.path.exists(dest):
-        shutil.move(src, dest)
+        fm = ['---', f'title: {yaml(title)}', f'category: {sid}', f'order: {order}',
+              f'image: {image}']
+        if w['width']:
+            fm += [f'width: {w["width"]}', f'height: {w["height"]}']
+        if w['note']:
+            # "16 × 20 — Acrylic", as Fahimeh wrote it.
+            fm.append(f'note: {yaml(w["note"])}')
+        # Price is data. `show_prices` in _config.yml decides whether it renders.
+        fm.append(f'price: {w["price"]}' if w['price']
+                  else '# price:  # never had one on Squarespace')
+        if review:
+            fm.append('needs_review: true  # title inferred from filename; confirm with Fahimeh')
+        fm += ['---', '']
+        open(os.path.join(works_dir, f'{sid}-{slug(title)}.md'), 'w').write('\n'.join(fm))
 
-    if r['page'] != 'home':
-        continue
+with open(os.path.join(data_dir, 'sections.yml'), 'w') as f:
+    f.write('# Generated by _archive/generate.py. The four sections of the Collection,\n'
+            '# in the order the old site showed them, with the cover each one used.\n')
+    for s in sections:
+        f.write(f'- id: {s["id"]}\n  name: {yaml(s["name"])}\n  url: {s["url"]}\n')
+        f.write(f'  cover: {s["cover"]}\n  count: {s["count"]}\n  description:\n')
+        for p in s['description']:
+            f.write(f'    - {yaml(p)}\n')
 
-    cat, pos = order.get(r['url'], ('paintings', 999))
-    fm = [
-        '---',
-        f'title: {json.dumps(title)}',
-        f'category: {cat}',
-        f'order: {pos}',
-        f'image: {rel}',
-        f'width: {r["width"]}',
-        f'height: {r["height"]}',
-    ]
-    # Price is data, not layout. `show_prices` in _config.yml decides whether
-    # any of it is ever rendered; pulling them must not lose them.
-    fm.append(f'price: {r["price"]}' if r['price'] else '# price:  # unknown -- ask Fahimeh')
-    if review:
-        fm.append('needs_review: true  # title inferred from filename; confirm with Fahimeh')
-    fm += ['---', '']
-    open(os.path.join(works_dir, f'{cat}-{name}.md'), 'w').write('\n'.join(fm))
-    made += 1
+# ----------------------------------------------------------- the galleries
 
-# The Collection page's works become _works/*.md. The other three pages are
-# not catalogues -- they are a bio, a class description, and a gallery -- so
-# their images become plain ordered lists in _data/, captions included. Several
-# of the profile captions are real sentences ("Governor Herbet awards Fahimeh
-# the Governor's Mansion Artist medal"), and those are worth keeping.
-data_dir = os.path.join(BASE, '_data')
-os.makedirs(data_dir, exist_ok=True)
 
-for page in ('gallery', 'classes', 'profile'):
+def write_gallery(filename, folder, images, note):
     rows = []
-    for r in inv:
-        if r['page'] != page:
-            continue
-        ext = os.path.splitext(r['file'])[1].lower()
-        name = slug(FIX.get(r['title'], r['title'])) or slug(os.path.splitext(r['file'])[0])
-        # Same collision walk as above; the names were assigned in that pass.
-        n, base = 2, name
-        while not os.path.exists(os.path.join(BASE, 'images', page, f'{name}{ext}')):
-            if n > 12:
-                break
-            name, n = f'{base}-{n}', n + 1
-        caption = FIX.get(r['title'], r['title'])
+    for i, im in enumerate(images, 1):
+        caption = FIX.get(im['caption'], im['caption'])
         # A caption that is just the upload filename is noise, not a caption.
-        if re.search(r'\.(png|jpe?g)$', caption, re.I) or re.fullmatch(r'[\d\-]+', caption):
+        if re.search(r'\.(png|jpe?g)$', caption, re.I) or re.fullmatch(r'[\d\-_]+', caption):
             caption = ''
-        rows.append({'image': f'/images/{page}/{name}{ext}',
-                     'caption': caption,
-                     'width': r['width'], 'height': r['height']})
+        rows.append({'image': place(im['url'], folder, slug(caption) or f'{folder}-{i:02}'),
+                     'caption': caption})
+    with open(os.path.join(data_dir, filename), 'w') as f:
+        f.write(f'# Generated by _archive/generate.py. {note}\n')
+        for r in rows:
+            f.write(f'- image: {r["image"]}\n  caption: {yaml(r["caption"])}\n')
+    return len(rows)
 
-    with open(os.path.join(data_dir, f'{page}.yml'), 'w') as f:
-        f.write(f'# Generated by _archive/generate.py from the Squarespace archive.\n')
-        f.write(f'# {len(rows)} images from the {page} page. Edit freely -- rerunning\n')
-        f.write(f'# the generator overwrites this.\n')
-        for row in rows:
-            f.write(f'- image: {row["image"]}\n')
-            f.write(f'  caption: {json.dumps(row["caption"])}\n')
-            if row['width']:
-                f.write(f'  width: {row["width"]}\n  height: {row["height"]}\n')
-    print(f'{len(rows):3} images -> _data/{page}.yml')
 
-print(f'{made} works written to _works/')
+counts = {
+    'gallery.yml': write_gallery('gallery.yml', 'gallery', content['gallery'],
+                                 'The Gallery page slideshow.'),
+}
+for block in content['classes']:
+    name = f'classes_{block["kind"]}.yml'
+    counts[name] = write_gallery(name, 'classes', block['images'],
+                                 f'The Classes page {block["kind"]}.')
+for block in content['profile']:
+    counts['profile.yml'] = write_gallery('profile.yml', 'profile', block['images'],
+                                          'The Profile page slideshow.')
+
+for s in sections:
+    print(f'  {s["id"]:14} {s["count"]:3} works')
+for k, v in counts.items():
+    print(f'  {k:24} {v:3} images')

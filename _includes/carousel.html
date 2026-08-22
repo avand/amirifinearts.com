@@ -1,0 +1,50 @@
+{% comment %}
+  A slideshow with a thumbnail strip, as the Squarespace gallery blocks had:
+  one large image, arrows either side, and every image as a thumbnail below.
+
+  Takes `images` (a list of {image, caption}) and `id` (unique on the page --
+  the Classes page has a carousel and a grid, and Profile has its own).
+
+  It renders every slide as real markup rather than building them in script, so
+  the images are in the HTML for search engines and for anyone with JavaScript
+  off. Without script it degrades to the first slide plus the strip, which is
+  a static page rather than a broken one. carousel.js does the rest.
+{% endcomment %}
+
+<div class="carousel" id="{{ include.id }}" data-carousel>
+  <div class="carousel-stage">
+    <button class="carousel-arrow" data-carousel-prev aria-label="Previous image">
+      <span aria-hidden="true">&#10094;</span>
+    </button>
+
+    <div class="carousel-slides">
+      {% for item in include.images %}
+        <figure class="carousel-slide{% if forloop.first %} is-current{% endif %}"
+                data-carousel-slide>
+          <img src="{{ item.image | relative_url }}"
+               alt="{{ item.caption | default: 'Artwork by Fahimeh Amiri' }}"
+               loading="{% if forloop.first %}eager{% else %}lazy{% endif %}"
+               decoding="async" />
+          {% if item.caption != "" %}
+            <figcaption>{{ item.caption }}</figcaption>
+          {% endif %}
+        </figure>
+      {% endfor %}
+    </div>
+
+    <button class="carousel-arrow" data-carousel-next aria-label="Next image">
+      <span aria-hidden="true">&#10095;</span>
+    </button>
+  </div>
+
+  <div class="carousel-thumbs" role="tablist" aria-label="Choose an image">
+    {% for item in include.images %}
+      <button class="carousel-thumb{% if forloop.first %} is-current{% endif %}"
+              data-carousel-thumb role="tab"
+              aria-selected="{% if forloop.first %}true{% else %}false{% endif %}"
+              aria-label="Image {{ forloop.index }} of {{ include.images | size }}">
+        <img src="{{ item.image | relative_url }}" alt="" loading="lazy" decoding="async" />
+      </button>
+    {% endfor %}
+  </div>
+</div>

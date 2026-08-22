@@ -1,9 +1,9 @@
 ---
 title: "Legal Sea Foods"
 category: posters
-order: 43
+order: 1
 image: /images/works/legal-sea-foods.png
 width: 1440
 height: 900
-# price:  # unknown -- ask Fahimeh
+# price:  # never had one on Squarespace
 ---

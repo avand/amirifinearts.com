@@ -1,9 +1,10 @@
 ---
 title: "Imagine"
 category: paintings
-order: 11
+order: 12
 image: /images/works/imagine.jpg
 width: 1462
 height: 2113
-# price:  # unknown -- ask Fahimeh
+note: "24 × 30 — Acrylic"
+# price:  # never had one on Squarespace
 ---

@@ -6,13 +6,22 @@ description: >-
   Hossein Behzad.
 ---
 
-<div class="prose">
-  <p>
-    My work is influenced by years of rigorous Persian Miniature training, which
-    has endowed me with unique aesthetic sensibilities.
-  </p>
-</div>
+{% comment %}
+  The Collection is an index: four covers, one per section, each linking to its
+  own page. It is not a list of the work itself -- the whole catalogue on one
+  page was how the first pass of this migration got it wrong.
+{% endcomment %}
 
-{% for section in site.sections %}
-  {% include work-grid.html category=section.id name=section.name %}
-{% endfor %}
+<ul class="index">
+  {% for section in site.data.sections %}
+    <li>
+      <a href="{{ section.url | relative_url }}">
+        <span class="index-cover">
+          <img src="{{ section.cover | relative_url }}" alt="{{ section.name }}"
+               loading="lazy" decoding="async" />
+        </span>
+        <span class="index-title">{{ section.name }}</span>
+      </a>
+    </li>
+  {% endfor %}
+</ul>
