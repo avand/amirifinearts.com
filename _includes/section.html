@@ -1,40 +1,44 @@
 {% comment %}
-  One section of the Collection: its title, the description Fahimeh wrote for
-  it, and its works in the order the old site showed them.
+  One section of the Collection.
 
-  The grid geometry is Squarespace's own -- four across, a 5% gutter, and a
-  400px cap on a thumbnail -- read out of the template's tweak settings.
+  The old site's layout, measured off it: the works stacked down a 420px column
+  on the left, the section's name and description in a 490px column on the
+  right, 50px between them -- 420 + 50 + 490 is the site's 960px content width.
 
-  A work's `note` is its size and medium ("16 × 20 — Acrylic"). All 26
-  paintings have one; most of the other sections do not.
+  Not a grid and not a carousel. Navigating straight to /paintings/ on the old
+  site did show a carousel, but that is a Squarespace quirk: the page a visitor
+  actually reaches by clicking a cover is this one.
 
-  Prices render only when site.show_prices is on AND the work has one.
+  A work's `note` is its size and medium ("16 × 20 — Acrylic"). Prices render
+  only when site.show_prices is on AND the work has one.
 {% endcomment %}
 
 {% assign section = site.data.sections | where: "id", include.id | first %}
 {% assign works = site.works | where: "category", include.id | sort: "order" %}
 
-<div class="prose">
-  <h1>{{ section.name }}</h1>
-  {% for paragraph in section.description %}
-    <p>{{ paragraph }}</p>
-  {% endfor %}
-</div>
+<div class="section">
+  <div class="section-works">
+    {% for work in works %}
+      <figure class="work">
+        <img src="{{ work.image | relative_url }}"
+             alt="{{ work.title }}"
+             {% if work.width %}width="{{ work.width }}" height="{{ work.height }}"{% endif %}
+             loading="{% if forloop.first %}eager{% else %}lazy{% endif %}" decoding="async" />
+        <figcaption>
+          <strong class="work-title">{{ work.title }}</strong>
+          {% if work.note %}<span class="work-note">{{ work.note }}</span>{% endif %}
+          {% if site.show_prices and work.price %}
+            <span class="work-price">{% include price.html amount=work.price %}</span>
+          {% endif %}
+        </figcaption>
+      </figure>
+    {% endfor %}
+  </div>
 
-<div class="grid">
-  {% for work in works %}
-    <figure class="work">
-      <img src="{{ work.image | relative_url }}"
-           alt="{{ work.title }}"
-           {% if work.width %}width="{{ work.width }}" height="{{ work.height }}"{% endif %}
-           loading="lazy" decoding="async" />
-      <figcaption>
-        <span class="work-title">{{ work.title }}</span>
-        {% if site.show_prices and work.price %}
-          <span class="work-price">{% include price.html amount=work.price %}</span>
-        {% endif %}
-        {% if work.note %}<span class="work-note">{{ work.note }}</span>{% endif %}
-      </figcaption>
-    </figure>
-  {% endfor %}
+  <div class="section-meta">
+    <h1>{{ section.name }}</h1>
+    {% for paragraph in section.description %}
+      <p>{{ paragraph }}</p>
+    {% endfor %}
+  </div>
 </div>

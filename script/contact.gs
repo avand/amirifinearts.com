@@ -29,7 +29,7 @@
 
 var NOTIFY = "";            // e.g. "fahimeh@example.com" -- set before deploying
 var SHEET = "Submissions";
-var MAX = { name: 100, email: 200, message: 4000 };
+var MAX = { name: 100, email: 200, message: 4000, form: 40 };
 
 function doPost(e) {
   try {
@@ -44,6 +44,9 @@ function doPost(e) {
     var name = clamp(p.name, MAX.name);
     var email = clamp(p.email, MAX.email);
     var message = clamp(p.message, MAX.message);
+    // Which page it came from: "Contact" or "Enroll". Both forms post here, and
+    // an enrolment should never be read as a general enquiry.
+    var form = clamp(p.form, MAX.form) || "Contact";
 
     if (!name || !email || !message) {
       return ok();
@@ -53,7 +56,7 @@ function doPost(e) {
     }
 
     var sheet = sheetFor();
-    sheet.appendRow([new Date(), name, email, message]);
+    sheet.appendRow([new Date(), form, name, email, message]);
 
     if (NOTIFY) {
       // Wrapped on its own: the row is the record, and a mail quota that runs
@@ -62,7 +65,7 @@ function doPost(e) {
         MailApp.sendEmail({
           to: NOTIFY,
           replyTo: email,
-          subject: "amirifinearts.com — message from " + name,
+          subject: "amirifinearts.com — " + form + " — " + name,
           body: name + " <" + email + ">\n\n" + message,
         });
       } catch (mailError) {
@@ -84,7 +87,7 @@ function sheetFor() {
   var sheet = book.getSheetByName(SHEET);
   if (!sheet) {
     sheet = book.insertSheet(SHEET);
-    sheet.appendRow(["Received", "Name", "Email", "Message"]);
+    sheet.appendRow(["Received", "Form", "Name", "Email", "Message"]);
     sheet.setFrozenRows(1);
   }
   return sheet;

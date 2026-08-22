@@ -6,6 +6,19 @@ August 2026.
 Most of what you need is in a comment next to the thing it explains. This file
 is only for what you cannot find by opening the file you are about to edit.
 
+## How the site is shaped
+
+Five pages plus four section pages, and it matters which is which:
+
+| | |
+|---|---|
+| `/` | The **Collection index**: four covers, one per section. Not a list of work. |
+| `/paintings/` `/persian-miniatures/` `/illustrations/` `/posters/` | A section: its works stacked down a 420px column on the left, its name and description on the right. |
+| `/gallery/` `/classes/` `/profile/` | Carry a **carousel** — arrows, a thumbnail strip, keyboard and swipe. |
+| `/contact/` | The message form. `/classes/` has a second copy of it under *Enroll*. |
+
+52 works: 26 paintings, 7 miniatures, 10 illustrations, 9 posters.
+
 ## Adding a painting
 
 This is the common task and the whole reason the site moved.
@@ -17,10 +30,11 @@ This is the common task and the whole reason the site moved.
 ---
 title: "Spring Flowers"
 category: paintings        # paintings | miniatures | illustrations | posters
-order: 12                  # position within its section; ties sort by filename
+order: 12                  # position within its section
 image: /images/works/spring-flowers.jpg
 width: 2000                # optional, but they stop the page jumping as it loads
 height: 2593
+note: "24 × 30 — Acrylic"  # size and medium, as Fahimeh writes it
 price: 4000                # optional. A number, no $ and no commas.
 ---
 ```
@@ -42,6 +56,29 @@ nineteen numbers to put them back.
 
 `_includes/price.html` renders the number with a comma, by hand, because Jekyll
 has no number-formatting filter and Pages will not run a plugin that adds one.
+
+## Measure the old site; do not read its stylesheet
+
+The first pass took its palette from the Squarespace CSS bundle, where the most
+common background colour is `#272727`. That colour is nowhere on the rendered
+page — the body is `#616161`. The result was a site far too dark that looked
+nothing like the original.
+
+Every value in `assets/screen.css` was read out of the live site with a headless
+browser asking for **computed** styles, and the header comment lists them. If
+something needs matching that is not in that list, measure it the same way
+rather than reading the bundle:
+
+```js
+getComputedStyle(document.querySelector(sel)).backgroundColor
+```
+
+Two traps found doing it. Squarespace ships a hidden mobile header, so a bare
+`nav a` returns the wrong element's styles — filter to elements that are
+actually visible. And navigating straight to `/paintings/` on the old site
+serves a carousel, while clicking the cover from the homepage opens the vertical
+list; the list is the page people actually saw, and it is what this site
+builds.
 
 ## Building it
 
@@ -69,6 +106,19 @@ The tunnel puts the site at **https://afa.avand.dev** for as long as `bin/dev`
 runs. That matters more here than on most sites: this is a grid of 111
 photographs, and a narrowed desktop window does not honestly simulate how a
 phone scales, lazy-loads, or runs out of memory on it.
+
+## The carousel
+
+`_includes/carousel.html` plus `assets/carousel.js`. Every slide is real markup,
+so the page is complete before the script runs and degrades to the first image
+plus the strip without it. The script only moves an `is-current` class around.
+
+Pass `id` — it must be unique on the page, and it is also the CSS hook for that
+carousel's thumbnail height (`#gallery`, `#classroom`, `#profile` each set
+`--thumb-height`, matching what the old site used).
+
+A page opts into the script with `carousel: true` in its front matter; forms opt
+in with `forms: true`. Neither loads where it is not needed.
 
 ## `site.categories` is a trap
 
@@ -101,16 +151,25 @@ Four things the migration could not resolve on its own. None block launch.
 
 | | |
 |---|---|
-| **6 works have inferred titles** | They went up with no alt text, so the only name they had was the upload filename. Grep `needs_review` in `_works/`. |
-| **Posters holds 13 works, the copy says 9** | Four pieces that exist elsewhere as paintings or illustrations also sit in Posters. Probably drift on the old site; her call. |
+| **3 illustrations have inferred titles** | They were published with no title at all, so the only name they had was the file they were uploaded as. All three are Monkey Bridge plates. Grep `needs_review` in `_works/`. |
 | **12 of the 19 priced works are low resolution** | Including *A Sight of Persepolis' Glory* at $30,000, which exists only at 575×431. That is the original upload, not a thumbnail — Squarespace never had better. Re-shooting is the single highest-value improvement available to this site. |
+| **Paintings and Posters share a description** | Word for word. Almost certainly a copy-paste on the old site rather than a choice. |
 | **"the greatest living Persian miniaturist"** | The old bio said this of Professor Hossein Behzad, who died in 1968. Softened to "the great Persian miniaturist" here. |
 
 Two typos were fixed in passing: "Persian Minatures" and "Mouring". A third,
 "Governor Herbet", survives in `_data/profile.yml` because it is a caption she
 may want to reword rather than just spell correctly.
 
-## The contact form
+The earlier worry that Posters held 13 works against the site's own count of 9
+is resolved: four of those were the index cover thumbnails, which the first
+extraction mistook for artworks.
+
+## The forms
+
+There are two — Contact, and Enroll at the foot of Classes — and they are the
+same include (`_includes/message-form.html`) posting to the same place. A hidden
+`form` field says which page a message came from, so an enrolment is never read
+as a general enquiry; it is a column in the Sheet and part of the email subject.
 
 `script/contact.gs` is a Google Apps Script web app, owned by
 avand@avandamiri.com, that appends to a Sheet and emails on each submission. It

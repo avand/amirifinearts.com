@@ -5,6 +5,7 @@ description: >-
   Fahimeh's Children's Art Classes for young artists ages 6 through 14, whose
   work is exhibited yearly at the Salt Lake City Main Public Library.
 carousel: true
+forms: true
 ---
 
 {% comment %}
@@ -49,6 +50,8 @@ carousel: true
   {% include carousel.html id="classroom" images=site.data.classes_slideshow %}
 </div>
 
+<h2 class="section-heading">Take a Look Inside</h2>
+
 <div class="plates">
   {% for plate in site.data.classes_grid %}
     <figure>
@@ -59,3 +62,13 @@ carousel: true
     </figure>
   {% endfor %}
 </div>
+
+<div class="prose enroll">
+  <h2 class="section-heading">Enroll</h2>
+  <p>
+    To ask about a place in a class, send a note and Fahimeh will get back to
+    you.
+  </p>
+</div>
+
+{% include message-form.html id="enroll" form="Enroll" submit="Submit" %}

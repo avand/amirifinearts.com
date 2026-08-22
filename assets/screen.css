@@ -55,9 +55,9 @@ body {
   background: var(--bg);
   color: var(--ink);
   font-family: var(--body);
-  font-weight: 300;
-  font-size: 15px;
-  line-height: 1.6;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 1.8;
   -webkit-font-smoothing: antialiased;
 }
 
@@ -118,9 +118,35 @@ body {
 .site-main { padding-top: var(--page-padding); padding-bottom: 4rem; }
 
 .prose { max-width: 42rem; }
-.prose h1 { font-family: var(--display); font-weight: 400; font-size: 2rem; letter-spacing: 0.03em; }
 .prose p { margin: 0 0 1.25rem; }
 .prose a { color: var(--ink); }
+
+/*
+  Two heading sizes, both futura-pt light and uppercase, measured off the old
+  site: 32px for a page's own title, 25.6px for a heading within it.
+*/
+h1,
+h2.section-heading,
+.section-meta h1 {
+  font-family: var(--display);
+  font-weight: 300;
+  text-transform: uppercase;
+  color: var(--ink);
+}
+
+h1 {
+  margin: 0 0 1.5rem;
+  font-size: 32px;
+  line-height: 1.5;
+  letter-spacing: 1.92px;
+}
+
+h2.section-heading {
+  margin: 3.5rem 0 1.5rem;
+  font-size: 25.6px;
+  line-height: 1.2;
+  letter-spacing: 1.536px;
+}
 
 /* ------------------------------------------------- collection index (home) */
 
@@ -176,55 +202,58 @@ body {
 
 .index a:hover .index-title { color: var(--ink); }
 
-/* ------------------------------------------------------------ collection */
-
-.prose + .grid { margin-top: 2.5rem; }
+/* ------------------------------------------------------------- a section */
 
 /*
-  Four across, capped at 400px each -- Squarespace's TPerRow and TMaxWidth.
-  auto-fill rather than auto-fit so a row with two items left in it still lays
-  them out at thumbnail size instead of stretching them across the full width.
+  Works down the left, the section's name and description on the right.
+  420 + 50 + 490 = the 960px content column, measured off the old site.
 */
-.grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(min(var(--thumb-max), 100%), 1fr));
-  gap: var(--gutter);
-  align-items: start;
+.section { display: grid; gap: 2.5rem; }
+
+@media (min-width: 860px) {
+  .section {
+    grid-template-columns: 420px 490px;
+    column-gap: 50px;
+    align-items: start;
+  }
 }
 
-@media (min-width: 900px) {
-  .grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+/* A section's name sits at 25.6px, the in-page heading size. */
+.section-meta h1 {
+  font-size: 25.6px;
+  line-height: 1.2;
+  letter-spacing: 1.536px;
 }
+
+.section-meta p { margin: 0 0 1.25rem; }
+
+/* 32px between works, as the old site had. */
+.section-works { display: flex; flex-direction: column; gap: 32px; }
 
 .work { margin: 0; }
 
+/*
+  The dark frame is Fahimeh's, out of her custom CSS -- a 10px mat around every
+  painting, with the drop shadow outside it. Together they are what makes the
+  work read as hung rather than pasted onto the page.
+*/
 .work img {
   display: block;
   width: 100%;
   height: auto;
+  border: 10px solid #2b2b2b;
+  box-sizing: border-box;
   box-shadow: 5px 5px 40px rgba(0, 0, 0, 0.3);
 }
 
-/* Titles below the image and left-aligned: index-thumb-title-position-below
-   and index-item-layout-left on the old body tag. */
 .work figcaption {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0 0.5rem;
-  margin-top: 0.9rem;
-  font-size: 0.9rem;
-  line-height: 1.4;
+  margin-top: 0.6rem;
+  text-align: center;
 }
 
-.work-title { color: var(--ink); }
-.work-price { color: var(--ink-dim); }
-
-/* Size and medium -- "16 × 20 — Acrylic". Its own line, under the title. */
-.work-note {
-  flex-basis: 100%;
-  color: var(--ink-dim);
-  font-size: 0.85rem;
-}
+.work-title { display: block; font-weight: 700; }
+.work-note { display: block; }
+.work-price { display: block; color: var(--ink-dim); }
 
 /* ---------------------------------------------------------------- split */
 
@@ -235,6 +264,13 @@ body {
 */
 .split { display: grid; gap: 2.5rem; align-items: start; }
 
+/*
+  Grid items default to min-width:auto, which lets a wide image push its column
+  past the track it was given -- a 4000px photograph then drags the carousel
+  across the prose beside it. min-width:0 lets the track do its job.
+*/
+.split > * { min-width: 0; }
+
 @media (min-width: 950px) {
   .split { grid-template-columns: 6fr 5fr; gap: 4rem; }
   .split-narrow-first { grid-template-columns: 5fr 7fr; }
@@ -244,6 +280,8 @@ body {
 .split + .plates { margin-top: 4rem; }
 
 /* -------------------------------------------------------------- carousel */
+
+.carousel { min-width: 0; }
 
 .carousel-stage {
   position: relative;
@@ -326,17 +364,27 @@ body {
 .carousel.is-single .carousel-arrow,
 .carousel.is-single .carousel-thumbs { display: none; }
 
+/*
+  One row, scrolling sideways when it does not fit -- the old site's strip runs
+  off the edge of its column rather than wrapping, which is what keeps a
+  17-image gallery from pushing the page down by three rows of thumbnails.
+
+  Thumbnails keep their own proportions at a fixed height, so a portrait and a
+  landscape photograph both read correctly in the same strip.
+*/
 .carousel-thumbs {
   display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 0.4rem;
-  margin-top: 1.1rem;
+  flex-wrap: nowrap;
+  gap: 0;
+  margin-top: 0.75rem;
+  overflow-x: auto;
+  scrollbar-width: thin;
+  overscroll-behavior-x: contain;
 }
 
 .carousel-thumb {
-  width: 42px;
-  height: 42px;
+  flex: 0 0 auto;
+  height: var(--thumb-height, 80px);
   padding: 0;
   border: 0;
   background: none;
@@ -347,14 +395,23 @@ body {
 
 .carousel-thumb img {
   display: block;
-  width: 100%;
+  width: auto;
   height: 100%;
-  object-fit: cover;
 }
 
 .carousel-thumb:hover { opacity: 0.8; }
-.carousel-thumb.is-current { opacity: 1; outline: 1px solid var(--ink); outline-offset: 1px; }
-.carousel-thumb:focus-visible { outline: 2px solid var(--ink); outline-offset: 1px; }
+.carousel-thumb.is-current { opacity: 1; }
+.carousel-thumb:focus-visible { outline: 2px solid var(--ink); outline-offset: -2px; }
+
+/* Per-page thumbnail heights, as the old site had them. */
+#gallery { --thumb-height: 26px; }
+#classroom { --thumb-height: 100px; }
+#profile { --thumb-height: 80px; }
+
+/* The Gallery page is a single centred slideshow rather than a column beside
+   prose, so its strip centres under the image. */
+#gallery { max-width: 520px; margin: 0 auto; }
+#gallery .carousel-thumbs { justify-content: center; }
 
 @media (prefers-reduced-motion: reduce) {
   .carousel-slide { transition: none; }
@@ -375,9 +432,9 @@ body {
 
 /* ------------------------------------------------------------------ form */
 
-.contact-form { max-width: 32rem; margin-top: 2rem; }
+.message-form { max-width: 32rem; margin-top: 1.5rem; }
 
-.contact-form label {
+.message-form label {
   display: block;
   margin-bottom: 1.25rem;
   font-family: var(--display);
@@ -387,8 +444,8 @@ body {
   color: var(--ink-dim);
 }
 
-.contact-form input,
-.contact-form textarea {
+.message-form input,
+.message-form textarea {
   display: block;
   width: 100%;
   margin-top: 0.5rem;
@@ -400,12 +457,12 @@ body {
   font-size: 1rem;
 }
 
-.contact-form input:focus,
-.contact-form textarea:focus { outline: 2px solid var(--ink-dim); outline-offset: 1px; }
+.message-form input:focus,
+.message-form textarea:focus { outline: 2px solid var(--ink-dim); outline-offset: 1px; }
 
-.contact-form textarea { min-height: 9rem; resize: vertical; }
+.message-form textarea { min-height: 9rem; resize: vertical; }
 
-.contact-form button {
+.message-form button {
   font-family: var(--display);
   font-size: 0.9rem;
   letter-spacing: 0.1em;
@@ -417,7 +474,7 @@ body {
   cursor: pointer;
 }
 
-.contact-form button:disabled { opacity: 0.5; cursor: default; }
+.message-form button:disabled { opacity: 0.5; cursor: default; }
 
 /*
   The honeypot. Not display:none -- some bots skip hidden fields, and some

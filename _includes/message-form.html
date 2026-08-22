@@ -1,0 +1,40 @@
+{% comment %}
+  The message form, used by Contact and by the Enroll section of Classes.
+
+  Both post to the same Apps Script and land in the same Sheet; `form` says
+  which page a message came from, so an enrolment is never mistaken for a
+  general enquiry.
+
+  Takes: id (unique on the page), form (the label recorded in the Sheet),
+  submit (button text).
+{% endcomment %}
+
+<form class="message-form" id="{{ include.id }}" data-message-form>
+  <input type="hidden" name="form" value="{{ include.form }}" />
+
+  <label>
+    Name
+    <input type="text" name="name" required maxlength="100" autocomplete="name" />
+  </label>
+
+  <label>
+    Email
+    <input type="email" name="email" required maxlength="200" autocomplete="email" />
+  </label>
+
+  <label>
+    Message
+    <textarea name="message" required maxlength="4000"></textarea>
+  </label>
+
+  {% comment %}
+    Honeypot. A visitor never sees this, so anything that fills it is a bot and
+    the Apps Script drops the submission without writing a row.
+  {% endcomment %}
+  <div class="hp" aria-hidden="true">
+    <label>Website<input type="text" name="website" tabindex="-1" autocomplete="off" /></label>
+  </div>
+
+  <button type="submit">{{ include.submit | default: "Send" }}</button>
+  <p class="form-status" role="status" aria-live="polite"></p>
+</form>
