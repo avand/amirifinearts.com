@@ -1,0 +1,72 @@
+#!/usr/bin/env bash
+#
+# Make the smaller copies of every image that the pages actually show.
+#
+#   bin/resize
+#
+# The photographs in images/ are the originals, most of them 2000-3300px and
+# 1-4MB. A painting on a section page is 420px wide; a carousel thumbnail is as
+# little as 26px tall. Serving the original to fill those is most of why the
+# site was slow to load. So each image gets copies at a few widths, under
+#
+#   images/sized/<width>/<same path, as .jpg>
+#
+# and the pages ask for those. The originals stay where they are, untouched --
+# the full-screen view on a section page shows them, and they are the only copy
+# of the work at full resolution.
+#
+# GitHub Pages will not run a plugin that could do this during the build, so
+# the copies are made here and committed alongside the originals. bin/dev runs
+# this on start and keeps running it, so a photo added while it runs gets its
+# copies within a second or two. If one is ever missing, _includes/sized.html
+# falls back to the original: the page is slower, never broken.
+#
+# Every copy is a JPEG, whatever the original was. Several originals are PNGs
+# -- 500x600 images at 1.6MB, a format made for flat graphics and wasteful on a
+# painting. One of them has a few partly see-through pixels; JPEG cannot keep
+# those, so they are filled with the page's grey (#616161), which is what they
+# show against today.
+#
+# Copies are converted to sRGB, the colour space browsers assume, so a photo
+# saved with a different colour profile does not shift colour when its profile
+# is stripped. Rerunning is cheap: a copy newer than its original is skipped,
+# and a copy whose original has gone is removed.
+
+set -euo pipefail
+cd "$(dirname "$0")/.."
+
+WIDTHS="240 480 960"
+OUT="images/sized"
+
+if ! command -v vips >/dev/null 2>&1; then
+  echo "bin/resize needs vips:  brew install vips" >&2
+  exit 1
+fi
+
+find images -type f \( -iname '*.jpg' -o -iname '*.jpeg' -o -iname '*.png' \) \
+  -not -path "$OUT/*" | sort | while read -r src; do
+  stem="${src#images/}"
+  stem="${stem%.*}"
+  for w in $WIDTHS; do
+    dest="$OUT/$w/$stem.jpg"
+    [ "$dest" -nt "$src" ] && continue
+    mkdir -p "$(dirname "$dest")"
+    # --height is only there to stop vips treating the width as a bound on the
+    # height too. --size down: a 500px original stays 500px at "960", rather
+    # than being blown up into a blurrier copy of itself.
+    vips thumbnail "$src" "$dest[Q=82,keep=none,background=97]" "$w" \
+      --height 100000 --size down --output-profile srgb
+    echo "  sized   $dest"
+  done
+done
+
+# Copies of originals that no longer exist.
+find "$OUT" -type f -name '*.jpg' 2>/dev/null | while read -r dest; do
+  rest="${dest#$OUT/*/}"
+  stem="${rest%.jpg}"
+  if ! ls "images/$stem".* >/dev/null 2>&1; then
+    rm "$dest"
+    echo "  removed $dest"
+  fi
+done
+find "$OUT" -type d -empty -delete 2>/dev/null || true

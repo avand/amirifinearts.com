@@ -17,7 +17,8 @@ description: >-
     <li>
       <a href="{{ section.url | relative_url }}">
         <span class="index-cover">
-          <img src="{{ section.cover | relative_url }}" alt="{{ section.name }}"
+          {%- comment -%} 204px across; the 480 copy covers a 2x screen. {%- endcomment %}
+          <img src="{% include sized.html image=section.cover width=480 %}" alt="{{ section.name }}"
                loading="lazy" decoding="async" />
         </span>
         <span class="index-title">{{ section.name }}</span>

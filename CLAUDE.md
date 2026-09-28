@@ -13,7 +13,7 @@ Five pages plus four section pages, and it matters which is which:
 | | |
 |---|---|
 | `/` | The **Collection index**: four covers, one per section. Not a list of work. |
-| `/paintings/` `/persian-miniatures/` `/illustrations/` `/posters/` | A section: its works stacked down a 420px column on the left, its name and description on the right. |
+| `/paintings/` `/persian-miniatures/` `/illustrations/` `/posters/` | A section: its works stacked down a 420px column on the left, its name and description on the right. Clicking a work opens it full screen. |
 | `/gallery/` `/classes/` `/profile/` | Carry a **carousel** — arrows, a thumbnail strip, keyboard and swipe. |
 | `/contact/` | The message form. `/classes/` has a second copy of it under *Enroll*. |
 
@@ -41,6 +41,29 @@ price: 4000                # optional. A number, no $ and no commas.
 
 That is the entire record. There is no body text — the file is front matter and
 nothing else.
+
+3. Make its smaller copies — `bin/dev` does this by itself within a second or
+   two of the photo landing; otherwise run `bin/resize`. Commit what appears
+   under `images/sized/` along with the photo.
+
+Forgetting step 3 does not break anything: the page falls back to the original
+photo, and is just slower to load for it.
+
+## Images come in two sizes
+
+`images/` holds the originals, most 2000–3300px and 1–4MB. No page shows those
+directly — a painting on a section page is 420px wide. `bin/resize` makes JPEG
+copies at 240, 480 and 960px wide under `images/sized/<width>/`, and every
+`<img>` asks for those through `_includes/sized.html`. That cut the image weight
+of a page by five to eighteen times.
+
+The originals are only fetched by the full-screen view on a section page
+(`_includes/lightbox.html` + `assets/lightbox.js`, opted into with
+`lightbox: true`). It shows the copy already on the page instantly and swaps in
+the original when it arrives.
+
+The copies are committed, not built: GitHub Pages will not run a plugin that
+could make them. `bin/resize` needs `vips` (`brew install vips`).
 
 ## Prices are data, not layout
 

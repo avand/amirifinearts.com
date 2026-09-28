@@ -109,6 +109,18 @@ start_jekyll() {
   jekyll_started="$(date +%s)"
 }
 
+# The smaller copies of every image (see bin/resize), made before the first
+# build so the pages find them. The stamp records when that last happened; the
+# loop below reruns it only when something in images/ is newer than the stamp,
+# since checking every file takes about half a second -- too long to do every
+# second for nothing.
+RESIZE_STAMP=".resize-stamp"
+resize() {
+  touch "$RESIZE_STAMP"
+  bin/resize 2>&1 | sed "s/^ */    /" || echo "  bin/resize failed -- pages will fall back to the originals" >&2
+}
+resize
+
 echo "  building ..."
 bundle exec jekyll build --quiet --destination "$SITE_DIR"
 start_jekyll
@@ -247,6 +259,12 @@ echo "Ctrl-C to stop."
 log_pos=0
 while :; do
   sleep 1
+
+  # A photo added, replaced or deleted. Directories count too: deleting a
+  # file changes its directory, not any file that is left.
+  if [ -n "$(find images -newer "$RESIZE_STAMP" -not -path 'images/sized*' -print -quit 2>/dev/null)" ]; then
+    resize
+  fi
 
   # Say what jekyll only wrote down. A bad tag or a broken bit of front matter
   # does not stop the watcher -- it logs the error, keeps the last good copy of

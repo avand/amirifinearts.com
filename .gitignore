@@ -12,3 +12,4 @@ vendor/
 # the two scripts. Those are small and worth keeping in git.
 _archive/images/
 _archive/*.css
+.resize-stamp

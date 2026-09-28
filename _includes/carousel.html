@@ -9,6 +9,10 @@
   the images are in the HTML for search engines and for anyone with JavaScript
   off. Without script it degrades to the first slide plus the strip, which is
   a static page rather than a broken one. carousel.js does the rest.
+
+  Images are the smaller copies made by bin/resize. A slide is at most about
+  540px wide (Profile's column) and the full width of a phone below that; a
+  thumbnail is at most 100px tall, which the 240 copy covers at 2x.
 {% endcomment %}
 
 <div class="carousel" id="{{ include.id }}" data-carousel>
@@ -21,7 +25,10 @@
       {% for item in include.images %}
         <figure class="carousel-slide{% if forloop.first %} is-current{% endif %}"
                 data-carousel-slide>
-          <img src="{{ item.image | relative_url }}"
+          <img src="{% include sized.html image=item.image width=960 %}"
+               srcset="{% include sized.html image=item.image width=480 %} 480w,
+                       {% include sized.html image=item.image width=960 %} 960w"
+               sizes="(min-width: 950px) 540px, 100vw"
                alt="{{ item.caption | default: 'Artwork by Fahimeh Amiri' }}"
                loading="{% if forloop.first %}eager{% else %}lazy{% endif %}"
                decoding="async" />
@@ -43,7 +50,7 @@
               data-carousel-thumb role="tab"
               aria-selected="{% if forloop.first %}true{% else %}false{% endif %}"
               aria-label="Image {{ forloop.index }} of {{ include.images | size }}">
-        <img src="{{ item.image | relative_url }}" alt="" loading="lazy" decoding="async" />
+        <img src="{% include sized.html image=item.image width=240 %}" alt="" loading="lazy" decoding="async" />
       </button>
     {% endfor %}
   </div>
