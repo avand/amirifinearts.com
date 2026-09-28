@@ -27,10 +27,11 @@ show_prices: false
 # is a reserved Jekyll variable holding the categories of blog posts, and it
 # silently wins over anything set here. The symptom is an empty page, no error.
 
-# The live site's order: Gallery first, then Collection as the home page.
+# Collection first, because it is the home page. The Squarespace site put
+# Gallery ahead of it; this is a deliberate change from that order.
 nav:
-  - { name: Gallery,    url: /gallery/ }
   - { name: Collection, url: / }
+  - { name: Gallery,    url: /gallery/ }
   - { name: Classes,    url: /classes/ }
   - { name: Profile,    url: /profile/ }
   - { name: Contact,    url: /contact/ }
