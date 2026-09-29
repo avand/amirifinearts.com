@@ -68,9 +68,14 @@ body {
   near-black -- so it reads as the masthead speaking rather than as something
   pasted on top of it. Set in _config.yml.
 */
+/*
+  Text a step down from white, and underlines a step down from that: on the
+  near-black, full white and white underlines read louder than a line of news
+  should.
+*/
 .announcement {
   background: var(--ink-dark);
-  color: #fff;
+  color: #d4d4d4;
   padding: 0.7rem var(--outer-padding);
   text-align: center;
   font-size: 14px;
@@ -78,8 +83,12 @@ body {
 }
 
 .announcement p { margin: 0; }
-.announcement a { color: #fff; text-underline-offset: 3px; }
-.announcement a:hover { color: var(--ink-dim); }
+.announcement a {
+  color: inherit;
+  text-decoration-color: rgba(212, 212, 212, 0.4);
+  text-underline-offset: 3px;
+}
+.announcement a:hover { color: #fff; text-decoration-color: currentColor; }
 
 /* ---------------------------------------------------------------- header */
 
