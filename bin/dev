@@ -16,15 +16,20 @@
 #
 # A tunnel only exists while a cloudflared process is running: it holds an
 # outbound connection to Cloudflare, and requests for afa.avand.dev route down
-# that live connection. No process, no tunnel. This uses its own tunnel,
-# separate from avand.fm's and The Intern's, so all three can run at once.
+# that live connection. No process, no tunnel.
+#
+# The tunnel is shared. This Mac has one, m5, defined in
+# ~/.cloudflared/config.yml, and it carries afa.avand.dev alongside avand.fm's
+# and The Intern's hostnames, each to its own port. So if another project's
+# bin/dev already started it, this one uses it as is -- and a cloudflared this
+# script started is stopped on exit, taking those hostnames down with it.
 
 set -euo pipefail
 cd "$(dirname "$0")/.."
 
 SITE_PORT="${SITE_PORT:-8200}"
 HOSTNAME_AFA="afa.avand.dev"
-TUNNEL_CONFIG="$HOME/.cloudflared/amirifinearts.yml"
+TUNNEL_CONFIG="$HOME/.cloudflared/config.yml"
 SITE_DIR="_site"
 LOG=".dev.log"
 
@@ -217,7 +222,11 @@ echo "  local   http://localhost:$SITE_PORT/"
 if [ "${NO_TUNNEL:-}" = "1" ]; then
   echo "  tunnel  skipped (NO_TUNNEL=1)"
 else
-  if pgrep -f "cloudflared tunnel --config $TUNNEL_CONFIG" >/dev/null 2>&1; then
+  # Any cloudflared running a tunnel counts, however it was started --
+  # `cloudflared tunnel run` and `cloudflared tunnel run m5` both read the same
+  # config. Starting a second copy of the same tunnel would make Cloudflare
+  # split requests between the two.
+  if pgrep -f "cloudflared tunnel.* run" >/dev/null 2>&1; then
     echo "  tunnel  https://$HOSTNAME_AFA/  (already running)"
   elif ! command -v cloudflared >/dev/null 2>&1; then
     echo "  tunnel  unavailable (cloudflared not installed)"
