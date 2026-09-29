@@ -17,7 +17,7 @@ Five pages plus four section pages, and it matters which is which:
 | `/gallery/` `/classes/` `/profile/` | Carry a **carousel** — arrows, a thumbnail strip, keyboard and swipe. |
 | `/contact/` | The message form. `/classes/` has a second copy of it under *Enroll*. |
 
-52 works: 26 paintings, 7 miniatures, 10 illustrations, 9 posters.
+53 works: 27 paintings, 7 miniatures, 10 illustrations, 9 posters.
 
 ## Adding a painting
 
@@ -26,21 +26,19 @@ This is the common task and the whole reason the site moved.
 1. Put the photo, exactly as it came, in `originals/works/` under a lower-case
    hyphenated name: `spring-flowers.jpg`. JPEG, PNG, WebP or an iPhone's HEIC
    all work.
-2. Add `_works/<category>-<name>.md`:
+2. Add an entry to its section's list in `_data/works/` — `paintings.yml`,
+   `miniatures.yml`, `illustrations.yml` or `posters.yml` — where you want it
+   to appear. The order of the list is the order of the page.
 
 ```yaml
----
-title: "Spring Flowers"
-category: paintings        # paintings | miniatures | illustrations | posters
-order: 12                  # position within its section
-image: spring-flowers      # the photo's name in originals/works/, no extension
-note: "24 × 30 — Acrylic"  # size and medium, as Fahimeh writes it
-price: 4000                # optional. A number, no $ and no commas.
----
+- title: "Spring Flowers"
+  image: spring-flowers      # the photo's name in originals/works/, no extension
+  note: "24 × 30 — Acrylic"  # size and medium, as Fahimeh writes it
+  price: 4000                # optional. A number, no $ and no commas.
 ```
 
-That is the entire record. There is no body text — the file is front matter and
-nothing else, and no dimensions: `bin/resize` measures the photo itself.
+That is the entire record — no dimensions either: `bin/resize` measures the
+photo itself.
 
 3. Commit both. The pre-commit hook makes the web images from the photo and
    adds them to the same commit.
@@ -90,7 +88,7 @@ Turning them back on is that one word. Do not delete a `price:` to hide it — t
 toggle exists so that pulling prices from the site does not mean retyping
 nineteen numbers to put them back.
 
-19 of the 56 works have a price. The rest never had one on Squarespace.
+19 of the 53 works have a price. The rest never had one on Squarespace.
 
 `_includes/price.html` renders the number with a comma, by hand, because Jekyll
 has no number-formatting filter and Pages will not run a plugin that adds one.
@@ -172,11 +170,11 @@ HTML, its JSON, and the two scripts that turned them into this repo.
 
 - `extract.py` downloaded all 111 images at original resolution and wrote
   `inventory.json` (title, price, dimensions, source URL, local filename).
-- `generate.py` turned that into `_works/*.md` and `_data/{gallery,classes,profile}.yml`,
+- `generate.py` turned that into `_works/*.md` (since folded into `_data/works/`) and `_data/{gallery,classes,profile}.yml`,
   and moved the images into `images/` under real names. Those are now
   `originals/`, and the paths in both scripts are out of date.
 
-Both are rerunnable, and `generate.py` overwrites `_works/` and `_data/` when it
+Both are rerunnable, and `generate.py` overwrites `_data/` when it
 runs. **If you hand-edit a work and then rerun it, your edit is gone.** It has
 done its job; it is kept as evidence of where the content came from, not as part
 of the build.
@@ -190,7 +188,7 @@ Four things the migration could not resolve on its own. None block launch.
 
 | | |
 |---|---|
-| **3 illustrations have inferred titles** | They were published with no title at all, so the only name they had was the file they were uploaded as. All three are Monkey Bridge plates. Grep `needs_review` in `_works/`. |
+| **3 illustrations have inferred titles** | They were published with no title at all, so the only name they had was the file they were uploaded as. All three are Monkey Bridge plates. Grep `needs_review` in `_data/works/`. |
 | **12 of the 19 priced works are low resolution** | Including *A Sight of Persepolis' Glory* at $30,000, which exists only at 575×431. That is the original upload, not a thumbnail — Squarespace never had better. Re-shooting is the single highest-value improvement available to this site. |
 | **Paintings and Posters share a description** | Word for word. Almost certainly a copy-paste on the old site rather than a choice. |
 | **"the greatest living Persian miniaturist"** | The old bio said this of Professor Hossein Behzad, who died in 1968. Softened to "the great Persian miniaturist" here. |

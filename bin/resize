@@ -62,10 +62,10 @@ WIDTHS = [240, 480, 960]
 FULL = 2560          # longer side of full.jpg, which only works get
 FULL_DIRS = {"works"}
 
-# Where the site names its images: a work's front matter says `image: koala`
-# (the folder, works/, is implied), and the data files say `image:` or `cover:`
-# with the folder, as in `gallery/gallery-01`.
-REFERENCES = [("_works", "works/"), ("_data", "")]
+# Where the site names its images: the lists of works in _data/works/ say
+# `image: koala` (the folder, works/, is implied), and the other data files say
+# `image:` or `cover:` with the folder, as in `gallery/gallery-01`.
+REFERENCES = [("_data/works", "works/"), ("_data", "")]
 
 # Everything vips reads, plus HEIC through sips.
 FORMATS = {".jpg", ".jpeg", ".png", ".webp", ".tif", ".tiff", ".heic", ".heif"}

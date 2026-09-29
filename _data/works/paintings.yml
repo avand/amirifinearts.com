@@ -1,0 +1,131 @@
+# Paintings, in the order the page shows them: the first entry here is
+# the first work on /paintings/. To move a work, move its entry.
+#
+# See "Adding a painting" in CLAUDE.md for what each field is.
+
+- title: "Provincial Dance"
+  image: provincial-dance
+  note: "18 × 24 — Acrylic"
+
+- title: "Interlude"
+  image: interlude
+  note: "16 × 20 — Acrylic"
+
+- title: "Blue Hair"
+  image: blue-hair
+  note: "18 × 24 — Acrylic"
+  price: 2500
+
+- title: "Elemental Nature"
+  image: elemental-nature
+  note: "12 × 26 — Acrylic"
+  price: 1700
+
+- title: "Spring Flowers"
+  image: spring-flowers
+  note: "24 x 30 — Acrylic"
+  price: 4000
+
+- title: "Abstract Portrait of Dancers"
+  image: abstract-portrait-of-dancers
+  note: "24 × 30 — Acrylic"
+  price: 3000
+
+- title: "Playing Guitar"
+  image: playing-guitar
+  note: "22 × 28 — Acrylic"
+  price: 2500
+
+- title: "Cottage"
+  image: cottage
+  note: "12 × 16 — Acrylic"
+  price: 1200
+
+- title: "Three Trees"
+  image: three-trees
+  note: "12 × 16 — Acrylic"
+  price: 1200
+
+- title: "Abstract Portrait of Dora Wheeler"
+  image: abstract-portrait-of-dora-wheeler
+  note: "30 × 24 — Acrylic"
+
+- title: "A Sight of Persepolis' Glory"
+  image: a-sight-of-persepolis-glory
+  note: "36 × 48 — Acrylic"
+  price: 30000
+
+- title: "Red Wall"
+  image: red-wall
+  note: "16 × 12 — Acrylic"
+  price: 2500
+
+- title: "Imagine"
+  image: imagine
+  note: "24 × 30 — Acrylic"
+
+- title: "Rainy Day"
+  image: rainy-day
+  note: "16 × 20 — Acrylic"
+
+- title: "Koala"
+  image: koala
+  note: "25 × 17 — Acrylic"
+  price: 1500
+
+- title: "Walking the Dog"
+  image: walking-the-dog
+  note: "16 × 20 — Acrylic"
+
+- title: "Catharsis"
+  image: catharsis
+  note: "24 × 30 — Acrylic"
+  price: 7000
+
+- title: "Contemplation"
+  image: contemplation
+  note: "16 × 20 — Acrylic"
+  price: 4000
+
+- title: "Is It a Real Chicken?"
+  image: is-it-a-real-chicken
+  note: "16 × 20 — Acrylic"
+  price: 1200
+
+- title: "Glamour"
+  image: glamour
+  note: "16 × 20 — Acrylic"
+  price: 1200
+
+- title: "Memories"
+  image: memories
+  note: "18 × 24 — Acrylic"
+  price: 3000
+
+- title: "Reflecting"
+  image: reflecting
+  note: "16 × 20 — Acrylic"
+  price: 1400
+
+- title: "My Memory with My Grandmother"
+  image: my-memory-with-my-grandmother
+  note: "16 × 20 — Acrylic"
+  price: 1700
+
+- title: "Family Portrait"
+  image: family-portrait
+  note: "16 × 20 — Acrylic"
+  price: 3000
+
+- title: "Feeding Pigeons"
+  image: feeding-pigeons
+  note: "16 × 20 — Acrylic"
+  price: 2000
+
+- title: "Violin"
+  image: violin
+  note: "16 × 20 — Acrylic"
+
+- title: "Mariam"
+  image: mariam
+  note: "10 × 14 — Acrylic"

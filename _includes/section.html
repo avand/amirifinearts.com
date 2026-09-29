@@ -20,7 +20,11 @@
 {% endcomment %}
 
 {% assign section = site.data.sections | where: "id", include.id | first %}
-{% assign works = site.works | where: "category", include.id | sort: "order" %}
+{% comment %}
+  One list per section, in _data/works/, and the order of the list is the
+  order of the page -- no numbering to keep straight when a work is added.
+{% endcomment %}
+{% assign works = site.data.works[include.id] %}
 
 <div class="section">
   <div class="section-works">
