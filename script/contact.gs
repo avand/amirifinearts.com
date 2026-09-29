@@ -27,7 +27,7 @@
  * happened" with Apps Script.
  */
 
-var NOTIFY = "";            // e.g. "fahimeh@example.com" -- set before deploying
+var NOTIFY = "fahimeh@amirifinearts.com";
 var SHEET = "Submissions";
 var MAX = { name: 100, email: 200, message: 4000, form: 40 };
 

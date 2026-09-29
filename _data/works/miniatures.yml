@@ -1,0 +1,26 @@
+# Persian Miniatures, in the order the page shows them: the first entry here is
+# the first work on /persian-miniatures/. To move a work, move its entry.
+#
+# See "Adding a painting" in CLAUDE.md for what each field is.
+
+- title: "Motherhood"
+  image: motherhood
+
+- title: "Caged"
+  image: caged
+
+- title: "Simorgh"
+  image: simorgh
+
+- title: "Mourning"
+  image: mourning
+
+- title: "Child's Play"
+  image: child-s-play
+
+- title: "Beggar Woman"
+  image: beggar-woman
+
+- title: "Islamic Motif"
+  image: islamic-motif
+  note: "14 × 24 — Acrylic"

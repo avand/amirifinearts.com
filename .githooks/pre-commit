@@ -1,0 +1,21 @@
+#!/usr/bin/env bash
+#
+# Before every commit: process any original being committed into the images
+# the site serves, stage those alongside it, and refuse the commit if a page
+# refers to an image that is not processed and staged.
+#
+# That last part is the reason this exists. The site publishes only images/,
+# never originals/, so an image that did not make it into a commit is a broken
+# picture on the live site -- and there is no build step between a merge to
+# main and GitHub Pages serving it that would catch it.
+#
+# Git only runs hooks from the folder named by core.hooksPath; bin/dev sets it
+# to this one. To set it by hand:
+#
+#   git config core.hooksPath .githooks
+#
+# To commit anyway, when you know better:  git commit --no-verify
+
+set -euo pipefail
+cd "$(git rev-parse --show-toplevel)"
+exec bin/resize --commit

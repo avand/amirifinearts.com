@@ -1,0 +1,31 @@
+# Posters, in the order the page shows them: the first entry here is
+# the first work on /posters/. To move a work, move its entry.
+#
+# See "Adding a painting" in CLAUDE.md for what each field is.
+
+- title: "Legal Sea Foods"
+  image: legal-sea-foods
+
+- title: "Piano"
+  image: piano
+
+- title: "Violin"
+  image: violin-2
+
+- title: "Cat at Window"
+  image: cat-at-window
+
+- title: "Harvard Book Store Cafe"
+  image: harvard-book-store-cafe
+
+- title: "Hat and Chairs"
+  image: hat-and-chairs
+
+- title: "Dogwood"
+  image: dogwood
+
+- title: "Rabbit"
+  image: rabbit
+
+- title: "Teapot"
+  image: teapot

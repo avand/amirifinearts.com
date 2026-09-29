@@ -10,7 +10,7 @@ markdown: kramdown
 permalink: pretty
 
 # ---------------------------------------------------------------------------
-# Prices are stored on every work that has one, in _works/*.md, and this decides
+# Prices are stored on every work that has one, in _data/works/, and this decides
 # whether any of them are ever rendered. Flipping it to true brings all of them
 # back at once; flipping it to false takes them away without losing the data.
 # That separation is deliberate -- pulling prices from a website should not mean
@@ -27,22 +27,32 @@ show_prices: false
 # is a reserved Jekyll variable holding the categories of blog posts, and it
 # silently wins over anything set here. The symptom is an empty page, no error.
 
-# The live site's order: Gallery first, then Collection as the home page.
+# A line of news across the top of every page, in Markdown. Delete it (or leave
+# it empty) and the banner goes. A work's address is its section's page, a #,
+# and its image name -- that link opens the painting full screen.
+#
+# {:target="_blank" rel="noopener"} after a link opens it in a new tab --
+# right for a link off the site, so the visitor does not lose their place here.
+announcement: >-
+  [Provincial Dance](/paintings/#provincial-dance) is on display as part of the
+  [Museum of Utah's](https://history.utah.gov/museum/){:target="_blank" rel="noopener"}
+  permanent collection.
+
+# Collection first, because it is the home page. The Squarespace site put a
+# Gallery page ahead of it -- a slideshow of seven paintings, six of them
+# already in the Collection -- which was dropped in September 2026.
 nav:
-  - { name: Gallery,    url: /gallery/ }
   - { name: Collection, url: / }
   - { name: Classes,    url: /classes/ }
   - { name: Profile,    url: /profile/ }
   - { name: Contact,    url: /contact/ }
 
-collections:
-  works:
-    output: false
-
 # Where the contact form posts. See CLAUDE.md -- this is a Google Apps Script
-# web app writing into a Sheet owned by avand@avandamiri.com. Empty until the
-# script is deployed; the form tells you so rather than silently losing mail.
-contact_endpoint: ""
+# web app writing into a Sheet owned by avand@avandamiri.com, deployed
+# 2026-09-29. If it is ever emptied, the form says it is not connected rather
+# than silently losing mail. Redeploying the script as a *new version* of the
+# same deployment keeps this URL; a brand-new deployment gets a new one.
+contact_endpoint: "https://script.google.com/macros/s/AKfycbwvDSggVlmLobWxRENsDJK4Ouo_XhSE3LfvPQtq8rO5WO2Sh0eHT7Kdt6-GsIsd5KJPOg/exec"
 
 exclude:
   - README.md
@@ -56,3 +66,7 @@ exclude:
   - bin
   - _archive
   - vendor
+  # What Fahimeh sent, untouched. The site serves what bin/resize made of it,
+  # in images/; the originals are kept for later, never published.
+  - originals
+  - .githooks

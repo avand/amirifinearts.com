@@ -3,28 +3,28 @@
 - id: paintings
   name: "Paintings"
   url: /paintings/
-  cover: /images/covers/paintings.jpeg
+  cover: covers/paintings
   count: 26
   description:
     - "My work is influenced by years of rigorous Persian Miniature training, which has endowed me with unique aesthetic sensibilities. The highly stylized, decorative, yet representational Persian Miniature paintings, evidenced by clear yet simple and fluid strokes, govern my imagery. The figurative images are always embodied with narratives that emotionally and intellectually involve the viewer in each picture."
 - id: miniatures
   name: "Persian Miniatures"
   url: /persian-miniatures/
-  cover: /images/covers/miniatures.png
+  cover: covers/miniatures
   count: 7
   description:
     - "My artistic background evolved through the traditional art form of Persian Miniature painting. At age eight, I was accepted as a pupil of Professor Behzad, who was then considered to be the greatest Persian Miniaturist. Years of master-student relationship grounded tight disciplines of traditional arts in my future work."
 - id: illustrations
   name: "Illustrations"
   url: /illustrations/
-  cover: /images/covers/illustrations.png
+  cover: covers/illustrations
   count: 10
   description:
     - "My love for children resulted in the publication of three children’s books. My illustrated books include \"Babri,\" which received distinction by The Society of Children's Writers and Illustrators. \"The Monkey Bridge,\" was selected as one of the 30 books exhibited at Norman Rockwell Museum. My most recent book, \"The Prince Who Ran Away,\" was published by Knopf, and is taught at some elementary schools."
 - id: posters
   name: "Posters"
   url: /posters/
-  cover: /images/covers/posters.png
+  cover: covers/posters
   count: 9
   description:
     - "My work is influenced by years of rigorous Persian Miniature training, which has endowed me with unique aesthetic sensibilities. The highly stylized, decorative, yet representational Persian Miniature paintings, evidenced by clear yet simple and fluid strokes, govern my imagery. The figurative images are always embodied with narratives that emotionally and intellectually involve the viewer in each picture."

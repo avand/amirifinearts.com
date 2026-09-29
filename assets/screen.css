@@ -61,6 +61,35 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
+/* ---------------------------------------------------------- announcement */
+
+/*
+  A line of news above everything else, full width, in the wordmark's own
+  near-black -- so it reads as the masthead speaking rather than as something
+  pasted on top of it. Set in _config.yml.
+*/
+/*
+  Text a step down from white, and underlines a step down from that: on the
+  near-black, full white and white underlines read louder than a line of news
+  should.
+*/
+.announcement {
+  background: var(--ink-dark);
+  color: #d4d4d4;
+  padding: 0.7rem var(--outer-padding);
+  text-align: center;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.announcement p { margin: 0; }
+.announcement a {
+  color: inherit;
+  text-decoration-color: rgba(212, 212, 212, 0.4);
+  text-underline-offset: 3px;
+}
+.announcement a:hover { color: #fff; text-decoration-color: currentColor; }
+
 /* ---------------------------------------------------------------- header */
 
 /*
@@ -246,6 +275,8 @@ h2.section-heading {
   box-shadow: 5px 5px 40px rgba(0, 0, 0, 0.3);
 }
 
+.work-link { display: block; cursor: zoom-in; }
+
 .work figcaption {
   margin-top: 0.6rem;
   text-align: center;
@@ -254,6 +285,157 @@ h2.section-heading {
 .work-title { display: block; font-weight: 700; }
 .work-note { display: block; }
 .work-price { display: block; color: var(--ink-dim); }
+
+/* ------------------------------------------------------------- lightbox */
+
+/*
+  A section's works, full screen. Three columns: a rail either side for the
+  arrows, the painting between them. The rails are always there, even with the
+  arrows hidden, so a painting never sits under a control.
+
+  The ground is near-black rather than the site's grey: this is the one place
+  the work is shown bare, without its mat, and a dark surround is what lets a
+  painting's own colour read true.
+*/
+.lightbox {
+  --rail: 72px;
+
+  width: 100%;
+  height: 100%;
+  max-width: none;
+  max-height: none;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: #1c1c1c;
+  color: var(--ink);
+  overflow: hidden;
+
+  /*
+    Nothing in here is for selecting. Clicking the arrows quickly counts as a
+    double- or triple-click to the browser, which selects the caption or tints
+    the painting blue; a long press on a phone does the same. The image is also
+    draggable="false", for the same reason with a mouse.
+  */
+  -webkit-user-select: none;
+  user-select: none;
+  -webkit-touch-callout: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.lightbox[open] {
+  display: grid;
+  grid-template-columns: var(--rail) minmax(0, 1fr) var(--rail);
+  align-items: center;
+}
+
+.lightbox::backdrop { background: #1c1c1c; }
+.lightbox:focus { outline: none; }
+
+/* The page underneath stays put while the view is open. */
+html:has(.lightbox[open]) { overflow: hidden; }
+
+.lightbox-figure {
+  grid-column: 2;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  min-height: 0;
+  padding: 3.5rem 0 1.5rem;
+}
+
+/*
+  As large as fits, never cropped -- and scaled up to get there. Many of the
+  originals are small (Blue Hair is 436x576), and left at their own size they
+  sat in the middle of the screen looking like a mistake; filled, the small
+  ones go a little soft, which is the photograph's limit rather than the page's.
+
+  lightbox.js sets --ratio, the work's width over its height. The painting is
+  then as wide as the space allows, unless that would make it taller than the
+  screen less room for the caption, in which case the height decides. Sizing
+  it this way, rather than filling a box with object-fit, keeps the caption
+  directly under the painting instead of under an invisible letterbox.
+
+  dvh is the height a phone actually shows once its toolbars are accounted
+  for; vh is the fallback where it is not understood.
+*/
+.lightbox-figure img {
+  --avail-height: calc(100vh - 9rem);
+  --avail-height: calc(100dvh - 9rem);
+
+  display: block;
+  width: min(100%, calc(var(--avail-height) * var(--ratio, 1)));
+  height: auto;
+  aspect-ratio: var(--ratio, auto);
+
+  /* What shows in the frame before the first of the painting arrives. */
+  background: #262626;
+}
+
+.lightbox-figure figcaption {
+  margin-top: 1rem;
+  text-align: center;
+  font-size: 0.9rem;
+  line-height: 1.5;
+  color: var(--ink-dim);
+}
+
+.lightbox-figure figcaption strong { display: block; color: var(--ink); }
+.lightbox-figure figcaption span { display: block; }
+
+.lightbox-control {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  padding: 0;
+  background: none;
+  border: 0;
+  color: #fff;
+  opacity: 0.6;
+  cursor: pointer;
+  transition: opacity 150ms ease;
+}
+
+.lightbox-control:hover { opacity: 1; }
+.lightbox-control:focus-visible { outline: 1.5px solid #fff; outline-offset: 2px; opacity: 1; }
+
+.lightbox-control svg {
+  width: 28px;
+  height: 28px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.5px;
+  stroke-linecap: square;
+  stroke-linejoin: miter;
+}
+
+.lightbox-control svg path { vector-effect: non-scaling-stroke; }
+
+.lightbox-prev { grid-column: 1; grid-row: 1; justify-self: center; }
+.lightbox-next { grid-column: 3; grid-row: 1; justify-self: center; }
+.lightbox-figure { grid-row: 1; }
+
+.lightbox-close {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+}
+
+.lightbox.is-single .lightbox-prev,
+.lightbox.is-single .lightbox-next { visibility: hidden; }
+
+/* A phone has no room to spare for the rails; they narrow to the button. */
+@media (max-width: 700px) {
+  .lightbox { --rail: 44px; }
+  .lightbox-control { width: 44px; height: 44px; }
+  .lightbox-control svg { width: 24px; height: 24px; }
+  .lightbox-close { top: 6px; right: 6px; }
+}
 
 /* ---------------------------------------------------------------- split */
 
@@ -367,7 +549,7 @@ h2.section-heading {
 /*
   One row, scrolling sideways when it does not fit -- the old site's strip runs
   off the edge of its column rather than wrapping, which is what keeps a
-  17-image gallery from pushing the page down by three rows of thumbnails.
+  17-image slideshow from pushing the page down by three rows of thumbnails.
 
   Thumbnails keep their own proportions at a fixed height, so a portrait and a
   landscape photograph both read correctly in the same strip.
@@ -404,21 +586,16 @@ h2.section-heading {
 .carousel-thumb:focus-visible { outline: 2px solid var(--ink); outline-offset: -2px; }
 
 /* Per-page thumbnail heights, as the old site had them. */
-#gallery { --thumb-height: 26px; }
 #classroom { --thumb-height: 100px; }
 #profile { --thumb-height: 80px; }
 
-/* The Gallery page is a single centred slideshow rather than a column beside
-   prose, so its strip centres under the image. */
-#gallery { max-width: 520px; margin: 0 auto; }
-#gallery .carousel-thumbs { justify-content: center; }
 
 @media (prefers-reduced-motion: reduce) {
   .carousel-slide { transition: none; }
   .index-cover img { transition: none; }
 }
 
-/* --------------------------------------------------------------- gallery */
+/* ---------------------------------------------------------------- plates */
 
 .plates { display: grid; gap: 2.5rem; margin: 0; padding: 0; }
 

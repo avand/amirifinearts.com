@@ -1,0 +1,37 @@
+# Illustrations, in the order the page shows them: the first entry here is
+# the first work on /illustrations/. To move a work, move its entry.
+#
+# See "Adding a painting" in CLAUDE.md for what each field is.
+
+- title: "Babri (Cover)"
+  image: babri-cover
+
+- title: "Babri (Frog)"
+  image: babri-frog
+
+- title: "Babri (Bird)"
+  image: babri-bird
+
+- title: "Babri (Alligator)"
+  image: babri-alligator
+
+- title: "The Prince Who Ran Away (Cover)"
+  image: the-prince-who-ran-away-cover
+
+- title: "The Prince Who Ran Away (Snake Canopy)"
+  image: the-prince-who-ran-away-snake-canopy
+
+- title: "The Prince Who Ran Away (White Elephant)"
+  image: the-prince-who-ran-away-white-elephant
+
+- title: "The Monkey Bridge (Cover)"
+  image: the-monkey-bridge-cover
+  needs_review: true  # title inferred from filename; confirm with Fahimeh
+
+- title: "The Monkey Bridge"
+  image: the-monkey-bridge
+  needs_review: true  # title inferred from filename; confirm with Fahimeh
+
+- title: "The Monkey Bridge (Ship)"
+  image: the-monkey-bridge-ship
+  needs_review: true  # title inferred from filename; confirm with Fahimeh

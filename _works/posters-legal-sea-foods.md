@@ -1,9 +1,0 @@
----
-title: "Legal Sea Foods"
-category: posters
-order: 1
-image: /images/works/legal-sea-foods.png
-width: 1440
-height: 900
-# price:  # never had one on Squarespace
----

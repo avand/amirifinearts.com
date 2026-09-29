@@ -11,19 +11,44 @@
 
   A work's `note` is its size and medium ("16 × 20 — Acrylic"). Prices render
   only when site.show_prices is on AND the work has one.
+
+  The column shows each work at 480 or 960px (bin/resize), and the painting is
+  a link to its full-size image. lightbox.js turns that link into the
+  full-screen view,
+  with the rest of the section a click or a swipe either side; without the
+  script it simply opens that image.
 {% endcomment %}
 
 {% assign section = site.data.sections | where: "id", include.id | first %}
-{% assign works = site.works | where: "category", include.id | sort: "order" %}
+{% comment %}
+  One list per section, in _data/works/, and the order of the list is the
+  order of the page -- no numbering to keep straight when a work is added.
+{% endcomment %}
+{% assign works = site.data.works[include.id] %}
 
 <div class="section">
   <div class="section-works">
     {% for work in works %}
-      <figure class="work">
-        <img src="{{ work.image | relative_url }}"
-             alt="{{ work.title }}"
-             {% if work.width %}width="{{ work.width }}" height="{{ work.height }}"{% endif %}
-             loading="{% if forloop.first %}eager{% else %}lazy{% endif %}" decoding="async" />
+      {% assign key = "works/" | append: work.image %}
+      {% assign size = site.data.images.works[work.image] %}
+      {%- comment -%}
+        The id is the work's address: /paintings/#provincial-dance opens it
+        full screen (lightbox.js), or without script scrolls to it.
+      {%- endcomment %}
+      <figure class="work" id="{{ work.image }}">
+        {%- comment -%}
+          sizes: the 420px column, or the full width less the page's 24px
+          gutters once the column stacks on a narrow screen.
+        {%- endcomment %}
+        <a class="work-link" href="{% include image-url.html image=key size="full" %}" data-lightbox-item>
+          <img src="{% include image-url.html image=key size=960 %}"
+               srcset="{% include image-url.html image=key size=480 %} 480w,
+                       {% include image-url.html image=key size=960 %} 960w"
+               sizes="(min-width: 860px) 420px, calc(100vw - 48px)"
+               alt="{{ work.title }}"
+               width="{{ size.width }}" height="{{ size.height }}"
+               loading="{% if forloop.first %}eager{% else %}lazy{% endif %}" decoding="async" />
+        </a>
         <figcaption>
           <strong class="work-title">{{ work.title }}</strong>
           {% if work.note %}<span class="work-note">{{ work.note }}</span>{% endif %}
@@ -42,3 +67,5 @@
     {% endfor %}
   </div>
 </div>
+
+{% include lightbox.html label=section.name %}

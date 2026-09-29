@@ -1,0 +1,47 @@
+{% comment %}
+  The full-screen view of a section's works, opened by lightbox.js when a work
+  is clicked. One per page; it is empty until then, and the script fills it
+  from whichever [data-lightbox-item] link was clicked.
+
+  A <dialog> because the browser then does the fiddly parts itself: it sits
+  above everything else on the page, Escape closes it, focus stays inside it
+  while it is open, and returns to the page when it shuts.
+
+  The three controls share one drawing: a 24-unit square, a single 1.5px
+  stroke that does not thicken as the icon is scaled up (vector-effect), square
+  ends and sharp corners. Two chevrons and a cross built the same way read as a
+  set, which is the point of drawing them rather than using text characters --
+  a font's ‹ › and × are three different designs at three different weights.
+
+  Takes `label`, the section's name, for screen readers.
+{% endcomment %}
+
+{% comment %}
+  autofocus on the dialog itself, so opening it focuses the view rather than
+  its first button. Otherwise the × opens wearing a focus ring, which reads as
+  something having gone wrong; a keyboard user still reaches it with Tab.
+{% endcomment %}
+<dialog class="lightbox" data-lightbox aria-label="{{ include.label }}, full screen" tabindex="-1" autofocus>
+  <button class="lightbox-control lightbox-close" type="button" data-lightbox-close aria-label="Close">
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+      <path d="M5 5 19 19 M19 5 5 19" />
+    </svg>
+  </button>
+
+  <button class="lightbox-control lightbox-prev" type="button" data-lightbox-prev aria-label="Previous work">
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+      <path d="M15 3 6 12 15 21" />
+    </svg>
+  </button>
+
+  <figure class="lightbox-figure">
+    <img data-lightbox-image alt="" draggable="false" />
+    <figcaption data-lightbox-caption></figcaption>
+  </figure>
+
+  <button class="lightbox-control lightbox-next" type="button" data-lightbox-next aria-label="Next work">
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+      <path d="M9 3 18 12 9 21" />
+    </svg>
+  </button>
+</dialog>
