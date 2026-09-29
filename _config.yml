@@ -34,10 +34,9 @@ show_prices: false
 # {:target="_blank" rel="noopener"} after a link opens it in a new tab --
 # right for a link off the site, so the visitor does not lose their place here.
 announcement: >-
-  [Provincial Dance](/paintings/#provincial-dance) was accepted to be a
-  permanent part of the
-  [Museum of Utah](https://history.utah.gov/museum/){:target="_blank" rel="noopener"}
-  collection.
+  [Provincial Dance](/paintings/#provincial-dance) is on display as part of the
+  [Museum of Utah's](https://history.utah.gov/museum/){:target="_blank" rel="noopener"}
+  permanent collection.
 
 # Collection first, because it is the home page. The Squarespace site put a
 # Gallery page ahead of it -- a slideshow of seven paintings, six of them
