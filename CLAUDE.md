@@ -8,16 +8,27 @@ is only for what you cannot find by opening the file you are about to edit.
 
 ## How the site is shaped
 
-Five pages plus four section pages, and it matters which is which:
+Four pages plus four section pages, and it matters which is which:
 
 | | |
 |---|---|
 | `/` | The **Collection index**: four covers, one per section. Not a list of work. |
 | `/paintings/` `/persian-miniatures/` `/illustrations/` `/posters/` | A section: its works stacked down a 420px column on the left, its name and description on the right. Clicking a work opens it full screen. |
-| `/gallery/` `/classes/` `/profile/` | Carry a **carousel** — arrows, a thumbnail strip, keyboard and swipe. |
+| `/classes/` `/profile/` | Carry a **carousel** — arrows, a thumbnail strip, keyboard and swipe. |
 | `/contact/` | The message form. `/classes/` has a second copy of it under *Enroll*. |
 
 53 works: 27 paintings, 7 miniatures, 10 illustrations, 9 posters.
+
+**Every work has its own address**: its section's page, `#`, and its image
+name — `/paintings/#provincial-dance`. Opening that opens the painting full
+screen, and the address follows along as the viewer steps, so anything on
+screen can be copied and sent. Renaming a work's image changes its address.
+
+**The black banner** across the top of every page is `announcement:` in
+`_config.yml`, in Markdown. Delete it and the banner goes.
+
+The old site's `/gallery/` page was dropped in September 2026: seven paintings,
+six of them already in the Collection. Its address now 404s.
 
 ## Adding a painting
 
@@ -150,7 +161,7 @@ so the page is complete before the script runs and degrades to the first image
 plus the strip without it. The script only moves an `is-current` class around.
 
 Pass `id` — it must be unique on the page, and it is also the CSS hook for that
-carousel's thumbnail height (`#gallery`, `#classroom`, `#profile` each set
+carousel's thumbnail height (`#classroom` and `#profile` each set
 `--thumb-height`, matching what the old site used).
 
 A page opts into the script with `carousel: true` in its front matter; forms opt
@@ -170,7 +181,7 @@ HTML, its JSON, and the two scripts that turned them into this repo.
 
 - `extract.py` downloaded all 111 images at original resolution and wrote
   `inventory.json` (title, price, dimensions, source URL, local filename).
-- `generate.py` turned that into `_works/*.md` (since folded into `_data/works/`) and `_data/{gallery,classes,profile}.yml`,
+- `generate.py` turned that into `_works/*.md` (since folded into `_data/works/`) and `_data/{gallery,classes,profile}.yml` (the Gallery page has since been dropped),
   and moved the images into `images/` under real names. Those are now
   `originals/`, and the paths in both scripts are out of date.
 

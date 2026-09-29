@@ -27,11 +27,19 @@ show_prices: false
 # is a reserved Jekyll variable holding the categories of blog posts, and it
 # silently wins over anything set here. The symptom is an empty page, no error.
 
-# Collection first, because it is the home page. The Squarespace site put
-# Gallery ahead of it; this is a deliberate change from that order.
+# A line of news across the top of every page, in Markdown. Delete it (or leave
+# it empty) and the banner goes. A work's address is its section's page, a #,
+# and its image name -- that link opens the painting full screen.
+announcement: >-
+  [Provincial Dance](/paintings/#provincial-dance) was accepted to be a
+  permanent part of the [Museum of Utah](https://history.utah.gov/museum/)
+  collection.
+
+# Collection first, because it is the home page. The Squarespace site put a
+# Gallery page ahead of it -- a slideshow of seven paintings, six of them
+# already in the Collection -- which was dropped in September 2026.
 nav:
   - { name: Collection, url: / }
-  - { name: Gallery,    url: /gallery/ }
   - { name: Classes,    url: /classes/ }
   - { name: Profile,    url: /profile/ }
   - { name: Contact,    url: /contact/ }

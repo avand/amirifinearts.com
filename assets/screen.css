@@ -61,6 +61,26 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
+/* ---------------------------------------------------------- announcement */
+
+/*
+  A line of news above everything else, full width and black -- the one thing
+  on the page darker than the masthead, so it reads as news rather than as
+  part of the site's furniture. Set in _config.yml.
+*/
+.announcement {
+  background: #000;
+  color: #fff;
+  padding: 0.7rem var(--outer-padding);
+  text-align: center;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.announcement p { margin: 0; }
+.announcement a { color: #fff; text-underline-offset: 3px; }
+.announcement a:hover { color: var(--ink-dim); }
+
 /* ---------------------------------------------------------------- header */
 
 /*
@@ -520,7 +540,7 @@ html:has(.lightbox[open]) { overflow: hidden; }
 /*
   One row, scrolling sideways when it does not fit -- the old site's strip runs
   off the edge of its column rather than wrapping, which is what keeps a
-  17-image gallery from pushing the page down by three rows of thumbnails.
+  17-image slideshow from pushing the page down by three rows of thumbnails.
 
   Thumbnails keep their own proportions at a fixed height, so a portrait and a
   landscape photograph both read correctly in the same strip.
@@ -557,21 +577,16 @@ html:has(.lightbox[open]) { overflow: hidden; }
 .carousel-thumb:focus-visible { outline: 2px solid var(--ink); outline-offset: -2px; }
 
 /* Per-page thumbnail heights, as the old site had them. */
-#gallery { --thumb-height: 26px; }
 #classroom { --thumb-height: 100px; }
 #profile { --thumb-height: 80px; }
 
-/* The Gallery page is a single centred slideshow rather than a column beside
-   prose, so its strip centres under the image. */
-#gallery { max-width: 520px; margin: 0 auto; }
-#gallery .carousel-thumbs { justify-content: center; }
 
 @media (prefers-reduced-motion: reduce) {
   .carousel-slide { transition: none; }
   .index-cover img { transition: none; }
 }
 
-/* --------------------------------------------------------------- gallery */
+/* ---------------------------------------------------------------- plates */
 
 .plates { display: grid; gap: 2.5rem; margin: 0; padding: 0; }
 

@@ -7,6 +7,14 @@
   walk through the rest of the section, wrapping at either end as the carousels
   do.
 
+  Every work has an address: its <figure>'s id, which is its image name, after
+  a #. /paintings/#provincial-dance opens that painting full screen when the
+  page loads, and a link to it from elsewhere on the same page does the same.
+  While the view is open the address follows along as it steps, so whatever is
+  on screen can be copied and sent; closing it takes the # off again. This
+  replaces the address rather than adding to the history, so the back button
+  still leaves the page instead of walking back through every painting seen.
+
   Each step shows the work's 960px image first -- usually already downloaded
   -- and swaps in the full-size one (the link's href) once that has arrived.
   To keep stepping quick, the 960px images two either side are fetched as soon
@@ -44,11 +52,16 @@
 
   function fetch(url) { new Image().src = url; }
 
+  function address(hash) {
+    history.replaceState(history.state, "", location.pathname + location.search + hash);
+  }
+
   function show(index) {
     current = (index + links.length) % links.length;
     var link = links[current];
     var thumb = link.querySelector("img");
     var fullSize = link.href;
+    address("#" + link.closest("figure").id);
 
     var fresh = document.createElement("img");
     fresh.setAttribute("data-lightbox-image", "");
@@ -81,13 +94,26 @@
 
   function close() { dialog.close(); }
 
+  function open(index) {
+    show(index);
+    if (!dialog.open) { dialog.showModal(); }
+  }
+
+  // The work the address names, if it names one on this page.
+  function openFromAddress() {
+    var id = decodeURIComponent(location.hash.slice(1));
+    var figure = id && document.getElementById(id);
+    var index = figure ? links.indexOf(figure.querySelector("[data-lightbox-item]")) : -1;
+    if (index >= 0) { open(index); }
+    else if (dialog.open) { close(); }  // the address moved off a work
+  }
+
   links.forEach(function (link, index) {
     link.addEventListener("click", function (event) {
       // A modified click still means "open the full image in a new tab".
       if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) { return; }
       event.preventDefault();
-      show(index);
-      dialog.showModal();
+      open(index);
     });
   });
 
@@ -101,8 +127,11 @@
     if (!event.target.closest("img, button")) { close(); }
   });
 
-  // Escape is the dialog's own. Only the arrows are added.
-  dialog.addEventListener("keydown", function (event) {
+  // Escape is the dialog's own. Only the arrows are added -- on the document
+  // rather than the dialog, because opened from an address as the page loads,
+  // the view is not reliably given focus, and keys then go to the page.
+  document.addEventListener("keydown", function (event) {
+    if (!dialog.open) { return; }
     if (event.key === "ArrowLeft") { show(current - 1); event.preventDefault(); }
     if (event.key === "ArrowRight") { show(current + 1); event.preventDefault(); }
   });
@@ -116,6 +145,7 @@
       figure.scrollIntoView({ block: "center" });
     }
     image.removeAttribute("src");
+    address("");
   });
 
   // Swipe, for the phone -- the same threshold as the carousels, so a scroll
@@ -135,4 +165,9 @@
     }
     startX = startY = null;
   }, { passive: true });
+
+  // hashchange is only for a link followed on this page -- the banner's, say,
+  // on /paintings/ itself. The address() calls above never fire it.
+  window.addEventListener("hashchange", openFromAddress);
+  openFromAddress();
 })();

@@ -64,7 +64,7 @@ FULL_DIRS = {"works"}
 
 # Where the site names its images: the lists of works in _data/works/ say
 # `image: koala` (the folder, works/, is implied), and the other data files say
-# `image:` or `cover:` with the folder, as in `gallery/gallery-01`.
+# `image:` or `cover:` with the folder, as in `profile/profile-02`.
 REFERENCES = [("_data/works", "works/"), ("_data", "")]
 
 # Everything vips reads, plus HEIC through sips.
