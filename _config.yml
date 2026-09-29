@@ -30,9 +30,13 @@ show_prices: false
 # A line of news across the top of every page, in Markdown. Delete it (or leave
 # it empty) and the banner goes. A work's address is its section's page, a #,
 # and its image name -- that link opens the painting full screen.
+#
+# {:target="_blank" rel="noopener"} after a link opens it in a new tab --
+# right for a link off the site, so the visitor does not lose their place here.
 announcement: >-
   [Provincial Dance](/paintings/#provincial-dance) was accepted to be a
-  permanent part of the [Museum of Utah](https://history.utah.gov/museum/)
+  permanent part of the
+  [Museum of Utah](https://history.utah.gov/museum/){:target="_blank" rel="noopener"}
   collection.
 
 # Collection first, because it is the home page. The Squarespace site put a
