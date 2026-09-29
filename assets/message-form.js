@@ -1,5 +1,5 @@
 /*
-  Submits the contact and enrolment forms to the Apps Script behind
+  Submits the contact form to the Apps Script behind
   script/contact.gs. Every [data-message-form] on the page is wired up.
 
   An Apps Script web app cannot send back Access-Control-Allow-Origin, so a

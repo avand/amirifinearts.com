@@ -211,6 +211,12 @@ def prune():
                 elif os.path.exists(path):
                     os.remove(path)
             removed.append(key)
+    # Folders left empty -- a whole section's photos gone, say. Git does not
+    # track an empty folder, so these would otherwise only clutter the disk.
+    for root in (IMAGES, DATA):
+        for folder, _, _ in sorted(os.walk(root), reverse=True):
+            if folder != root and not os.listdir(folder):
+                os.rmdir(folder)
     return removed
 
 
