@@ -7,35 +7,42 @@
   walk through the rest of the section, wrapping at either end as the carousels
   do.
 
-  The image shown first is the copy the page has already downloaded, so
-  something appears the instant the view opens. The full-resolution image --
-  the link's href, see _includes/section.html -- loads behind it and replaces
-  it when it arrives; the largest are 4MB, which on a phone is long enough to
-  stare at an empty frame. Those either side are then fetched too, so stepping
-  through the section does not wait on each one.
+  Each step shows the work's 960px image first -- usually already downloaded
+  -- and swaps in the full-size one (the link's href) once that has arrived.
+  To keep stepping quick, the 960px images two either side are fetched as soon
+  as a work is shown, and the full-size ones either side once its own is in.
 
-  Stepping faster than that, what is on screen is the 960px copy, and it is a
-  progressive JPEG: when it is not already downloaded, the whole painting
-  appears blurred at once and sharpens, rather than drawing from the top down.
-  The full-size image is progressive too, but it loads out of sight, so that
-  does not show here; its gain is size, most of all where the original was a
-  PNG.
+  Stepping faster than any of that can keep up with, each step builds a new
+  <img> rather than changing the address of the one on screen. A browser
+  changing an image's address keeps painting the old picture until the new one
+  has downloaded -- and since the frame takes the new work's proportions at
+  once, what showed was the previous painting, stretched to the wrong shape.
+  A new element starts empty: a dark tile of the right shape, which the
+  painting then fills in blurred-then-sharp, since every image bin/resize makes
+  is a progressive JPEG.
 */
 (function () {
   var dialog = document.querySelector("[data-lightbox]");
   var links = Array.prototype.slice.call(document.querySelectorAll("[data-lightbox-item]"));
   if (!dialog || !dialog.showModal || links.length === 0) { return; }
 
-  var image = dialog.querySelector("[data-lightbox-image]");
+  var image = dialog.querySelector("[data-lightbox-image]");  // replaced on every step
   var caption = dialog.querySelector("[data-lightbox-caption]");
   var current = 0;
 
   if (links.length < 2) { dialog.classList.add("is-single"); }
 
-  function preload(index) {
-    var link = links[(index + links.length) % links.length];
-    new Image().src = link.href;
+  function at(index) { return links[(index + links.length) % links.length]; }
+
+  // The column's image as the page wrote it: the 960px copy. Its currentSrc
+  // may be the 480, when that is what the screen called for and it has
+  // already arrived -- then that is the one to show, since it is instant.
+  function preview(link) {
+    var thumb = link.querySelector("img");
+    return thumb.complete && thumb.naturalWidth ? thumb.currentSrc : thumb.getAttribute("src");
   }
+
+  function fetch(url) { new Image().src = url; }
 
   function show(index) {
     current = (index + links.length) % links.length;
@@ -43,22 +50,26 @@
     var thumb = link.querySelector("img");
     var fullSize = link.href;
 
-    // Its proportions, for the sizing in screen.css. From the front matter's
-    // width and height when the work has them, else from the copy on the page.
-    var w = thumb.getAttribute("width") || thumb.naturalWidth;
-    var h = thumb.getAttribute("height") || thumb.naturalHeight;
-    if (w && h) { image.style.setProperty("--ratio", w / h); }
+    var fresh = document.createElement("img");
+    fresh.setAttribute("data-lightbox-image", "");
+    fresh.draggable = false;
+    fresh.alt = thumb.alt;
+    // Its proportions, for the sizing in screen.css: bin/resize recorded
+    // every image's width and height, and the page wrote them on the <img>.
+    fresh.style.setProperty("--ratio", thumb.getAttribute("width") / thumb.getAttribute("height"));
+    fresh.src = preview(link);
+    image.replaceWith(fresh);
+    image = fresh;
 
-    image.alt = thumb.alt;
-    image.src = thumb.currentSrc || thumb.src;
+    [1, -1, 2, -2].forEach(function (step) { fetch(preview(at(current + step))); });
 
     var full = new Image();
     full.onload = function () {
       // Only if this is still the work on screen: a fast run of clicks would
       // otherwise land an earlier painting on top of a later one.
-      if (links[current].href === fullSize) { image.src = fullSize; }
-      preload(current + 1);
-      preload(current - 1);
+      if (image === fresh) { fresh.src = fullSize; }
+      fetch(at(current + 1).href);
+      fetch(at(current - 1).href);
     };
     full.src = fullSize;
 

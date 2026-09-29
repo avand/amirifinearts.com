@@ -114,15 +114,22 @@ start_jekyll() {
   jekyll_started="$(date +%s)"
 }
 
-# The smaller copies of every image (see bin/resize), made before the first
-# build so the pages find them. The stamp records when that last happened; the
-# loop below reruns it only when something in images/ is newer than the stamp,
-# since checking every file takes about half a second -- too long to do every
-# second for nothing.
+# The pre-commit hook in .githooks/ processes originals and refuses a commit
+# with an image missing. Git only runs it once told where it is; this tells it,
+# so anyone who has run bin/dev once has the hook.
+if [ "$(git config core.hooksPath || true)" != ".githooks" ]; then
+  git config core.hooksPath .githooks
+  echo "  turned on the pre-commit hook (.githooks/pre-commit)"
+fi
+
+# The site's images, made from originals/ by bin/resize before the first build
+# so the pages find them. The loop below reruns it whenever something in
+# originals/ is newer than the stamp -- a photo dropped in shows up on the page
+# a second or two later, with nothing to run by hand.
 RESIZE_STAMP=".resize-stamp"
 resize() {
   touch "$RESIZE_STAMP"
-  bin/resize 2>&1 | sed "s/^ */    /" || echo "  bin/resize failed -- pages will fall back to the originals" >&2
+  bin/resize 2>&1 | sed "s/^ */    /" || echo "  bin/resize failed" >&2
 }
 resize
 
@@ -271,7 +278,7 @@ while :; do
 
   # A photo added, replaced or deleted. Directories count too: deleting a
   # file changes its directory, not any file that is left.
-  if [ -n "$(find images -newer "$RESIZE_STAMP" -not -path 'images/sized*' -print -quit 2>/dev/null)" ]; then
+  if [ -n "$(find originals -newer "$RESIZE_STAMP" -print -quit 2>/dev/null)" ]; then
     resize
   fi
 

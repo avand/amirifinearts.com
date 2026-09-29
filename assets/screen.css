@@ -341,6 +341,9 @@ html:has(.lightbox[open]) { overflow: hidden; }
   width: min(100%, calc(var(--avail-height) * var(--ratio, 1)));
   height: auto;
   aspect-ratio: var(--ratio, auto);
+
+  /* What shows in the frame before the first of the painting arrives. */
+  background: #262626;
 }
 
 .lightbox-figure figcaption {

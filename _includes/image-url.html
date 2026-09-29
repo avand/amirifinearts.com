@@ -1,0 +1,11 @@
+{%- comment -%}
+  The URL of one of bin/resize's images.
+
+    {% include image-url.html image="works/koala" size=480 %}
+    => /images/works/koala/480.jpg
+
+  `size` is 240, 480 or 960 for any image, or "full" for a work -- whatever
+  WIDTHS and FULL_DIRS in bin/resize make. The image's width and height are in
+  site.data.images, under the same name: site.data.images.works.koala.
+{%- endcomment -%}
+{{- "/images/" | append: include.image | append: "/" | append: include.size | append: ".jpg" | relative_url -}}

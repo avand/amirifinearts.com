@@ -57,3 +57,7 @@ exclude:
   - bin
   - _archive
   - vendor
+  # What Fahimeh sent, untouched. The site serves what bin/resize made of it,
+  # in images/; the originals are kept for later, never published.
+  - originals
+  - .githooks

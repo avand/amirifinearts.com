@@ -10,7 +10,8 @@
   off. Without script it degrades to the first slide plus the strip, which is
   a static page rather than a broken one. carousel.js does the rest.
 
-  Images are the smaller copies made by bin/resize. A slide is at most about
+  Images are bin/resize's, named as in the data files ("gallery/gallery-01").
+  Their width and height reserve the space before they load. A slide is at most about
   540px wide (Profile's column) and the full width of a phone below that; a
   thumbnail is at most 100px tall, which the 240 copy covers at 2x.
 {% endcomment %}
@@ -23,12 +24,15 @@
 
     <div class="carousel-slides">
       {% for item in include.images %}
+        {% assign parts = item.image | split: "/" %}
+        {% assign size = site.data.images[parts.first][parts.last] %}
         <figure class="carousel-slide{% if forloop.first %} is-current{% endif %}"
                 data-carousel-slide>
-          <img src="{% include sized.html image=item.image width=960 %}"
-               srcset="{% include sized.html image=item.image width=480 %} 480w,
-                       {% include sized.html image=item.image width=960 %} 960w"
+          <img src="{% include image-url.html image=item.image size=960 %}"
+               srcset="{% include image-url.html image=item.image size=480 %} 480w,
+                       {% include image-url.html image=item.image size=960 %} 960w"
                sizes="(min-width: 950px) 540px, 100vw"
+               width="{{ size.width }}" height="{{ size.height }}"
                alt="{{ item.caption | default: 'Artwork by Fahimeh Amiri' }}"
                loading="{% if forloop.first %}eager{% else %}lazy{% endif %}"
                decoding="async" />
@@ -50,7 +54,7 @@
               data-carousel-thumb role="tab"
               aria-selected="{% if forloop.first %}true{% else %}false{% endif %}"
               aria-label="Image {{ forloop.index }} of {{ include.images | size }}">
-        <img src="{% include sized.html image=item.image width=240 %}" alt="" loading="lazy" decoding="async" />
+        <img src="{% include image-url.html image=item.image size=240 %}" alt="" loading="lazy" decoding="async" />
       </button>
     {% endfor %}
   </div>

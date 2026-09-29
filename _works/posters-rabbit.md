@@ -2,8 +2,6 @@
 title: "Rabbit"
 category: posters
 order: 8
-image: /images/works/rabbit.png
-width: 326
-height: 488
+image: rabbit
 # price:  # never had one on Squarespace
 ---

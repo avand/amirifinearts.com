@@ -1,129 +1,303 @@
-#!/usr/bin/env bash
-#
-# Make the smaller copies of every image that the pages actually show.
-#
-#   bin/resize
-#
-# The photographs in images/ are the originals, most of them 2000-3300px and
-# 1-4MB. A painting on a section page is 420px wide; a carousel thumbnail is as
-# little as 26px tall. Serving the original to fill those is most of why the
-# site was slow to load. So each image gets copies at a few widths, under
-#
-#   images/sized/<width>/<same path, as .jpg>
-#
-# and the pages ask for those. The originals stay where they are, untouched;
-# they are the only copy of the work at full resolution.
-#
-# The full-screen view on a section page shows each work at that full
-# resolution, and wants it to load *progressively* -- a whole, blurry picture
-# first, sharpening as the rest arrives, rather than a picture drawn from the
-# top down. Stepping quickly through a section, that is the difference between
-# seeing each painting's shape and seeing a strip of it. So each work in
-# images/works/ may also get
-#
-#   images/sized/full/works/<name>.jpg
-#
-# at its original size:
-#
-#   a progressive JPEG    nothing -- the original is already what is wanted,
-#                         and the page falls back to it.
-#   any other JPEG        rewritten as progressive by jpegtran, losslessly:
-#                         the same pixels, reordered. Colour profile and
-#                         orientation are kept.
-#   a PNG                 a progressive JPEG at quality 90, with no colour
-#                         subsampling. The one lossy step here, and not a
-#                         visible one; PNG cannot load progressively in any
-#                         useful way, and these were 500x600 paintings at
-#                         1.6MB, where the JPEG is about a tenth of that.
-#
-# GitHub Pages will not run a plugin that could do this during the build, so
-# the copies are made here and committed alongside the originals. bin/dev runs
-# this on start and keeps running it, so a photo added while it runs gets its
-# copies within a second or two. If one is ever missing, _includes/sized.html
-# falls back to the original: the page is slower, never broken.
-#
-# Every copy is a JPEG, whatever the original was. Several originals are PNGs
-# -- 500x600 images at 1.6MB, a format made for flat graphics and wasteful on a
-# painting. One of them has a few partly see-through pixels; JPEG cannot keep
-# those, so they are filled with the page's grey (#616161), which is what they
-# show against today.
-#
-# Copies are converted to sRGB, the colour space browsers assume, so a photo
-# saved with a different colour profile does not shift colour when its profile
-# is stripped. Rerunning is cheap: a copy newer than its original is skipped,
-# and a copy whose original has gone is removed.
+#!/usr/bin/env python3
+"""
+Turn the originals into the images the site serves.
 
-set -euo pipefail
-cd "$(dirname "$0")/.."
+    bin/resize            process originals that are not committed yet
+    bin/resize --all      reprocess every original (after changing a setting below)
+    bin/resize --check    is every image the site refers to processed, and staged?
+    bin/resize --commit   what the pre-commit hook runs; see .githooks/pre-commit
 
-WIDTHS="240 480 960"
-OUT="images/sized"
+originals/ holds exactly what Fahimeh sent, untouched, and is never published.
+images/ is entirely made from it by this script, and nothing in it is edited by
+hand. Every file there has been resized, converted to sRGB (the colour space
+browsers assume, so nothing shifts when the photo's own profile is dropped),
+stripped of camera metadata, and saved as a progressive JPEG -- one that shows
+the whole picture blurred at once and sharpens, rather than drawing from the
+top down.
 
-for tool in vips jpegtran; do
-  if ! command -v "$tool" >/dev/null 2>&1; then
-    # jpegtran comes with jpeg-turbo, which vips depends on.
-    echo "bin/resize needs $tool:  brew install vips" >&2
-    exit 1
-  fi
-done
+    originals/works/koala.jpg  ->  images/works/koala/240.jpg
+                                   images/works/koala/480.jpg
+                                   images/works/koala/960.jpg
+                                   images/works/koala/full.jpg   (works only)
+                                   _data/images/works/koala.json
 
-# An iPhone photo arrives as HEIC, which most browsers cannot show and vips
-# cannot read. Say how to convert it rather than silently leaving it out.
-find images -type f \( -iname '*.heic' -o -iname '*.heif' \) -not -path "$OUT/*" | while read -r src; do
-  echo "  $src is an iPhone photo (HEIC), which browsers cannot show. Convert it:" >&2
-  echo "    sips -s format jpeg -s formatOptions 95 \"$src\" --out \"${src%.*}.jpg\" && rm \"$src\"" >&2
-done
+full.jpg is for the full-screen view, capped at 2560px on its longer side:
+about what a large Retina screen has to show it with. The JSON holds the image's
+width and height, so pages can reserve its space before it loads, and nobody has
+to type the dimensions into a work's front matter.
 
-find images -type f \( -iname '*.jpg' -o -iname '*.jpeg' -o -iname '*.png' \) \
-  -not -path "$OUT/*" | sort | while read -r src; do
-  stem="${src#images/}"
-  stem="${stem%.*}"
-  for w in $WIDTHS; do
-    dest="$OUT/$w/$stem.jpg"
-    [ "$dest" -nt "$src" ] && continue
-    mkdir -p "$(dirname "$dest")"
-    # --height is only there to stop vips treating the width as a bound on the
-    # height too. --size down: a 500px original stays 500px at "960", rather
-    # than being blown up into a blurrier copy of itself.
-    vips thumbnail "$src" "$dest[Q=82,keep=none,background=97,interlace]" "$w" \
-      --height 100000 --size down --output-profile srgb
-    echo "  sized   $dest"
-  done
+An output folder is named after its original, lower-cased and hyphenated, so a
+photo that arrives as "IMG_1234.HEIC" becomes images/works/img-1234/. Rename the
+original to what the work is called before committing it.
 
-  case "$src" in images/works/*) ;; *) continue ;; esac
-  dest="$OUT/full/$stem.jpg"
-  [ "$dest" -nt "$src" ] && continue
-  # By what the file is, not what it is called: a few of the originals named
-  # .jpg or .jpeg are PNGs inside, as Squarespace handed them over.
-  case "$(vipsheader -f vips-loader "$src")" in
-    jpegload)
-      if [ "$(vipsheader -f jpeg-multiscan "$src" 2>/dev/null)" = "1" ]; then
-        rm -f "$dest"   # progressive already; a stale copy would win over it
-      else
-        mkdir -p "$(dirname "$dest")"
-        # Into a temporary name first: a failure would otherwise leave an
-        # empty file newer than its original, which every later run would
-        # take for a finished copy and skip.
-        jpegtran -copy all -progressive -optimize "$src" >"$dest.tmp"
-        mv "$dest.tmp" "$dest"
-        echo "  full    $dest"
-      fi
-      ;;
-    *)
-      mkdir -p "$(dirname "$dest")"
-      vips copy "$src" "$dest[Q=90,subsample-mode=off,interlace,background=97]"
-      echo "  full    $dest"
-      ;;
-  esac
-done
+What counts as new is what git says: an original that is untracked, or differs
+from the last commit. Once committed, an original is never looked at again unless
+--all asks for it -- so the everyday run is instant, however many photos there
+are. Among the uncommitted ones, a photo whose outputs are newer than it is
+skipped, so bin/dev can call this every second without redoing the work.
 
-# Copies of originals that no longer exist.
-find "$OUT" -type f -name '*.jpg' 2>/dev/null | while read -r dest; do
-  rest="${dest#$OUT/*/}"
-  stem="${rest%.jpg}"
-  if ! ls "images/$stem".* >/dev/null 2>&1; then
-    rm "$dest"
-    echo "  removed $dest"
-  fi
-done
-find "$OUT" -type d -empty -delete 2>/dev/null || true
+Output format is decided by what a file contains, not what it is called: several
+originals named .jpg are PNGs or WebPs inside, as Squarespace handed them over.
+iPhone photos (HEIC) are converted with macOS's own sips first, since vips cannot
+read them.
+"""
+
+import json
+import os
+import re
+import shutil
+import subprocess
+import sys
+import tempfile
+from concurrent.futures import ThreadPoolExecutor
+
+ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+os.chdir(ROOT)
+
+ORIGINALS = "originals"
+IMAGES = "images"
+DATA = "_data/images"
+
+WIDTHS = [240, 480, 960]
+FULL = 2560          # longer side of full.jpg, which only works get
+FULL_DIRS = {"works"}
+
+# Where the site names its images: a work's front matter says `image: koala`
+# (the folder, works/, is implied), and the data files say `image:` or `cover:`
+# with the folder, as in `gallery/gallery-01`.
+REFERENCES = [("_works", "works/"), ("_data", "")]
+
+# Everything vips reads, plus HEIC through sips.
+FORMATS = {".jpg", ".jpeg", ".png", ".webp", ".tif", ".tiff", ".heic", ".heif"}
+
+
+def slug(name):
+    return re.sub(r"[^a-z0-9]+", "-", name.lower()).strip("-")
+
+
+def key_for(original):
+    """originals/works/Koala.JPG -> works/koala"""
+    folder, name = os.path.split(os.path.relpath(original, ORIGINALS))
+    return folder + "/" + slug(os.path.splitext(name)[0])
+
+
+def outputs_for(key):
+    return [os.path.join(IMAGES, key), os.path.join(DATA, key + ".json")]
+
+
+def git(*args):
+    return subprocess.run(["git", *args], capture_output=True, text=True, check=True).stdout
+
+
+def git_paths(command, *args):
+    # -z straight after the command: after a "--" git would read it as a path.
+    return [p for p in git(command, "-z", *args).split("\0") if p]
+
+
+def is_image(path):
+    return os.path.splitext(path)[1].lower() in FORMATS
+
+
+def all_originals():
+    found = []
+    for folder, _, files in os.walk(ORIGINALS):
+        found += [os.path.join(folder, name) for name in files if is_image(name)]
+    return sorted(found)
+
+
+def uncommitted_originals():
+    """Untracked, or changed since the last commit -- staged or not."""
+    paths = set(git_paths("ls-files", "--others", "--exclude-standard", "--", ORIGINALS))
+    paths |= set(git_paths("diff", "--name-only", "HEAD", "--", ORIGINALS))
+    return sorted(p for p in paths if os.path.exists(p) and is_image(p))
+
+
+def is_current(original):
+    marker = os.path.join(DATA, key_for(original) + ".json")
+    return os.path.exists(marker) and os.path.getmtime(marker) >= os.path.getmtime(original)
+
+
+def run(*cmd):
+    subprocess.run(cmd, check=True, capture_output=True)
+
+
+def dimension(path, field):
+    return int(subprocess.run(["vipsheader", "-f", field, path],
+                              capture_output=True, text=True, check=True).stdout)
+
+
+def process(original):
+    key = key_for(original)
+    folder = key.split("/")[0]
+
+    # Everything is written into a scratch folder and moved into place at the
+    # end, so a failure halfway can never leave a partial set that a later run
+    # would take for finished.
+    with tempfile.TemporaryDirectory() as tmp:
+        source = original
+        if os.path.splitext(original)[1].lower() in {".heic", ".heif"}:
+            source = os.path.join(tmp, "source.tif")
+            run("sips", "-s", "format", "tiff", original, "--out", source)
+
+        out = os.path.join(tmp, "out")
+        os.mkdir(out)
+
+        # background=97: one original has a few partly see-through pixels,
+        # which JPEG cannot keep; they are filled with the page's grey, #616161,
+        # which is what they showed against.
+        for w in WIDTHS:
+            # --height only stops vips reading the width as a bound on the
+            # height too. --size down: a 500px original stays 500px at "960".
+            run("vips", "thumbnail", source,
+                f"{out}/{w}.jpg[Q=82,keep=none,background=97,interlace]", str(w),
+                "--height", "100000", "--size", "down", "--output-profile", "srgb")
+        largest = f"{out}/{WIDTHS[-1]}.jpg"
+        if folder in FULL_DIRS:
+            # Quality 88 with no colour subsampling: the full view is where a
+            # painting's hard coloured edges would otherwise go soft.
+            run("vips", "thumbnail", source,
+                f"{out}/full.jpg[Q=88,keep=none,background=97,interlace,subsample-mode=off]",
+                str(FULL), "--height", str(FULL), "--size", "down",
+                "--output-profile", "srgb")
+            largest = f"{out}/full.jpg"
+
+        size = {"width": dimension(largest, "width"), "height": dimension(largest, "height")}
+
+        images_dir, data_file = outputs_for(key)
+        shutil.rmtree(images_dir, ignore_errors=True)
+        os.makedirs(os.path.dirname(images_dir), exist_ok=True)
+        shutil.move(out, images_dir)
+        os.makedirs(os.path.dirname(data_file), exist_ok=True)
+        with open(data_file, "w") as f:
+            json.dump(size, f)
+            f.write("\n")
+
+    return key
+
+
+def names_are_unique():
+    keys = {}
+    for original in all_originals():
+        keys.setdefault(key_for(original), []).append(original)
+    clashes = {k: v for k, v in keys.items() if len(v) > 1}
+    for key, paths in clashes.items():
+        print(f"  {' and '.join(paths)} would both become {key}; rename one", file=sys.stderr)
+    return not clashes
+
+
+def prune():
+    """Remove the outputs of originals that have gone."""
+    wanted = {key_for(o) for o in all_originals()}
+    removed = []
+    if not os.path.isdir(IMAGES):
+        return removed
+    for folder in sorted(os.listdir(IMAGES)):
+        if not os.path.isdir(os.path.join(IMAGES, folder)):
+            continue
+        for name in sorted(os.listdir(os.path.join(IMAGES, folder))):
+            key = folder + "/" + name
+            if key in wanted:
+                continue
+            for path in outputs_for(key):
+                if os.path.isdir(path):
+                    shutil.rmtree(path)
+                elif os.path.exists(path):
+                    os.remove(path)
+            removed.append(key)
+    return removed
+
+
+def resize(originals):
+    if not originals:
+        return
+    if not names_are_unique():
+        sys.exit(1)
+    with ThreadPoolExecutor(max_workers=os.cpu_count() or 4) as pool:
+        keys = list(pool.map(process, originals))
+    for original, key in zip(originals, keys):
+        print(f"  processed  {original}  ->  {IMAGES}/{key}/")
+
+
+def referenced_keys():
+    """Every image the site names, and the file that names it."""
+    found = []
+    pattern = re.compile(r'^\s*(?:-\s*)?(?:image|cover):\s*"?([^"\n#]+?)"?\s*$', re.M)
+    for folder, prefix in REFERENCES:
+        for name in sorted(os.listdir(folder)):
+            if not name.endswith((".md", ".yml", ".yaml")):
+                continue
+            path = os.path.join(folder, name)
+            with open(path) as f:
+                for value in pattern.findall(f.read()):
+                    found.append((prefix + value.strip(), path))
+    return found
+
+
+def check():
+    """
+    Every image the site refers to has been processed -- and, since this is what
+    guards a commit, is in git's index: committed already, or staged now. A file
+    that exists only on this disk would be missing from the published site.
+    """
+    staged = set(git_paths("ls-files", "--", DATA))
+    missing = [(k, p) for k, p in referenced_keys()
+               if os.path.join(DATA, k + ".json") not in staged]
+    for key, path in missing:
+        print(f"  {path} uses image \"{key}\", which has not been processed and "
+              f"committed. Is originals/{key}.* there, and staged?", file=sys.stderr)
+    return not missing
+
+
+def commit():
+    """
+    Run by .githooks/pre-commit. Processes the originals being committed, and
+    stages what that made -- or, for an original being deleted, stages the
+    removal of its outputs -- so a photo and its web images always land in the
+    same commit. Then refuses the commit if anything the site refers to is
+    still missing.
+    """
+    staged = [p for p in git_paths("diff", "--cached", "--name-only",
+                                   "--diff-filter=ACMR", "--", ORIGINALS) if is_image(p)]
+    resize([p for p in staged if not is_current(p)])
+
+    deleted = git_paths("diff", "--cached", "--name-only", "--diff-filter=D", "--", ORIGINALS)
+    prune()
+
+    tracked = set(git_paths("ls-files", "--", IMAGES, DATA))
+    paths = []
+    for original in staged + deleted:
+        for path in outputs_for(key_for(original)):
+            # `git add` on a path that neither exists nor was ever committed
+            # is an error, so only name ones git can do something with.
+            if os.path.exists(path) or any(t == path or t.startswith(path + "/") for t in tracked):
+                paths.append(path)
+    if paths:
+        subprocess.run(["git", "add", "-A", "--", *paths], check=True)
+
+    return check()
+
+
+def main():
+    for tool in ("vips", "vipsheader"):
+        if shutil.which(tool) is None:
+            sys.exit(f"bin/resize needs {tool}:  brew install vips")
+
+    arg = sys.argv[1] if len(sys.argv) > 1 else ""
+    if arg == "--check":
+        sys.exit(0 if check() else 1)
+    if arg == "--commit":
+        sys.exit(0 if commit() else 1)
+    if arg == "--all":
+        targets = all_originals()
+    elif arg == "":
+        targets = [o for o in uncommitted_originals() if not is_current(o)]
+    else:
+        sys.exit(__doc__)
+
+    resize(targets)
+    for key in prune():
+        print(f"  removed    {IMAGES}/{key}/  (its original is gone)")
+
+
+if __name__ == "__main__":
+    main()

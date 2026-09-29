@@ -58,10 +58,13 @@ forms: true
       {%- comment -%}
         Three across at about 300px on a wide screen, full width on a phone.
       {%- endcomment %}
-      <img src="{% include sized.html image=plate.image width=960 %}"
-           srcset="{% include sized.html image=plate.image width=480 %} 480w,
-                   {% include sized.html image=plate.image width=960 %} 960w"
+      {% assign parts = plate.image | split: "/" %}
+      {% assign size = site.data.images[parts.first][parts.last] %}
+      <img src="{% include image-url.html image=plate.image size=960 %}"
+           srcset="{% include image-url.html image=plate.image size=480 %} 480w,
+                   {% include image-url.html image=plate.image size=960 %} 960w"
            sizes="(min-width: 700px) 320px, 100vw"
+           width="{{ size.width }}" height="{{ size.height }}"
            alt="{{ plate.caption | default: 'Artwork by a student of Fahimeh Amiri' }}"
            loading="lazy" decoding="async" />
       {% if plate.caption != "" %}<figcaption>{{ plate.caption }}</figcaption>{% endif %}
