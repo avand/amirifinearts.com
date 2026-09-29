@@ -64,12 +64,12 @@ body {
 /* ---------------------------------------------------------- announcement */
 
 /*
-  A line of news above everything else, full width and black -- the one thing
-  on the page darker than the masthead, so it reads as news rather than as
-  part of the site's furniture. Set in _config.yml.
+  A line of news above everything else, full width, in the wordmark's own
+  near-black -- so it reads as the masthead speaking rather than as something
+  pasted on top of it. Set in _config.yml.
 */
 .announcement {
-  background: #000;
+  background: var(--ink-dark);
   color: #fff;
   padding: 0.7rem var(--outer-padding);
   text-align: center;

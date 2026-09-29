@@ -24,7 +24,7 @@ name — `/paintings/#provincial-dance`. Opening that opens the painting full
 screen, and the address follows along as the viewer steps, so anything on
 screen can be copied and sent. Renaming a work's image changes its address.
 
-**The black banner** across the top of every page is `announcement:` in
+**The banner** across the top of every page is `announcement:` in
 `_config.yml`, in Markdown. Delete it and the banner goes.
 
 The old site's `/gallery/` page was dropped in September 2026: seven paintings,
