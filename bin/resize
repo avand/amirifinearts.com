@@ -11,9 +11,30 @@
 #
 #   images/sized/<width>/<same path, as .jpg>
 #
-# and the pages ask for those. The originals stay where they are, untouched --
-# the full-screen view on a section page shows them, and they are the only copy
-# of the work at full resolution.
+# and the pages ask for those. The originals stay where they are, untouched;
+# they are the only copy of the work at full resolution.
+#
+# The full-screen view on a section page shows each work at that full
+# resolution, and wants it to load *progressively* -- a whole, blurry picture
+# first, sharpening as the rest arrives, rather than a picture drawn from the
+# top down. Stepping quickly through a section, that is the difference between
+# seeing each painting's shape and seeing a strip of it. So each work in
+# images/works/ may also get
+#
+#   images/sized/full/works/<name>.jpg
+#
+# at its original size:
+#
+#   a progressive JPEG    nothing -- the original is already what is wanted,
+#                         and the page falls back to it.
+#   any other JPEG        rewritten as progressive by jpegtran, losslessly:
+#                         the same pixels, reordered. Colour profile and
+#                         orientation are kept.
+#   a PNG                 a progressive JPEG at quality 90, with no colour
+#                         subsampling. The one lossy step here, and not a
+#                         visible one; PNG cannot load progressively in any
+#                         useful way, and these were 500x600 paintings at
+#                         1.6MB, where the JPEG is about a tenth of that.
 #
 # GitHub Pages will not run a plugin that could do this during the build, so
 # the copies are made here and committed alongside the originals. bin/dev runs
@@ -38,10 +59,20 @@ cd "$(dirname "$0")/.."
 WIDTHS="240 480 960"
 OUT="images/sized"
 
-if ! command -v vips >/dev/null 2>&1; then
-  echo "bin/resize needs vips:  brew install vips" >&2
-  exit 1
-fi
+for tool in vips jpegtran; do
+  if ! command -v "$tool" >/dev/null 2>&1; then
+    # jpegtran comes with jpeg-turbo, which vips depends on.
+    echo "bin/resize needs $tool:  brew install vips" >&2
+    exit 1
+  fi
+done
+
+# An iPhone photo arrives as HEIC, which most browsers cannot show and vips
+# cannot read. Say how to convert it rather than silently leaving it out.
+find images -type f \( -iname '*.heic' -o -iname '*.heif' \) -not -path "$OUT/*" | while read -r src; do
+  echo "  $src is an iPhone photo (HEIC), which browsers cannot show. Convert it:" >&2
+  echo "    sips -s format jpeg -s formatOptions 95 \"$src\" --out \"${src%.*}.jpg\" && rm \"$src\"" >&2
+done
 
 find images -type f \( -iname '*.jpg' -o -iname '*.jpeg' -o -iname '*.png' \) \
   -not -path "$OUT/*" | sort | while read -r src; do
@@ -54,10 +85,36 @@ find images -type f \( -iname '*.jpg' -o -iname '*.jpeg' -o -iname '*.png' \) \
     # --height is only there to stop vips treating the width as a bound on the
     # height too. --size down: a 500px original stays 500px at "960", rather
     # than being blown up into a blurrier copy of itself.
-    vips thumbnail "$src" "$dest[Q=82,keep=none,background=97]" "$w" \
+    vips thumbnail "$src" "$dest[Q=82,keep=none,background=97,interlace]" "$w" \
       --height 100000 --size down --output-profile srgb
     echo "  sized   $dest"
   done
+
+  case "$src" in images/works/*) ;; *) continue ;; esac
+  dest="$OUT/full/$stem.jpg"
+  [ "$dest" -nt "$src" ] && continue
+  # By what the file is, not what it is called: a few of the originals named
+  # .jpg or .jpeg are PNGs inside, as Squarespace handed them over.
+  case "$(vipsheader -f vips-loader "$src")" in
+    jpegload)
+      if [ "$(vipsheader -f jpeg-multiscan "$src" 2>/dev/null)" = "1" ]; then
+        rm -f "$dest"   # progressive already; a stale copy would win over it
+      else
+        mkdir -p "$(dirname "$dest")"
+        # Into a temporary name first: a failure would otherwise leave an
+        # empty file newer than its original, which every later run would
+        # take for a finished copy and skip.
+        jpegtran -copy all -progressive -optimize "$src" >"$dest.tmp"
+        mv "$dest.tmp" "$dest"
+        echo "  full    $dest"
+      fi
+      ;;
+    *)
+      mkdir -p "$(dirname "$dest")"
+      vips copy "$src" "$dest[Q=90,subsample-mode=off,interlace,background=97]"
+      echo "  full    $dest"
+      ;;
+  esac
 done
 
 # Copies of originals that no longer exist.

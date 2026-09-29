@@ -5,7 +5,10 @@
     => /images/sized/480/works/koala.jpg
 
   Every copy is a JPEG, whatever the original was. The widths that exist are
-  whatever WIDTHS in bin/resize says: 240, 480 and 960.
+  whatever WIDTHS in bin/resize says: 240, 480 and 960. There is also
+  width="full" for a work: the original's size, made to load progressively.
+  A work that was already a progressive JPEG has no full copy, and gets its
+  original from here -- which is exactly what it should get.
 
   If the copy is not there -- a photo added without bin/dev running, so nothing
   made its copies -- this gives back the original instead. The page is slower

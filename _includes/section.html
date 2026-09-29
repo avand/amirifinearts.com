@@ -13,9 +13,11 @@
   only when site.show_prices is on AND the work has one.
 
   The column shows each work's smaller copy (bin/resize), and the painting is a
-  link to the original. lightbox.js turns that link into the full-screen view,
+  link to it at full resolution -- the original, or where that would not load
+  progressively, bin/resize's full-size copy of it. lightbox.js turns that link
+  into the full-screen view,
   with the rest of the section a click or a swipe either side; without the
-  script it simply opens the original photograph.
+  script it simply opens that image.
 {% endcomment %}
 
 {% assign section = site.data.sections | where: "id", include.id | first %}
@@ -29,7 +31,7 @@
           sizes: the 420px column, or the full width less the page's 24px
           gutters once the column stacks on a narrow screen.
         {%- endcomment %}
-        <a class="work-link" href="{{ work.image | relative_url }}" data-lightbox-item>
+        <a class="work-link" href="{% include sized.html image=work.image width="full" %}" data-lightbox-item>
           <img src="{% include sized.html image=work.image width=960 %}"
                srcset="{% include sized.html image=work.image width=480 %} 480w,
                        {% include sized.html image=work.image width=960 %} 960w"

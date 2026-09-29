@@ -23,7 +23,9 @@ Five pages plus four section pages, and it matters which is which:
 
 This is the common task and the whole reason the site moved.
 
-1. Put the photo in `images/works/` under a lower-case hyphenated name.
+1. Put the photo in `images/works/` under a lower-case hyphenated name. JPEG or
+   PNG; if it came off an iPhone as HEIC, `bin/resize` prints the command that
+   converts it.
 2. Add `_works/<category>-<name>.md`:
 
 ```yaml
@@ -57,10 +59,17 @@ copies at 240, 480 and 960px wide under `images/sized/<width>/`, and every
 `<img>` asks for those through `_includes/sized.html`. That cut the image weight
 of a page by five to eighteen times.
 
-The originals are only fetched by the full-screen view on a section page
-(`_includes/lightbox.html` + `assets/lightbox.js`, opted into with
-`lightbox: true`). It shows the copy already on the page instantly and swaps in
-the original when it arrives.
+The full-screen view on a section page (`_includes/lightbox.html` +
+`assets/lightbox.js`, opted into with `lightbox: true`) is the one place a work
+is shown at full resolution. It shows the copy already on the page instantly
+and swaps in the full-size image when it arrives. That image is a progressive
+JPEG: the original if it already was one, otherwise a copy under
+`images/sized/full/` — rewritten losslessly from a JPEG, or re-encoded at
+quality 90 from a PNG. The header of `bin/resize` says why.
+
+Do not trust a file's extension here. Several originals named `.jpg`/`.jpeg`
+are PNGs or WebPs inside, as Squarespace handed them over; `bin/resize` goes by
+what the file contains.
 
 The copies are committed, not built: GitHub Pages will not run a plugin that
 could make them. `bin/resize` needs `vips` (`brew install vips`).

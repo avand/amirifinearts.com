@@ -1,17 +1,25 @@
 /*
   The full-screen view behind _includes/lightbox.html.
 
-  Every work on a section page is a link to its original photograph, so with
+  Every work on a section page is a link to its full-resolution image, so with
   no script a click opens that image on its own. This turns the click into the
   full-screen view instead, and lets the arrows, the arrow keys and a swipe
   walk through the rest of the section, wrapping at either end as the carousels
   do.
 
   The image shown first is the copy the page has already downloaded, so
-  something appears the instant the view opens. The original loads behind it
-  and replaces it when it arrives -- most are 1-4MB, which on a phone is long
-  enough to stare at an empty frame. The originals either side are then
-  fetched too, so stepping through the section does not wait on each one.
+  something appears the instant the view opens. The full-resolution image --
+  the link's href, see _includes/section.html -- loads behind it and replaces
+  it when it arrives; the largest are 4MB, which on a phone is long enough to
+  stare at an empty frame. Those either side are then fetched too, so stepping
+  through the section does not wait on each one.
+
+  Stepping faster than that, what is on screen is the 960px copy, and it is a
+  progressive JPEG: when it is not already downloaded, the whole painting
+  appears blurred at once and sharpens, rather than drawing from the top down.
+  The full-size image is progressive too, but it loads out of sight, so that
+  does not show here; its gain is size, most of all where the original was a
+  PNG.
 */
 (function () {
   var dialog = document.querySelector("[data-lightbox]");
@@ -33,7 +41,7 @@
     current = (index + links.length) % links.length;
     var link = links[current];
     var thumb = link.querySelector("img");
-    var original = link.href;
+    var fullSize = link.href;
 
     // Its proportions, for the sizing in screen.css. From the front matter's
     // width and height when the work has them, else from the copy on the page.
@@ -48,11 +56,11 @@
     full.onload = function () {
       // Only if this is still the work on screen: a fast run of clicks would
       // otherwise land an earlier painting on top of a later one.
-      if (links[current].href === original) { image.src = original; }
+      if (links[current].href === fullSize) { image.src = fullSize; }
       preload(current + 1);
       preload(current - 1);
     };
-    full.src = original;
+    full.src = fullSize;
 
     // The page's own caption -- title, size and medium, and the price when
     // prices are on -- so the two can never disagree.
@@ -64,7 +72,7 @@
 
   links.forEach(function (link, index) {
     link.addEventListener("click", function (event) {
-      // A modified click still means "open the original in a new tab".
+      // A modified click still means "open the full image in a new tab".
       if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) { return; }
       event.preventDefault();
       show(index);

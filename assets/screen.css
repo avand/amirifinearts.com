@@ -281,6 +281,17 @@ h2.section-heading {
   background: #1c1c1c;
   color: var(--ink);
   overflow: hidden;
+
+  /*
+    Nothing in here is for selecting. Clicking the arrows quickly counts as a
+    double- or triple-click to the browser, which selects the caption or tints
+    the painting blue; a long press on a phone does the same. The image is also
+    draggable="false", for the same reason with a mouse.
+  */
+  -webkit-user-select: none;
+  user-select: none;
+  -webkit-touch-callout: none;
+  -webkit-tap-highlight-color: transparent;
 }
 
 .lightbox[open] {
