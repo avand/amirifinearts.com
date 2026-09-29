@@ -8,14 +8,14 @@ is only for what you cannot find by opening the file you are about to edit.
 
 ## How the site is shaped
 
-Four pages plus four section pages, and it matters which is which:
+Three pages plus four section pages, and it matters which is which:
 
 | | |
 |---|---|
 | `/` | The **Collection index**: four covers, one per section. Not a list of work. |
 | `/paintings/` `/persian-miniatures/` `/illustrations/` `/posters/` | A section: its works stacked down a 420px column on the left, its name and description on the right. Clicking a work opens it full screen. |
-| `/classes/` `/profile/` | Carry a **carousel** — arrows, a thumbnail strip, keyboard and swipe. |
-| `/contact/` | The message form. `/classes/` has a second copy of it under *Enroll*. |
+| `/profile/` | Her bio beside a **carousel** — arrows, a thumbnail strip, keyboard and swipe. |
+| `/contact/` | The message form. |
 
 53 works: 27 paintings, 7 miniatures, 10 illustrations, 9 posters.
 
@@ -27,8 +27,10 @@ screen can be copied and sent. Renaming a work's image changes its address.
 **The banner** across the top of every page is `announcement:` in
 `_config.yml`, in Markdown. Delete it and the banner goes.
 
-The old site's `/gallery/` page was dropped in September 2026: seven paintings,
-six of them already in the Collection. Its address now 404s.
+Two of the old site's pages were dropped in September 2026, and their
+addresses now 404: `/gallery/` (seven paintings, six of them already in the
+Collection) and `/classes/` (her children's art classes, with an enrolment
+form).
 
 ## Adding a painting
 
@@ -161,8 +163,8 @@ so the page is complete before the script runs and degrades to the first image
 plus the strip without it. The script only moves an `is-current` class around.
 
 Pass `id` — it must be unique on the page, and it is also the CSS hook for that
-carousel's thumbnail height (`#classroom` and `#profile` each set
-`--thumb-height`, matching what the old site used).
+carousel's thumbnail height (`#profile` sets `--thumb-height`, matching what
+the old site used).
 
 A page opts into the script with `carousel: true` in its front matter; forms opt
 in with `forms: true`. Neither loads where it is not needed.
@@ -181,7 +183,7 @@ HTML, its JSON, and the two scripts that turned them into this repo.
 
 - `extract.py` downloaded all 111 images at original resolution and wrote
   `inventory.json` (title, price, dimensions, source URL, local filename).
-- `generate.py` turned that into `_works/*.md` (since folded into `_data/works/`) and `_data/{gallery,classes,profile}.yml` (the Gallery page has since been dropped),
+- `generate.py` turned that into `_works/*.md` (since folded into `_data/works/`) and `_data/{gallery,classes,profile}.yml` (the Gallery and Classes pages have since been dropped),
   and moved the images into `images/` under real names. Those are now
   `originals/`, and the paths in both scripts are out of date.
 
@@ -212,12 +214,12 @@ The earlier worry that Posters held 13 works against the site's own count of 9
 is resolved: four of those were the index cover thumbnails, which the first
 extraction mistook for artworks.
 
-## The forms
+## The contact form
 
-There are two — Contact, and Enroll at the foot of Classes — and they are the
-same include (`_includes/message-form.html`) posting to the same place. A hidden
-`form` field says which page a message came from, so an enrolment is never read
-as a general enquiry; it is a column in the Sheet and part of the email subject.
+There is one, on Contact (`_includes/message-form.html`). Its hidden `form`
+field is a column in the Sheet and part of the email subject. It used to tell
+Contact apart from an Enroll form on the Classes page, since removed; it stays
+so a second form can come back without touching the script.
 
 `script/contact.gs` is a Google Apps Script web app, owned by
 avand@avandamiri.com, that appends to a Sheet and emails on each submission. It

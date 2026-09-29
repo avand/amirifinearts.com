@@ -6,8 +6,8 @@
   Nothing here builds markup, so a page that loads without this script still
   shows its first image and all of its thumbnails.
 
-  Any number of carousels can share a page -- Classes has one -- so everything
-  is scoped to a single [data-carousel] root.
+  Any number of carousels could share a page, so everything is scoped to a
+  single [data-carousel] root.
 */
 (function () {
   function setup(root) {
@@ -60,7 +60,7 @@
     /*
       Arrow keys, but only once the carousel has focus. Binding them to the
       document would hijack the arrow keys for scrolling the page, which on the
-      Classes page -- a long column of prose next to the carousel -- is the
+      Profile page -- a long column of prose next to the carousel -- is the
       wrong trade every time.
     */
     root.addEventListener("keydown", function (event) {

@@ -1,9 +1,11 @@
 {% comment %}
-  The message form, used by Contact and by the Enroll section of Classes.
+  The message form, on the Contact page.
 
-  Both post to the same Apps Script and land in the same Sheet; `form` says
-  which page a message came from, so an enrolment is never mistaken for a
-  general enquiry.
+  It posts to the Apps Script in script/contact.gs, which writes a row to a
+  Sheet and emails Fahimeh. `form` names the form in that row and in the
+  email's subject. There used to be a second, Enroll, on the Classes page;
+  keeping the field means a second form can come back without touching the
+  script.
 
   Takes: id (unique on the page), form (the label recorded in the Sheet),
   submit (button text).

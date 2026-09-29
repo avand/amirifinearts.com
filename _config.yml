@@ -5,7 +5,7 @@ description: >-
 url: https://amirifinearts.com
 markdown: kramdown
 
-# Pretty URLs: /classes/ rather than /classes.html, which is what the
+# Pretty URLs: /profile/ rather than /profile.html, which is what the
 # Squarespace site served and what any existing link points at.
 permalink: pretty
 
@@ -40,10 +40,10 @@ announcement: >-
 
 # Collection first, because it is the home page. The Squarespace site put a
 # Gallery page ahead of it -- a slideshow of seven paintings, six of them
-# already in the Collection -- which was dropped in September 2026.
+# already in the Collection -- which was dropped in September 2026, along with
+# the Classes page and its enrolment form.
 nav:
   - { name: Collection, url: / }
-  - { name: Classes,    url: /classes/ }
   - { name: Profile,    url: /profile/ }
   - { name: Contact,    url: /contact/ }
 
