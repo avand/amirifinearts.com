@@ -85,6 +85,13 @@ def outputs_for(key):
     return [os.path.join(IMAGES, key), os.path.join(DATA, key + ".json")]
 
 
+def output_key(path):
+    """images/works/koala/960.jpg or _data/images/works/koala.json -> works/koala"""
+    if path.startswith(DATA + "/"):
+        return os.path.splitext(path[len(DATA) + 1:])[0]
+    return "/".join(path[len(IMAGES) + 1:].split("/")[:2])
+
+
 def git(*args):
     return subprocess.run(["git", *args], capture_output=True, text=True, check=True).stdout
 
@@ -250,29 +257,34 @@ def check():
 
 def commit():
     """
-    Run by .githooks/pre-commit. Processes the originals being committed, and
-    stages what that made -- or, for an original being deleted, stages the
-    removal of its outputs -- so a photo and its web images always land in the
-    same commit. Then refuses the commit if anything the site refers to is
-    still missing.
+    Run by .githooks/pre-commit. Processes the originals being committed and
+    stages what that made, and takes out of the commit any images whose
+    original will not be in it -- so a photo and its web images always land in
+    the same commit, and leave together. Then refuses the commit if anything
+    the site refers to is still missing.
     """
     staged = [p for p in git_paths("diff", "--cached", "--name-only",
                                    "--diff-filter=ACMR", "--", ORIGINALS) if is_image(p)]
     resize([p for p in staged if not is_current(p)])
 
-    deleted = git_paths("diff", "--cached", "--name-only", "--diff-filter=D", "--", ORIGINALS)
     prune()
 
-    tracked = set(git_paths("ls-files", "--", IMAGES, DATA))
     paths = []
-    for original in staged + deleted:
-        for path in outputs_for(key_for(original)):
-            # `git add` on a path that neither exists nor was ever committed
-            # is an error, so only name ones git can do something with.
-            if os.path.exists(path) or any(t == path or t.startswith(path + "/") for t in tracked):
-                paths.append(path)
+    for original in staged:
+        paths += [p for p in outputs_for(key_for(original)) if os.path.exists(p)]
     if paths:
         subprocess.run(["git", "add", "-A", "--", *paths], check=True)
+
+    # Images whose original will not be in this commit -- deleted, renamed or
+    # moved away -- come out of it too. Compared against the index rather than
+    # looking for deletions and renames one kind at a time: a rename is not a
+    # deletion to git, and missing that once left a moved photo's old images
+    # in the site.
+    keep = {key_for(p) for p in git_paths("ls-files", "--", ORIGINALS) if is_image(p)}
+    tracked = git_paths("ls-files", "--", IMAGES, DATA)
+    gone = sorted({p for p in tracked if output_key(p) not in keep})
+    if gone:
+        subprocess.run(["git", "rm", "-r", "-q", "--cached", "--ignore-unmatch", "--", *gone], check=True)
 
     return check()
 
