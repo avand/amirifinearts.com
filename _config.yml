@@ -37,9 +37,11 @@ nav:
   - { name: Contact,    url: /contact/ }
 
 # Where the contact form posts. See CLAUDE.md -- this is a Google Apps Script
-# web app writing into a Sheet owned by avand@avandamiri.com. Empty until the
-# script is deployed; the form tells you so rather than silently losing mail.
-contact_endpoint: ""
+# web app writing into a Sheet owned by avand@avandamiri.com, deployed
+# 2026-09-29. If it is ever emptied, the form says it is not connected rather
+# than silently losing mail. Redeploying the script as a *new version* of the
+# same deployment keeps this URL; a brand-new deployment gets a new one.
+contact_endpoint: "https://script.google.com/macros/s/AKfycbwvDSggVlmLobWxRENsDJK4Ouo_XhSE3LfvPQtq8rO5WO2Sh0eHT7Kdt6-GsIsd5KJPOg/exec"
 
 exclude:
   - README.md
